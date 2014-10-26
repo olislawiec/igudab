@@ -1,242 +1,282 @@
 package gra2;
 //Chat client
+
 import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.JOptionPane;
 
-/**Klasa Client sluzaca do Implementowania jako Watek Kliencki */
-@SuppressWarnings({ "serial", "unused" })
-class Client extends Frame implements Runnable
-{
-/**@param soc odpowiedzialny za gniazdo klienta
-@param tf Textfield do zczytywania polecen
-@param ta TextArea do wypisywania komunikatow
+/**
+ * Klasa Client sluzaca do Implementowania jako Watek Kliencki.
+ */
+@SuppressWarnings({"serial", "unused"})
+class Client extends Frame implements Runnable {
 
+    /**
+     * @param soc odpowiedzialny za gniazdo klienta
+     * @param tf Textfield do zczytywania polecen
+     * @param ta TextArea do wypisywania komunikatow
+     *
+     */
+    Socket soc;
+    TextField tf;
+    TextArea t1, t2, t3, t4, t5, t6;
+    Button btnSend, btnClose;
+    String sendTo;
+    String LoginName;
+    Thread t = null;
+    DataOutputStream dout;
+    DataInputStream din;
 
+    /**
+     * Glowny konstruktor do Watku klienta
+     *
+     * @throws Exception rzuca wyjatkiem w razie niepowodzenia przy
+     * konstruowaniu GUI klienta
+     */
+    Client(String LoginName, String adres, String port, String players) throws Exception {
+        super(LoginName);
+        try {
+        	int playersI = Integer.parseInt(players);
+            int portZ = Integer.parseInt(port);
+            this.LoginName = LoginName;
+            sendTo = port;
+            tf = new TextField(50);
+            if (playersI == 2) {
+            	t1 = new TextArea(15, 15);
+            	t2 = new TextArea(15, 15);
+            } else if (playersI == 3) {
+            	t1 = new TextArea(15, 15);
+            	t2 = new TextArea(15, 15);
+            	t3 = new TextArea(15, 15);
+            } else if (playersI == 4) {
+            	t1 = new TextArea(15, 15);
+            	t2 = new TextArea(15, 15);
+            	t3 = new TextArea(15, 15);
+            	t4 = new TextArea(15, 15);
+            } else if (playersI == 5) {
+            	t1 = new TextArea(15, 15);
+            	t2 = new TextArea(15, 15);
+            	t3 = new TextArea(15, 15);
+            	t4 = new TextArea(15, 15);
+            	t5 = new TextArea(15, 15);
+            } else if (playersI == 6) {
+            	t1 = new TextArea(15, 15);
+            	t2 = new TextArea(15, 15);
+            	t3 = new TextArea(15, 15);
+            	t4 = new TextArea(15, 15);
+            	t5 = new TextArea(15, 15);
+            	t6 = new TextArea(15, 15);
+            } else {
+            	System.out.println("Max players capacity is 6! Lets play in SIX!");
+            }
+            
+            btnSend = new Button("Send");
+            btnClose = new Button("Close");
+            soc = new Socket(adres, portZ);
+            din = new DataInputStream(soc.getInputStream());
+            dout = new DataOutputStream(soc.getOutputStream());
+            dout.writeUTF(LoginName);
+            t = new Thread(this);
+            t.start();
+        } catch (Exception e) {
+            return;
+        }
 
+    }
 
+    /**
+     * Ustawia szybkie setup do GUI
+     */
+    @SuppressWarnings("deprecation")
+    void setup() {
+        setSize(600, 400);
+        setVisible(true);
+        setLayout(new GridLayout(2, 1));
+        Panel p = new Panel();
+        p.add(tf);
+        p.add(btnSend);
+        p.add(btnClose);
+        add(p);
+        try{
+        add(t1);
+        }catch(NullPointerException t1) {
+        	System.out.println(t1);
+        }try{
+            add(t2);
+            }catch(NullPointerException t2) {
+            	System.out.println(t2);
+            }
+        try{
+                add(t3);
+            }catch(NullPointerException t3) {
+            	System.out.println(t3);
+            }
+        try{
+                add(t4);
+            }catch(NullPointerException t4) {
+            	System.out.println(t4);
+            }
+        try{
+                add(t5);
+            }catch(NullPointerException t5) {
+            	System.out.println(t5);
+            }
+        try{
+                add(t6);
+            }catch(NullPointerException t6) {
+            	System.out.println(t6);
+            }
+        show();
+        t1.append("ADRES - by polaczyc z ADRESEM i PORTEM\n"
+                + " GC - get card\n"
+                + " H - show hand\n"
+                + " C - check \n"
+                + " B - bet\n"
+                + " R - raise\n"
+                + " W - call\n"
+                + " F - fold \n"
+                + " A - all-in\n"
+                + " Przycisk CLOSE - by wyjsc (Q)\n"
+                + " >O/E - komunikaty ze strony serwera\n");
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                try {
+                    dout.writeUTF(LoginName + " Q");
+                    //System.exit(1);
+                } catch (Exception ex) {
+                }
+                System.exit(0);
+            }
+        });
+    }
 
-*/
-Socket soc;    
-TextField tf;
-TextArea ta;
-Button btnSend,btnClose;
-String sendTo;
-String LoginName;
-Thread t=null;
-DataOutputStream dout;
-DataInputStream din;
-	
-	/*Client()throws Exception
-	{
-		super("Ghost");
-		try{
-		 t=new Thread(this);
-		 
-   t.start();
-		
-				String adresP;
-				adresP = JOptionPane.showInputDialog("Podaj adres:");
-				
-				String portP;
-				portP = JOptionPane.showInputDialog("Podaj port:");
-				
-				String pelne_dane;
-				pelne_dane = "Twoj adres:<" + adresP + "> i port<" + portP+">";
-				setVisible(false);
-				
-				JOptionPane.showMessageDialog(null, pelne_dane);
-				//System.exit(0);
-				
-				try{
-				Client Client2=new Client("ReMake",adresP,portP);
-				Client2.setup();
-				}catch(Exception ex){System.out.println("GUI");}
-				din=new DataInputStream(soc.getInputStream()); 
-				dout=new DataOutputStream(soc.getOutputStream()); 
-		}catch(Exception e){return;}
-	}	*/
-/** Glowny konstruktor do Watku klienta
-	@throws Exception rzuca wyjatkiem w razie niepowodzenia przy konstruowaniu GUI klienta*/
-	Client(String LoginName,String adres,String port) throws Exception
-{
-		super(LoginName);
-		try{
-			int portZ=Integer.parseInt(port);
-  
-			this.LoginName=LoginName;
-			sendTo=port;
-			tf=new TextField(50);
-			ta=new TextArea(50,50);
-			btnSend=new Button("Send");
-			btnClose=new Button("Close");
-			soc=new Socket(adres,portZ);
+    /**
+     * Obsluga wyjatkow bezposrednio z klawiszy SEND i CLOSE
+     */
+    @SuppressWarnings("deprecation")
+    public boolean action(Event e, Object o) {
+        if (e.arg.equals("Send")) {
+            try {
+                String komenda = "";
+                komenda = tf.getText().toString();
+                t1.append("\n" + komenda + "\n");
+                if (komenda.equals("ADRES")) {
+                    tf.setText("");
+                    String playerZ;
+                    playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
+                    String adresP;
+                    adresP = JOptionPane.showInputDialog("Podaj adres:");
+                    String portP;
+                    portP = JOptionPane.showInputDialog("Podaj port:");
+                    String pelne_dane;
+                    pelne_dane = "Twoj adres:<" + adresP + "> i port<" + portP + ">";
+                    setVisible(false);
+                    JOptionPane.showMessageDialog(null, pelne_dane);
+                    //System.exit(0);
+                    t1.append("\n" + "Przekazano polaczenie z: " + LoginName + " do " + "ReMake\n");
+                    try {
+                        dout.writeUTF(LoginName + " Q");
+                        //System.exit(1);
+                    } catch (Exception ex) {
+                    }
+                    try {
+                        Client Client2 = new Client("ReMake", adresP, portP, playerZ);
+                        Client2.setup();
+                    } catch (Exception ex) {
+                        System.out.println("GUI");
+                    }
+                    din = new DataInputStream(soc.getInputStream());
+                    dout = new DataOutputStream(soc.getOutputStream());
+                } else {
+                    dout.writeUTF(sendTo + " " + tf.getText().toString());
+                    t1.append("\n" + LoginName + ":" + tf.getText().toString());
+                    tf.setText("");
+                }
+            } catch (Exception ex) {System.out.println(ex);
+            }
+        } else if (e.arg.equals("Close")) {
+            try {
+                dout.writeUTF(LoginName + " Q");
+                System.exit(1);
+            } catch (Exception ex) {
+            }
+        }
+        return super.action(e, o);
+    }
 
-			din=new DataInputStream(soc.getInputStream()); 
-			dout=new DataOutputStream(soc.getOutputStream());        
-			dout.writeUTF(LoginName);
+    /**
+     * Glowna metoda MAIN do uruchomienia jako GUI z konsoli
+     */
+    public static void main(String args[]) throws Exception {
+        if (args.length <= 2) {
+				//Client Cl1=new Client("A","localhost","4444");
+            //Cl1.setup();
+        	String playerZ;
+            playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
+            String portP;
+            portP = JOptionPane.showInputDialog("Podaj port:");
+            String pelne_dane;
+          /*  try {
+            	int portA = Integer.parseInt(portP);
+            	Server ob = new Server(portA);
+            } catch(Exception e1) {
+            	System.out.println(e1);
+            	System.out.println("Nie mozna na takim porcie utworzyc sto³u gry!");
+            	return;
+            }*/
+            String LoginName;
+            LoginName = JOptionPane.showInputDialog("Podaj nick:");
+            String adresP;
+            adresP = JOptionPane.showInputDialog("Podaj adres:");
+            //Server ob = new Server(portA);
+            pelne_dane = "Twoj nick: <" + LoginName + ">\nTwoj adres:<" + adresP + ">\nport:<" + portP + ">";
+            System.out.println("_." + pelne_dane + "._\n" + "_." + LoginName + "._\n" + "_." + adresP + "._\n" + "_." + portP + "._\n");
+            JOptionPane.showMessageDialog(null, pelne_dane);
+            if ((LoginName != "" && adresP != "" && portP != "")) {
+                System.out.println("puste polaczenie");
+                Client Client2 = new Client(LoginName, adresP, portP, playerZ);
+                Client2.setup();
+            } else {
+                JOptionPane.showMessageDialog(null, "Brak danych, zamykam polaczenie.");
+                System.exit(1);
+                return;
 
-			t=new Thread(this);
-			t.start();
-		}catch(Exception e){return;}
+            }
+        } else {
+            Client Client1 = new Client(args[0], args[1], args[2], args[3]);
+            Client1.setup();
+        }
 
-}
-	/**Ustawia szybkie setup do GUI */
-@SuppressWarnings("deprecation")
-void setup()
-{
-   setSize(600,400);
-		setVisible(true);
-   setLayout(new GridLayout(2,1));
-		Panel p=new Panel();
-		p.add(tf);
-   p.add(btnSend);
-   p.add(btnClose);
-		 add(p);
-   add(ta);
-   
-   
-  
-  
-   show();       
-		ta.append("ADRES - by polaczyc z ADRESEM i PORTEM\n P - by sprawdzic czy liczba jest pierwsza\n M - by uzyskac minimalny dzielnik\n R - by otrzymac rozklad liczby na czynniki pierwsze\n Przycisk CLOSE - by wyjsc (Q)\n >O/E - komunikaty ze strony serwera\n");
-			addWindowListener( new WindowAdapter() {
-                          public void windowClosing(WindowEvent e) {
-								try
-								{
-									dout.writeUTF(LoginName + " Q");
-									//System.exit(1);
-								}
-								catch(Exception ex)
-								{
-								}
-                            System.exit(0);
-                          }
-                        } );
-}
-	/**Obsluga wyjatkow bezposrednio z klawiszy SEND i CLOSE */
-@SuppressWarnings("deprecation")
-public boolean action(Event e,Object o)
-{
-   if(e.arg.equals("Send"))
-   {
-       try
-       {
-			String komenda="";
-			komenda=tf.getText().toString();
-			ta.append("\n"+komenda+"\n");
-			if(komenda.equals("ADRES")){
-				tf.setText("");
-				String adresP;
-				adresP = JOptionPane.showInputDialog("Podaj adres:");
-				
-				String portP;
-				portP = JOptionPane.showInputDialog("Podaj port:");
-				
-				String pelne_dane;
-				pelne_dane = "Twoj adres:<" + adresP + "> i port<" + portP+">";
-				setVisible(false);
-				
-				JOptionPane.showMessageDialog(null, pelne_dane);
-				//System.exit(0);
-				ta.append("\n"+"Przekazano polaczenie z: "+LoginName+" do "+ "ReMake\n");
-				try
-				{
-					dout.writeUTF(LoginName + " Q");
-					//System.exit(1);
-				}
-				catch(Exception ex)
-				{
-				}
-				try{
-				Client Client2=new Client("ReMake",adresP,portP);
-				Client2.setup();
-				}catch(Exception ex){System.out.println("GUI");}
-				din=new DataInputStream(soc.getInputStream()); 
-				dout=new DataOutputStream(soc.getOutputStream()); 
-						
-			}else{
-           dout.writeUTF(sendTo + " " + tf.getText().toString());
-           ta.append("\n" + LoginName + ":" + tf.getText().toString());
-           tf.setText("");
-			}
-       }
-       catch(Exception ex)
-       {
-       }    
-   }
-   else if(e.arg.equals("Close"))
-   {
-       try
-       {
-           dout.writeUTF(LoginName + " Q");
-           System.exit(1);
-       }
-       catch(Exception ex)
-       {
-       }
-       
-   }
-   
-   return super.action(e,o);
-}/**Glowna metoda MAIN do uruchomienia jako GUI z konsoli */
-public static void main(String args[]) throws Exception
-{
-		if(args.length<=2){
-				//Client Client1=new Client("Anonim","localhost","4444");
-				//Client1.setup();
-		
-				String LoginName;
-				LoginName=JOptionPane.showInputDialog("Podaj nick:");
-				
-				String adresP;
-				adresP = JOptionPane.showInputDialog("Podaj adres:");
-				
-				String portP;
-				portP = JOptionPane.showInputDialog("Podaj port:");
-				
-				String pelne_dane;
-				pelne_dane ="Twoj nick: <"+ LoginName+ ">\nTwoj adres:<" + adresP + ">\nport:<" + portP+">";
-				System.out.println("_."+pelne_dane+"._\n"+"_."+LoginName+"._\n"+"_."+adresP+"._\n"+"_."+portP+"._\n");
-				JOptionPane.showMessageDialog(null, pelne_dane);
-				if((LoginName!=""&&adresP!=""&&portP!="")){
-				System.out.println("puste polaczenie");
-				Client Client2=new Client(LoginName,adresP,portP);
-				Client2.setup();
-				}
-				else{
-				JOptionPane.showMessageDialog(null,"Brak danych, zamykam polaczenie.");
-				System.exit(1);
-				return;
-		
-				}
-		}else{
-			Client Client1=new Client(args[0],args[1],args[2]);
-			Client1.setup();
-		}
-			
-}    
-	/**Metoda do przebiegu Obslugi watkow i Streamowania tekstu */
-public void run()
-{        try{
-   while(true)
-   {
-       try
-       {
-           ta.append( "\n>" + din.readUTF());
-           
-       }
-       catch(Exception ex)
-       {
-				ta.append( "\n> Zerwano polaczenie z serwerem\n");
-				System.out.println("Zerwano polaczenie z serwerem");
-				try{Thread.sleep(20000);}catch(InterruptedException exit){}
-           System.exit(0);
-       }
-   }}catch(Exception e){return;}
-}
+    }
+
+    /**
+     * Metoda do przebiegu Obslugi watkow i Streamowania tekstu
+     */
+    public void run() {
+        try {
+            while (true) {
+                try {
+                	String incommingMsg=din.readUTF();
+                	t2.append(">" + incommingMsg + "<");
+                	
+                    t1.append("\n>" + din.readUTF());
+
+                } catch (Exception ex) {
+                    t1.append("\n> Zerwano polaczenie z serwerem\n");
+                    System.out.println("Zerwano polaczenie z serwerem");
+                    try {
+                        Thread.sleep(5019);
+                    } catch (InterruptedException exit) {
+                        System.out.println(exit);
+                    }
+                    System.exit(0);
+                }
+            }
+        } catch (Exception e) {
+            return;
+        }
+    }
 }
