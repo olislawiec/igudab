@@ -3,7 +3,7 @@ package gra2;
 import java.net.*;
 import java.util.*;
 import java.io.*;
-/*! \mainpage ServerKlient Instrukcja Obslugi
+/*! \mainpage ServerV2Klient Instrukcja Obslugi
  *
  * \section intro_sec Introduction
  *
@@ -16,15 +16,15 @@ import java.io.*;
  *
  * \section install_sec Installation
  *
- * \subsection step1 Step 1: "java Server port rozklad liczby"
+ * \subsection step1 Step 1: "java ServerV2 port rozklad liczby"
  * \subsection step2 Step 2: "java Client / java Client login adres port"
  * 
  */
 
 /**
- * Klasa g³ówna stworzona do utworzenia Servera
+ * Klasa g³ówna stworzona do utworzenia ServerV2a
  */
-class Server {
+class ServerV2 {
 
     /**
      * @param a zmienna statyczna utworzonoa do RozkladuLiczby
@@ -36,16 +36,20 @@ class Server {
     /**
      * Konstruktor do zczytywania portu na ktorym ma sie komunikowac z klientami
      */
-    Server(int portS) throws Exception {
+    ServerV2(final int portS) throws Exception {
         try {
             ServerSocket soc = new ServerSocket(portS);
             ClientSockets = new Vector();
             LoginNames = new Vector();
-
-            while (true) //petla do przyjecia klientow
+            Deck deck = new Deck();
+            System.out.println("Startuje na porcie:("+portS+")\n");
+            int iter=0;
+            while ((int)(1/31) == (float)(1/31)) //petla do przyjecia klientow
             {
+            	System.out.println("accepted:"+iter+"\n");
                 Socket CSoc = soc.accept();
                 AcceptClient obClient = new AcceptClient(CSoc);
+                iter++;
             }
         } catch (Exception e) {
             System.out.println("Wyjatek: " + e);
@@ -54,31 +58,26 @@ class Server {
     }
 
     /**
-     * Glowna metoda do uruchomienia Servera jako konsolowego programu
+     * Glowna metoda do uruchomienia ServerV2a jako konsolowego programu
      */
-    public static void main(String args[]) throws Exception {
+    public static void main(final String[] args) throws Exception {
         // int portSS=Integer.parseInt(args[0]);
         int portSS = 8969;
-        Server ob = new Server(portSS);
-        //int sitko=Integer.parseInt(args[1]); //zmienic na tasowanie kart w decku
-        System.out.println("Startuje!");
-        /*try{
-         a=new RozkladLiczby(sitko);
-         }catch(RozkladException e){}
-         */
+        //System.out.println("Startuje na porcie:("+portSS+")\n");
+        ServerV2 ob = new ServerV2(portSS);
     }
 
     /**
      * Klasa do Akceptowania polaczen i tworzenia Streamow z klientAmi
      */
-    class AcceptClient extends Thread {// watki do servera
+    class AcceptClient extends Thread {// watki do ServerV2a
 
         Socket ClientSocket;
         DataInputStream din;
         DataOutputStream dout;
         private boolean isStopped = false;
 
-        AcceptClient(Socket CSoc) throws Exception {
+        AcceptClient(final Socket CSoc) throws Exception {
             try {
                 ClientSocket = CSoc;
 
@@ -102,7 +101,7 @@ class Server {
         }
 
         /**
-         * Najwazniejsza metoda do oblugiwania watkow wewnatrz servera. Zczytuje
+         * Najwazniejsza metoda do oblugiwania watkow wewnatrz ServerV2a. Zczytuje
          * informacje przesylane od klienta i przetwarza je w kolejne Operacje
          */
         public void run() {
@@ -146,7 +145,7 @@ class Server {
                         }
                         if (iCount == LoginNames.size()) {
                             System.out.println("Wysylam wynik.");
-                            dout.writeUTF("P2 " +/*Pierwsze.hain(msg2)*/ "tak to ja"); // tutaj podmienic najpierw na porownanie zestawow kart z rundy a potem rozeslanie nowych
+                            dout.writeUTF("O " +/*Pierwsze.hain(msg2)*/ "tak to ja"); // tutaj podmienic najpierw na porownanie zestawow kart z rundy a potem rozeslanie nowych
                             System.out.println("1Zakonczono dzialanie.</" + sendTo + ">");
                         }
                         for (iCount = 0; iCount < LoginNames.size(); iCount++) {//TO MIEJSCE SIE PRZYDA BO TRZEBA POZAMYKAC GNIAZDA PO GRZE
@@ -224,12 +223,12 @@ class Server {
                 System.out.println("Zglaszam blad i zamykam polaczenia.");
 
 			//socket.close();
-                //serverSocket.close();
+                //ServerV2Socket.close();
                 return;
             }
         }
         /**
-         * Metoda do zakonczenia bezpiecznie polaczenia servera z klientami
+         * Metoda do zakonczenia bezpiecznie polaczenia ServerV2a z klientami
          */
         protected void finalize() {
             try {
