@@ -2,11 +2,21 @@ package gra2;
 //Chat client
 
 import java.net.*;
+
+import javax.imageio.IIOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 import java.io.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JOptionPane;
+import javax.swing.Icon;
+
+import java.awt.Image;
 
 /**
  * Klasa Client sluzaca do Implementowania jako Watek Kliencki.
@@ -20,10 +30,13 @@ class Client extends Frame implements Runnable {
      * @param ta TextArea do wypisywania komunikatow
      *
      */
+	String imgFileName="ico.gif";
+	ImageIcon icon=new ImageIcon(imgFileName);
+	
     Socket soc;
     TextField tf;
     TextArea t1, t2, t3, t4, t5, t6;
-    Button btnSend, btnClose;
+    Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
     String sendTo;
     String LoginName;
     Thread t = null;
@@ -72,6 +85,16 @@ class Client extends Frame implements Runnable {
             } else {
             	System.out.println("Max players capacity is 6! Lets play in SIX!");
             }
+            btn1 =new Button("1");
+            btn2 =new Button("2");
+            btn3 =new Button("3");
+            btn4 =new Button("4");
+            btnP =new Button("+1");
+            btnM =new Button("-1");
+            btn10P =new Button("+10");
+            btn10M =new Button("-10");
+            btnB =new Button("Bet");
+            btnG=new Button("Go");
             
             btnSend = new Button("Send");
             btnClose = new Button("Close");
@@ -93,13 +116,27 @@ class Client extends Frame implements Runnable {
     @SuppressWarnings("deprecation")
     void setup() {
         setSize(600, 400);
-        setVisible(true);
-        setLayout(new GridLayout(2, 1));
+        
+        setLayout(new GridLayout(4, 4));
         Panel p = new Panel();
+        p.add(btn1);
+        p.add(btn2);
+        p.add(btn3);
+        p.add(btn4);
+        p.add(btnG);
+        p.add(btnP);
+        p.add(btnM);
+        p.add(btn10P);
+        p.add(btn10M);
+        p.add(btnB);
         p.add(tf);
         p.add(btnSend);
         p.add(btnClose);
+        
+        p.add(new ImageComponent("C:/Users/Arkadiusz/Bad2/gra2/src/gra2/ico.gif"));
+        
         add(p);
+        setVisible(true);
         try{
         add(t1);
         }catch(NullPointerException t1) {
@@ -152,7 +189,38 @@ class Client extends Frame implements Runnable {
             }
         });
     }
+    
 
+    class ImageComponent extends Component {
+
+    	//Image img;
+        BufferedImage img;
+
+        public void BackgroundPanel()
+        {
+            // Loads the background image and stores in img object.
+            img = (BufferedImage) Toolkit.getDefaultToolkit().createImage("C:/Users/Arkadiusz/Bad2/gra2/src/gra2/ico.gif");
+        }
+        public void paint(Graphics g) {
+           g.drawImage(img, 0, 0, null);
+        }
+
+        public ImageComponent(String path) {
+           try {
+              img = ImageIO.read(new File(path));
+           } catch (IOException e) {
+              e.printStackTrace();
+           }
+        }
+
+        public Dimension getPreferredSize() {
+           if (img == null) {
+              return new Dimension(100,100);
+           } else {
+              return new Dimension(img.getWidth(), img.getHeight());
+           }
+        }
+     }
     /**
      * Obsluga wyjatkow bezposrednio z klawiszy SEND i CLOSE
      */
