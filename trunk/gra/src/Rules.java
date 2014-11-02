@@ -115,31 +115,40 @@ public class Rules {
 		{
 			
 			System.out.println("lol2");
-			for(int j=1;j<temp;j++)
+			for(int j=0;j<temp;j++)
 			{
+				System.out.println("*****j*****>"+j);
+				for(int i=0;i<temp;i++)
+				{
+					System.out.println("i>"+i+"--t->"+temp);
 				//System.out.println("ffs"+(hands[((4*player[0])+(v-4))]%13)+"-"+hands[((4*player[j])+(v-4))]%13);
-				if((hands[((4*player[0])+(v-4))]%13)>(hands[((4*player[j])+(v-4))]%13))
-				{
-					//System.out.println("");
-					player[0]=player[j];
-					player[j]=player[temp-1];
-					player[temp-1]=66;	
-					temp--;
-					//System.out.println(player[j]);
-				}
-				else
-				{
-					if((hands[((4*player[0])+(v-4))]%13)<(hands[((4*player[j])+(v-4))]%13))
+					if((hands[((4*player[j])+(v-4))]%13)>(hands[((4*player[i])+(v-4))]%13))
 					{
-						m=j;
+						//System.out.println("");
+						System.out.println(player[j]+"-"+player[i]);
+						player[j]=player[i];
+						player[i]=player[temp-1];
+						player[temp-1]=66;	
+						temp--;
+						System.out.println(player[j]+"-"+player[i]);
+					//System.out.println(player[j]);
+					}
+					else
+					{
+						if((hands[((4*player[j])+(v-4))]%13)<(hands[((4*player[i])+(v-4))]%13))
+						{
+					/*	m=j;
 						while(m<player.length)
 						{
 						//	System.out.println("mniejsze"+m+"--"+player.length);
 							if((m+1)==temp)player[temp-1]=66;
 							else player[m]=player[m+1];
 							m++;
+						}*/
+							player[i]=player[temp-1];
+							player[temp-1]=66;	
+							temp--;
 						}
-						temp--;
 					}
 				}
 
