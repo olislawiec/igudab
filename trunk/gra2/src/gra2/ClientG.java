@@ -1,5 +1,7 @@
 package gra2;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**Beautiful GUI for our GAME experience! */
-public class ClientG extends Frame implements Runnable {
+public class ClientG extends Frame implements Runnable, ActionListener {
 
 	 /**
      * @param soc odpowiedzialny za gniazdo klienta
@@ -95,17 +97,28 @@ public class ClientG extends Frame implements Runnable {
 
     
     private void displayGUI() {
-        JFrame frame = new JFrame("Image Example");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+        JFrame frame = new JFrame("Badugi POKERLIKE");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new MyPanel();
-
+        frame.getContentPane().setLayout(new FlowLayout());
+        JButton test = new JButton("TEST");
+        contentPane.add(test);
+        test.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent klik1){
+        		PopUpMyUltRightNow();
+        	}
+        });
+        	
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
-
+    String PopUpMyUltRightNow(){
+    	String score = JOptionPane.showInputDialog("How much do you want to bet?");
+    	
+    	return score;
+    }
     private class MyPanel extends JPanel {
 
         private BufferedImage image;
@@ -227,5 +240,11 @@ public class ClientG extends Frame implements Runnable {
             return;
         }
 		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		PopUpMyUltRightNow();
 	}
 }
