@@ -1,7 +1,9 @@
 package gra2;
+//import gra2.ClientGUI.ImageComponent;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -12,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**Beautiful GUI for our GAME experience! */
-public class ClientG extends Frame implements Runnable, ActionListener {
+public class ClientG extends Frame implements Runnable {
 
 	 /**
      * @param soc odpowiedzialny za gniazdo klienta
@@ -103,22 +105,13 @@ public class ClientG extends Frame implements Runnable, ActionListener {
         frame.getContentPane().setLayout(new FlowLayout());
         JButton test = new JButton("TEST");
         contentPane.add(test);
-        test.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent klik1){
-        		PopUpMyUltRightNow();
-        	}
-        });
         	
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
-    String PopUpMyUltRightNow(){
-    	String score = JOptionPane.showInputDialog("How much do you want to bet?");
-    	
-    	return score;
-    }
+
     private class MyPanel extends JPanel {
 
         private BufferedImage image;
@@ -142,6 +135,86 @@ public class ClientG extends Frame implements Runnable, ActionListener {
             super.paintComponent(g);
             g.drawImage(image, 0, 0, this);
         }
+    }
+
+    /**
+     * Ustawia szybkie setup do GUI
+     */
+    @SuppressWarnings("deprecation")
+    void setup() {
+        setSize(600, 400);
+        
+        setLayout(new GridLayout(4, 4));
+        Panel p = new Panel();
+        p.add(btn1);
+        p.add(btn2);
+        p.add(btn3);
+        p.add(btn4);
+        p.add(btnG);
+        p.add(btnP);
+        p.add(btnM);
+        p.add(btn10P);
+        p.add(btn10M);
+        p.add(btnB);
+        p.add(tf);
+        p.add(btnSend);
+        p.add(btnClose);
+        add(p);
+        setVisible(true);
+        try{
+        add(t1);
+        }catch(NullPointerException t1) {
+        	System.out.println(t1);
+        }try{
+            add(t2);
+            }catch(NullPointerException t2) {
+            	System.out.println(t2);
+            }
+        try{
+                add(t3);
+            }catch(NullPointerException t3) {
+            	System.out.println(t3);
+            }
+        try{
+                add(t4);
+            }catch(NullPointerException t4) {
+            	System.out.println(t4);
+            }
+        try{
+                add(t5);
+            }catch(NullPointerException t5) {
+            	System.out.println(t5);
+            }
+        try{
+                add(t6);
+            }catch(NullPointerException t6) {
+            	System.out.println(t6);
+            }
+        show();
+        t1.append("ADRES - by polaczyc z ADRESEM i PORTEM\n"
+                + " GC - get card\n"
+                + " H - show hand\n"
+                + " C - check \n"
+                + " B - bet\n"
+                + " R - raise\n"
+                + " W - call\n"
+                + " F - fold \n"
+                + " A - all-in\n"
+                + " Przycisk CLOSE - by wyjsc (Q)\n"
+                + " >O/E - komunikaty ze strony serwera\n");
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                try {
+                    dout.writeUTF(LoginName + " Q");
+                } catch (Exception ex) {
+                	System.out.println("Invalid disconnection: "+ex);
+                	System.exit(-1);
+                    
+                }
+                System.exit(0);
+                
+                }
+        });
     }
 
     public static void main(String[] args) throws Exception {
@@ -197,7 +270,7 @@ public class ClientG extends Frame implements Runnable, ActionListener {
                 EventQueue.invokeLater(runnable);
                 
                 System.out.println("puste polaczenie");
-                ClientGUI Client2 = new ClientGUI(LoginName, adresP, portP, playerZ);
+                ClientG Client2 = new ClientG(LoginName, adresP, portP, playerZ);
                 Client2.setup();
             } else {
                 JOptionPane.showMessageDialog(null, "Brak danych, zamykam polaczenie.");
@@ -206,7 +279,7 @@ public class ClientG extends Frame implements Runnable, ActionListener {
 
             }
         } else {
-            ClientGUI Client1 = new ClientGUI(args[0], args[1], args[2], args[3]);
+            ClientG Client1 = new ClientG(args[0], args[1], args[2], args[3]);
             Client1.setup();
         }
     	}catch(Exception a1) {
@@ -240,11 +313,5 @@ public class ClientG extends Frame implements Runnable, ActionListener {
             return;
         }
 		
-	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		PopUpMyUltRightNow();
 	}
 }
