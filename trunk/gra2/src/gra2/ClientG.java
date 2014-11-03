@@ -1,7 +1,7 @@
 package gra2;
-//import gra2.ClientGUI.ImageComponent;
-
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -9,7 +9,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -101,9 +100,22 @@ public class ClientG extends Frame implements Runnable {
         JFrame frame = new JFrame("Badugi POKERLIKE");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new MyPanel();
-        frame.getContentPane().setLayout(new GridLayout());
-        JButton test = new JButton("TestMe");
-        contentPane.add(test);
+        frame.getContentPane().setLayout(new GridLayout(3, 3));
+        ImageIcon a= createImageIcon("/image/test.gif");
+        JButton buttonname;
+        buttonname=new JButton("ButtonTittle", a);
+        //buttonname.setIcon(a);
+        buttonname.addActionListener(new ActionListenerButton() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Buttonname clicked.");
+        	}
+        });
+        
+        contentPane.add(buttonname);
+        ImageIcon icon = createImageIcon("/image/ico.gif");
+        JLabel ekranLabel = new JLabel("Ekran", icon, JLabel.LEFT);
+        contentPane.add(ekranLabel);
+        
         JButton betButton = new JButton("Bet");
         contentPane.add(betButton);
         JButton checkButton = new JButton("Check");
@@ -120,9 +132,7 @@ public class ClientG extends Frame implements Runnable {
         contentPane.add(plus10Button);
         JButton minus10Button = new JButton("$ -10");
         contentPane.add(minus10Button);
-        JLabel ekranLabel = new JLabel("T1");
-        contentPane.add(ekranLabel);
-        ekranLabel.setText("TESTER");
+        
         
         
         frame.setContentPane(contentPane);
@@ -131,7 +141,18 @@ public class ClientG extends Frame implements Runnable {
         frame.setVisible(true);
     }
 
-    private class MyPanel extends JPanel {
+    private ImageIcon createImageIcon(String path) {
+		java.net.URL imgURL = ClientG.class.getResource(path);
+		System.out.println(path);
+		if(imgURL!=null){ 
+		return new ImageIcon(imgURL);}
+		else {
+			System.out.println("Could not find image.");
+			return null;
+		}
+	}
+
+	private class MyPanel extends JPanel {
 
         private BufferedImage image;
         //JPanel myPanel;
@@ -241,36 +262,14 @@ public class ClientG extends Frame implements Runnable {
     	try {
 	if (args.length <= 2) {
 
-				//ClientGUI Cl1=new ClientGUI("A","localhost","4444");
-            //Cl1.setup();
-        	
-        	
-        		int toTheExit=0;
-            	//do {
-            		
-            	//playerZ=JOptionPane.showInputDialog("Przykro mi nie mozna uruchomic takiej rozgrywki!");
-            		final String playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
-                   // if(playerZ!="")continue;
-                    //else{toTheExit++;}
-            	//}while(toTheExit<=4 );//Integer.parseInt(playerZ)>6 || Integer.parseInt(playerZ)<2
-                	
-            
+			final String playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
             final String portP;
             portP = JOptionPane.showInputDialog("Podaj port:");
             String pelne_dane;
-          /*  try {
-            	int portA = Integer.parseInt(portP);
-            	Server ob = new Server(portA);
-            } catch(Exception e1) {
-            	System.out.println(e1);
-            	System.out.println("Nie mozna na takim porcie utworzyc sto³u gry!");
-            	return;
-            }*/
             final String LoginName;
             LoginName = JOptionPane.showInputDialog("Podaj nick:");
             final String adresP;
             adresP = JOptionPane.showInputDialog("Podaj adres:");
-            //Server ob = new Server(portA);
             pelne_dane = "Twoj nick: <" + LoginName + ">\nTwoj adres:<" + adresP + ">\nport:<" + portP + ">";
             System.out.println("_." + pelne_dane + "._\n" + "_." + LoginName + "._\n" + "_." + adresP + "._\n" + "_." + portP + "._\n");
             JOptionPane.showMessageDialog(null, pelne_dane);
