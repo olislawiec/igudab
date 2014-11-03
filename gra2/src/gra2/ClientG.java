@@ -72,17 +72,16 @@ public class ClientG extends Frame implements Runnable {
             } else {
             	System.out.println("Max players capacity is 6! Lets play in SIX!");
             }
-            btn1 =new Button("1");
-            btn2 =new Button("2");
-            btn3 =new Button("3");
-            btn4 =new Button("4");
-            btnP =new Button("+1");
-            btnM =new Button("-1");
-            btn10P =new Button("+10");
-            btn10M =new Button("-10");
-            btnB =new Button("Bet");
-            btnG=new Button("Go");
-            
+            btn1 = new Button("1");
+            btn2 = new Button("2");
+            btn3 = new Button("3");
+            btn4 = new Button("4");
+            btnP = new Button("+1");
+            btnM = new Button("-1");
+            btn10P = new Button("+10");
+            btn10M = new Button("-10");
+            btnB = new Button("Bet");
+            btnG = new Button("Go");
             btnSend = new Button("Send");
             btnClose = new Button("Close");
             soc = new Socket(adres, portZ);
@@ -100,12 +99,32 @@ public class ClientG extends Frame implements Runnable {
     
     private void displayGUI() {
         JFrame frame = new JFrame("Badugi POKERLIKE");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new MyPanel();
-        frame.getContentPane().setLayout(new FlowLayout());
-        JButton test = new JButton("TEST");
+        frame.getContentPane().setLayout(new GridLayout());
+        JButton test = new JButton("TestMe");
         contentPane.add(test);
-        	
+        JButton betButton = new JButton("Bet");
+        contentPane.add(betButton);
+        JButton checkButton = new JButton("Check");
+        contentPane.add(checkButton);
+        JButton raiseButton = new JButton("Raise");
+        contentPane.add(raiseButton);
+        JButton foldButton = new JButton("Fold");
+        contentPane.add(foldButton);
+        JButton plus1Button = new JButton("$ +1");
+        contentPane.add(plus1Button);
+        JButton minus1Button = new JButton("$ -1");
+        contentPane.add(minus1Button);
+        JButton plus10Button = new JButton("$ +10");
+        contentPane.add(plus10Button);
+        JButton minus10Button = new JButton("$ -10");
+        contentPane.add(minus10Button);
+        JLabel ekranLabel = new JLabel("T1");
+        contentPane.add(ekranLabel);
+        ekranLabel.setText("TESTER");
+        
+        
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setLocationByPlatform(true);
@@ -115,8 +134,9 @@ public class ClientG extends Frame implements Runnable {
     private class MyPanel extends JPanel {
 
         private BufferedImage image;
-        
-        public MyPanel() {
+        //JPanel myPanel;
+        public MyPanel(/*JPanel thisPanel*/) {
+        	//myPanel=thisPanel;
             try {
                 image = ImageIO.read(MyPanel.class.getResource("/image/pokerstars.jpg"));
             } catch (IOException ioe) {
@@ -142,7 +162,7 @@ public class ClientG extends Frame implements Runnable {
      */
     @SuppressWarnings("deprecation")
     void setup() {
-        setSize(600, 400);
+        setSize(800, 600);
         
         setLayout(new GridLayout(4, 4));
         Panel p = new Panel();
