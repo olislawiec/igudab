@@ -23,7 +23,7 @@ public class ClientG extends Frame implements Runnable {
      */
 	String imgFileName="ico.gif";
 	ImageIcon icon=new ImageIcon(imgFileName);
-	
+	JTextArea ekranLabel;
     Socket soc;
     TextField tf;
     TextArea t1, t2, t3, t4, t5, t6;
@@ -87,6 +87,7 @@ public class ClientG extends Frame implements Runnable {
             din = new DataInputStream(soc.getInputStream());
             dout = new DataOutputStream(soc.getOutputStream());
             dout.writeUTF(LoginName);
+            
             t = new Thread(this);
             t.start();
         } catch (Exception e) {
@@ -101,37 +102,86 @@ public class ClientG extends Frame implements Runnable {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new MyPanel();
         frame.getContentPane().setLayout(new GridLayout(3, 3));
-        ImageIcon a= createImageIcon("/image/test.gif");
+        ImageIcon a = createImageIcon("/image/test.gif");
+        ImageIcon icon = createImageIcon("/image/ico.gif");
+        ekranLabel=new JTextArea("LoL");
+        contentPane.add(ekranLabel);
         JButton buttonname;
-        buttonname=new JButton("ButtonTittle", a);
+        buttonname = new JButton("ButtonTittle", a);
         //buttonname.setIcon(a);
         buttonname.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("Buttonname clicked.");
+        		System.out.println("button clicked.");
+        		ekranLabel.setText("chuj");
         	}
         });
         
         contentPane.add(buttonname);
-        ImageIcon icon = createImageIcon("/image/ico.gif");
-        JLabel ekranLabel = new JLabel("Ekran", icon, JLabel.LEFT);
-        contentPane.add(ekranLabel);
-        
+        //DO KAZDEGO BUTTONA OD RAZU PRZYLOZYLEM ACTIONLISTENER ZEBYS MOGL WSADZIC W NIE AKCJE GRY
         JButton betButton = new JButton("Bet");
         contentPane.add(betButton);
+        betButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Bet clicked.");
+        		ekranLabel.setText("bet");
+        	}
+        });
         JButton checkButton = new JButton("Check");
         contentPane.add(checkButton);
+        checkButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("check clicked.");
+        		ekranLabel.setText("check");
+        	}
+        });
         JButton raiseButton = new JButton("Raise");
         contentPane.add(raiseButton);
+        raiseButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Raise clicked.");
+        		ekranLabel.setText("raise");
+        	}
+        });
         JButton foldButton = new JButton("Fold");
         contentPane.add(foldButton);
+        foldButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Fold clicked.");
+        		ekranLabel.setText("fold");
+        	}
+        });
         JButton plus1Button = new JButton("$ +1");
         contentPane.add(plus1Button);
+        plus1Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("+1 clicked.");
+        		ekranLabel.setText("+1");
+        	}
+        });
         JButton minus1Button = new JButton("$ -1");
         contentPane.add(minus1Button);
+        minus1Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("-1 clicked.");
+        		ekranLabel.setText("-1");
+        	}
+        });
         JButton plus10Button = new JButton("$ +10");
         contentPane.add(plus10Button);
+        plus10Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("+10 clicked.");
+        		ekranLabel.setText("+10");
+        	}
+        });
         JButton minus10Button = new JButton("$ -10");
         contentPane.add(minus10Button);
+        minus10Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("-10 clicked.");
+        		ekranLabel.setText("-10");
+        	}
+        });
         
         
         
