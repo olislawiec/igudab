@@ -192,7 +192,13 @@ public class MultiThreadChatClient extends Frame implements Runnable {
       host = args[0];
       portNumber = Integer.valueOf(args[1]).intValue();
     }
-    
+    try {
+		new MultiThreadChatClient().displayGUI();
+	} catch (Exception e) {
+		
+		e.printStackTrace();
+		System.exit(-1);
+	}
     /*
      * Open a socket on a given host and port. Open input and output streams.
      */
