@@ -3,6 +3,7 @@ package gra2;
 import java.net.*;
 import java.util.*;
 import java.io.*;
+
 /*! \mainpage ServerV2Klient Instrukcja Obslugi
  *
  * \section intro_sec Introduction
@@ -24,7 +25,7 @@ import java.io.*;
 /**
  * Klasa g³ówna stworzona do utworzenia ServerV2a
  */
-class ServerV2 {
+public class ServerV2 {
 
     /**
      * @param a zmienna statyczna utworzonoa do RozkladuLiczby
@@ -32,7 +33,8 @@ class ServerV2 {
     //public static RozkladLiczby a; //zamienic na deck
     static Vector ClientSockets;
     static Vector LoginNames;
-
+    private static final int maxClientsCount = 10;
+    
     /**
      * Konstruktor do zczytywania portu na ktorym ma sie komunikowac z klientami
      */
@@ -41,7 +43,7 @@ class ServerV2 {
             ServerSocket soc = new ServerSocket(portS);
             ClientSockets = new Vector();
             LoginNames = new Vector();
-            Deck deck = new Deck();
+            //Deck deck = new Deck();
             System.out.println("Startuje na porcie:("+portS+")\n");
             int iter=0;
             while ((int)(1/31) == (float)(1/31)) //petla do przyjecia klientow
@@ -72,9 +74,9 @@ class ServerV2 {
      */
     class AcceptClient extends Thread {// watki do ServerV2a
 
-        Socket ClientSocket;
-        DataInputStream din;
-        DataOutputStream dout;
+        private Socket ClientSocket;
+        private DataInputStream din;
+        private DataOutputStream dout;
         private boolean isStopped = false;
 
         AcceptClient(final Socket CSoc) throws Exception {
