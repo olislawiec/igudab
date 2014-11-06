@@ -124,6 +124,7 @@ public class ClientG extends Frame implements Runnable {
         	public void actionPerformed(ActionEvent e){
         		System.out.println("Bet clicked.");
         		ekranLabel.setText("bet");
+        		
         	}
         });
         JButton checkButton = new JButton("Check");
@@ -364,7 +365,7 @@ public class ClientG extends Frame implements Runnable {
                 try {
                 	String incommingMsg=din.readUTF();
                 	t2.append(">" + incommingMsg + "<");
-                	
+                	ekranLabel.append(">" + incommingMsg );
                     t1.append("\n>" + din.readUTF());
 
                 } catch (Exception ex) {

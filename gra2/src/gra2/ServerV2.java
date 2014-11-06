@@ -78,7 +78,8 @@ public class ServerV2 {
         private DataInputStream din;
         private DataOutputStream dout;
         private boolean isStopped = false;
-
+        
+        
         AcceptClient(final Socket CSoc) throws Exception {
             try {
                 ClientSocket = CSoc;
