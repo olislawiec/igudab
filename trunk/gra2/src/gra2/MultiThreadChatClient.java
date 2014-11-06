@@ -1,14 +1,172 @@
 package gra2;
+
+//import gra2.ClientG.MyPanel;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
+//import java.io.DataInputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.net.Socket;
+//import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class MultiThreadChatClient implements Runnable {
+public class MultiThreadChatClient extends Frame implements Runnable {
 
+	private MyPanel contentPane;
+	Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
+	JTextArea ekranLabel;
+	
+	private void displayGUI() {
+        JFrame frame = new JFrame("Badugi POKERLIKE");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        contentPane = new MyPanel();
+        frame.getContentPane().setLayout(new GridLayout(3, 3));
+        ImageIcon a = createImageIcon("/image/test.gif");
+        ImageIcon icon = createImageIcon("/image/ico.gif");
+        ekranLabel=new JTextArea("LoL");
+        contentPane.add(ekranLabel);
+        JButton buttonname;
+        buttonname = new JButton("ButtonTittle", a);
+        //buttonname.setIcon(a);
+        buttonname.addActionListener(new ActionListenerButton() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("button clicked.");
+        		ekranLabel.setText("chuj");
+        	}
+        });
+        
+        contentPane.add(buttonname);
+        //DO KAZDEGO BUTTONA OD RAZU PRZYLOZYLEM ACTIONLISTENER ZEBYS MOGL WSADZIC W NIE AKCJE GRY
+        JButton betButton = new JButton("Bet");
+        contentPane.add(betButton);
+        betButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Bet clicked.");
+        		ekranLabel.setText("bet");
+        		
+        	}
+        });
+        JButton checkButton = new JButton("Check");
+        contentPane.add(checkButton);
+        checkButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("check clicked.");
+        		ekranLabel.setText("check");
+        	}
+        });
+        JButton raiseButton = new JButton("Raise");
+        contentPane.add(raiseButton);
+        raiseButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Raise clicked.");
+        		ekranLabel.setText("raise");
+        	}
+        });
+        JButton foldButton = new JButton("Fold");
+        contentPane.add(foldButton);
+        foldButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("Fold clicked.");
+        		ekranLabel.setText("fold");
+        	}
+        });
+        JButton plus1Button = new JButton("$ +1");
+        contentPane.add(plus1Button);
+        plus1Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("+1 clicked.");
+        		ekranLabel.setText("+1");
+        	}
+        });
+        JButton minus1Button = new JButton("$ -1");
+        contentPane.add(minus1Button);
+        minus1Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("-1 clicked.");
+        		ekranLabel.setText("-1");
+        	}
+        });
+        JButton plus10Button = new JButton("$ +10");
+        contentPane.add(plus10Button);
+        plus10Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("+10 clicked.");
+        		ekranLabel.setText("+10");
+        	}
+        });
+        JButton minus10Button = new JButton("$ -10");
+        contentPane.add(minus10Button);
+        minus10Button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		System.out.println("-10 clicked.");
+        		ekranLabel.setText("-10");
+        	}
+        });
+        
+        
+        
+        frame.setContentPane(contentPane);
+        frame.pack();
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+    }
+	
+	
+	private ImageIcon createImageIcon(String path) {
+		java.net.URL imgURL = ClientG.class.getResource(path);
+		System.out.println(path);
+		if(imgURL!=null){ 
+		return new ImageIcon(imgURL);}
+		else {
+			System.out.println("Could not find image.");
+			return null;
+		}
+	}
+	
+	
+	private class MyPanel extends JPanel {
+
+        private BufferedImage image;
+        //JPanel myPanel;
+        public MyPanel(/*JPanel thisPanel*/) {
+        	//myPanel=thisPanel;
+            try {
+                image = ImageIO.read(MyPanel.class.getResource("/image/pokerstars.jpg"));
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+            
+        }
+
+        
+        
+
+        @Override
+        public Dimension getPreferredSize() {
+            return image == null ? new Dimension(400, 300): new Dimension(image.getWidth(), image.getHeight());
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, this);
+        }
+    }
+	
   // The client socket
   private static Socket clientSocket = null;
   // The output stream
@@ -34,7 +192,7 @@ public class MultiThreadChatClient implements Runnable {
       host = args[0];
       portNumber = Integer.valueOf(args[1]).intValue();
     }
-
+    
     /*
      * Open a socket on a given host and port. Open input and output streams.
      */
