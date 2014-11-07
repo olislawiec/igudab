@@ -271,11 +271,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
       host = args[0];
       portNumber = Integer.valueOf(args[1]).intValue();
     }
-    try {
-    	Table stol = new Table(playerS,vault);
-    } catch (Exception e) {
-    	System.exit(-2);
-    }
+    
     try {
 		new MultiThreadChatClient().displayGUI();
 	} catch (Exception e) {
