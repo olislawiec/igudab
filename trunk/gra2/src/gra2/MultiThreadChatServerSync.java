@@ -11,16 +11,13 @@ import javax.swing.JOptionPane;
  * A chat server that delivers public and private messages.
  */
 public class MultiThreadChatServerSync {
-
   // The server socket.
   private static ServerSocket serverSocket = null;
   // The client socket.
   private static Socket clientSocket = null;
-
   // This chat server can accept up to maxClientsCount clients' connections.
   private static final int maxClientsCount = 6;
   private static final clientThread[] threads = new clientThread[maxClientsCount];
-
   public static void main(String args[]) {
 
     // The default port number.
@@ -31,15 +28,12 @@ public class MultiThreadChatServerSync {
     } else {
       portNumber = Integer.valueOf(args[0]).intValue();
     }
-    
-    
     String playerZ;
     playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
     try{
     	while(Integer.parseInt(playerZ)>6 || Integer.parseInt(playerZ)<2 )
     	{
     	playerZ=JOptionPane.showInputDialog("Przykro mi nie mozna uruchomic takiej rozgrywki!");
-    	
     	}
     }catch(Exception a1) {
     System.out.println(a1);
@@ -55,13 +49,20 @@ public class MultiThreadChatServerSync {
     // String adresP;
     // adresP = JOptionPane.showInputDialog("Podaj adres:");
     //	Server ob = new Server(portA);
-    pelne_dane = "Nickname: <" + LoginName +">\nport:<" + portP + ">" + ">\nplayers:<" + playerZ + ">" + ">\ntokens:<" + tokenVault + ">";
+    pelne_dane = "Nickname: <" 
+    			+ LoginName 
+    			+">\nport:<" 
+    			+ portP 
+    			+ ">\nplayers:<" 
+    			+ playerZ 
+    			+ ">\ntokens:<" 
+    			+ tokenVault 
+    			+ ">";
     System.out.println( pelne_dane );
     JOptionPane.showMessageDialog(null, pelne_dane);
     portNumber = toInt(portP);
-    
     int playersQuantity = toInt(playerZ);
-    
+
     /*
      * Open a server socket on the portNumber (default 8969). Note that we can
      * not choose a port less than 1023 if we are not privileged users (root).
