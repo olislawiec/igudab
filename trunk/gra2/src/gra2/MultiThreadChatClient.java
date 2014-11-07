@@ -9,7 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
+//import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -28,17 +28,25 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private MyPanel contentPane;
 	Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
-	JTextArea ekranLabel;
+	JTextArea ekranLabel, ekranLabel2;
 	
 	private void displayGUI() {
         JFrame frame = new JFrame("Badugi POKERLIKE");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new MyPanel();
-        frame.getContentPane().setLayout(new GridLayout(3, 3));
+        frame.getContentPane().setLayout(new GridLayout(2, 6));
         ImageIcon a = createImageIcon("/image/test.gif");
         ImageIcon icon = createImageIcon("/image/ico.gif");
-        ekranLabel=new JTextArea("LoL");
-        contentPane.add(ekranLabel);
+        ekranLabel=new JTextArea(20, 20);
+        ekranLabel2=new JTextArea(1,7);
+        ekranLabel.setBounds(3, 3, 300, 200);
+        Font font = new Font("Verdana", Font.BOLD, 19);
+        Font font2 = new Font("Serif", Font.ITALIC, 24);
+        ekranLabel.setFont(font);
+        ekranLabel.setForeground(Color.MAGENTA);
+        ekranLabel2.setFont(font2);
+        ekranLabel.setForeground(Color.CYAN);
+        
         JButton buttonname;
         buttonname = new JButton("ButtonTittle", a);
         //buttonname.setIcon(a);
@@ -84,6 +92,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("fold");
         	}
         });
+        contentPane.add(ekranLabel2);
         JButton plus1Button = new JButton("$ +1");
         contentPane.add(plus1Button);
         plus1Button.addActionListener(new ActionListener() {
@@ -117,6 +126,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         
+        contentPane.add(ekranLabel);
         
         
         frame.setContentPane(contentPane);
@@ -246,6 +256,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
      * Keep on reading from the socket till we receive "Bye" from the
      * server. Once we received that then we want to break.
      */
+	  
+	  //TU WSTAWIC DO JTEXTAREA/JTEXTFIELD 
+	  //t1.append();
+	  //
     String responseLine;
     try {
       while ((responseLine = is.readLine()) != null) {
