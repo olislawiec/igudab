@@ -1,7 +1,5 @@
 package gra2;
 
-//import gra2.ClientG.MyPanel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,50 +7,115 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
-//import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
-//import java.io.DataInputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.IOException;
-//import java.net.Socket;
 import java.net.UnknownHostException;
+//import java.io.IOException;
+//import java.io.DataOutputStream;
+//import java.io.DataInputStream;
+//import java.net.Socket;
 
 public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private MyPanel contentPane;
 	Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
 	JTextArea ekranLabel, ekranLabel2;
-	
+
+	public class ContentPane extends JPanel {
+
+	    public ContentPane() {
+
+	        setOpaque(false);
+
+	    }
+
+	    @Override
+	    protected void paintComponent(Graphics g) {
+
+	        // Allow super to paint
+	        super.paintComponent(g);
+
+	        // Apply our own painting effect
+	        Graphics2D g2d = (Graphics2D) g.create();
+	        // 50% transparent Alpha
+	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+
+	        g2d.setColor(getBackground());
+	        g2d.fill(getBounds());
+
+	        g2d.dispose();
+
+	    }
+
+	}
 	private void displayGUI() {
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         JFrame frame = new JFrame("Badugi POKERLIKE");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new MyPanel();
-        frame.getContentPane().setLayout(new GridLayout(2, 6));
-        ImageIcon a = createImageIcon("/image/test.gif");
-        ImageIcon icon = createImageIcon("/image/ico.gif");
-        ekranLabel=new JTextArea(20, 20);
+        setLocation(0, 0);
+        setSize(dim);
+        setUndecorated(true);
+        setBackground(new Color(0, 255, 0, 0));
+        
+        
+        ImageIcon test 		= 	createImageIcon("/image/test.gif");
+        ImageIcon las 		= 	createImageIcon("/image/las.jpeg");
+        ImageIcon karty 	= 	createImageIcon("/image/karty.gif");
+        ImageIcon hand 		= 	createImageIcon("/image/hand.gif");
+        ImageIcon change 	= 	createImageIcon("/image/change.gif");
+        ImageIcon shuffle 	= 	createImageIcon("/image/shuffle.gif");
+        ImageIcon fold 		= 	createImageIcon("/image/fold.gif");
+        ImageIcon raise		= 	createImageIcon("/image/raise.gif");
+        ImageIcon check 	= 	createImageIcon("/image/check.gif");
+        ImageIcon p1		= 	createImageIcon("/image/p1.gif");
+        ImageIcon p10 		= 	createImageIcon("/image/p10.gif");
+
+        frame.setContentPane(new ContentPane());
+        frame.getContentPane().setBackground(Color.BLACK);
+        setLayout(new BorderLayout());
+        
+      
+        contentPane.setBackground(Color.BLACK);
+        frame.setContentPane(new ContentPane());
+        frame.getContentPane().setBackground(Color.BLACK);
+        setLayout(new BorderLayout());
+        add(contentPane);
+
+        JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlButtons.setOpaque(false);
+        pnlButtons.add(new JButton("<<"));
+        pnlButtons.add(new JButton("<"));
+        pnlButtons.add(new JButton(">"));
+        pnlButtons.add(new JButton(">>"));
+
+        frame.getContentPane().add(pnlButtons, BorderLayout.SOUTH);
+
+        setVisible(true);
+
+        ekranLabel=new JTextArea(5, 5);
         ekranLabel2=new JTextArea(1,7);
         ekranLabel.setBounds(3, 3, 300, 200);
         Font font = new Font("Verdana", Font.BOLD, 19);
         Font font2 = new Font("Serif", Font.ITALIC, 24);
         ekranLabel.setFont(font);
-        ekranLabel.setForeground(Color.MAGENTA);
+        ekranLabel.setForeground(Color.BLACK);
         ekranLabel2.setFont(font2);
-        ekranLabel.setForeground(Color.CYAN);
+        ekranLabel.setForeground(Color.DARK_GRAY);
         
+        
+        frame.getContentPane().setLayout(new GridLayout(2, 6));
         JButton buttonname;
-        buttonname = new JButton("ButtonTittle", a);
-        //buttonname.setIcon(a);
+        buttonname = new JButton();
+        buttonname.setIcon(test);
         buttonname.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("button clicked.");
+        		//System.out.println("button clicked.");
         		ekranLabel.setText("chuj");
         	}
         });
@@ -60,44 +123,50 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(buttonname);
         //DO KAZDEGO BUTTONA OD RAZU PRZYLOZYLEM ACTIONLISTENER ZEBYS MOGL WSADZIC W NIE AKCJE GRY
         JButton betButton = new JButton("Bet");
+        betButton.setIcon(raise);
         contentPane.add(betButton);
         betButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("Bet clicked.");
+        		//System.out.println("Bet clicked.");
         		ekranLabel.setText("bet");
         		
         	}
         });
         JButton checkButton = new JButton("Check");
+        checkButton.setIcon(check);
         contentPane.add(checkButton);
         checkButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("check clicked.");
+        		//System.out.println("check clicked.");
         		ekranLabel.setText("check");
         	}
         });
         JButton raiseButton = new JButton("Raise");
+        raiseButton.setIcon(raise);
         contentPane.add(raiseButton);
         raiseButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("Raise clicked.");
+        		//System.out.println("Raise clicked.");
         		ekranLabel.setText("raise");
         	}
         });
         JButton foldButton = new JButton("Fold");
+        foldButton.setIcon(fold);
         contentPane.add(foldButton);
         foldButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("Fold clicked.");
+        		//System.out.println("Fold clicked.");
         		ekranLabel.setText("fold");
         	}
         });
         contentPane.add(ekranLabel2);
+        
         JButton plus1Button = new JButton("$ +1");
+        plus1Button.setIcon(p1);
         contentPane.add(plus1Button);
         plus1Button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("+1 clicked.");
+        		//System.out.println("+1 clicked.");
         		ekranLabel.setText("+1");
         	}
         });
@@ -105,15 +174,16 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(minus1Button);
         minus1Button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("-1 clicked.");
+        		//System.out.println("-1 clicked.");
         		ekranLabel.setText("-1");
         	}
         });
         JButton plus10Button = new JButton("$ +10");
+        plus10Button.setIcon(p10);
         contentPane.add(plus10Button);
         plus10Button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("+10 clicked.");
+        		//System.out.println("+10 clicked.");
         		ekranLabel.setText("+10");
         	}
         });
@@ -121,7 +191,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(minus10Button);
         minus10Button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		System.out.println("-10 clicked.");
+        		//System.out.println("-10 clicked.");
         		ekranLabel.setText("-10");
         	}
         });
@@ -152,10 +222,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
         private BufferedImage image;
         //JPanel myPanel;
-        public MyPanel(/*JPanel thisPanel*/) {
-        	//myPanel=thisPanel;
+        public MyPanel() {
             try {
-                image = ImageIO.read(MyPanel.class.getResource("/image/pokerstars.jpg"));
+                image = ImageIO.read(MyPanel.class.getResource("/image/dek.jpg"));
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
@@ -178,15 +247,15 @@ public class MultiThreadChatClient extends Frame implements Runnable {
     }
 	
   // The client socket
-  private static Socket clientSocket = null;
+  private static Socket 			clientSocket 	= null;
   // The output stream
-  private static PrintStream os = null;
+  private static PrintStream		os 				= null;
   // The input stream
-  private static DataInputStream is = null;
+  private static DataInputStream 	is 				= null;
 
-  private static BufferedReader inputLine = null;
-  private static boolean closed = false;
+  private static BufferedReader 	inputLine 		= null;
   
+  private static boolean 			closed 			= false;
   public static void main(String[] args) {
 
     // The default port.
@@ -201,6 +270,11 @@ public class MultiThreadChatClient extends Frame implements Runnable {
     } else {
       host = args[0];
       portNumber = Integer.valueOf(args[1]).intValue();
+    }
+    try {
+    	Table stol = new Table(playerS,vault);
+    } catch (Exception e) {
+    	System.exit(-2);
     }
     try {
 		new MultiThreadChatClient().displayGUI();

@@ -3,7 +3,7 @@ package gra2;
 public class TableTest {
 	public static void main(String[] args)
 	{
-		int play=5;// ilosc graczy
+		int play=6;// ilosc graczy
 		Table t=new Table(play,100);
 		
 		int[] l=t.test2();
