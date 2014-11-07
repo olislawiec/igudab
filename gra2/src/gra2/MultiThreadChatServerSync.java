@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.ServerSocket;
 
+import javax.swing.JOptionPane;
+
 /*
  * A chat server that delivers public and private messages.
  */
@@ -29,7 +31,37 @@ public class MultiThreadChatServerSync {
     } else {
       portNumber = Integer.valueOf(args[0]).intValue();
     }
-
+    
+    
+    String playerZ;
+    playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
+    try{
+    	while(Integer.parseInt(playerZ)>6 || Integer.parseInt(playerZ)<2 )
+    	{
+    	playerZ=JOptionPane.showInputDialog("Przykro mi nie mozna uruchomic takiej rozgrywki!");
+    	
+    	}
+    }catch(Exception a1) {
+    System.out.println(a1);
+    System.exit(-1);
+    }
+    String portP;
+    portP = JOptionPane.showInputDialog("Podaj port:");
+    String pelne_dane;
+    String LoginName;
+    LoginName = JOptionPane.showInputDialog("Podaj nick:");
+    String tokenVault;
+    tokenVault = JOptionPane.showInputDialog("Podaj ilosc zetonow w tej rozgrywce:");
+    // String adresP;
+    // adresP = JOptionPane.showInputDialog("Podaj adres:");
+    //	Server ob = new Server(portA);
+    pelne_dane = "Nickname: <" + LoginName +">\nport:<" + portP + ">" + ">\nplayers:<" + playerZ + ">" + ">\ntokens:<" + tokenVault + ">";
+    System.out.println( pelne_dane );
+    JOptionPane.showMessageDialog(null, pelne_dane);
+    portNumber = toInt(portP);
+    
+    int playersQuantity = toInt(playerZ);
+    
     /*
      * Open a server socket on the portNumber (default 8969). Note that we can
      * not choose a port less than 1023 if we are not privileged users (root).
@@ -64,6 +96,16 @@ public class MultiThreadChatServerSync {
         System.out.println(e);
       }
     }
+  }
+  
+  static int toInt(String str) { //PARSES STRING TO INT
+	  try {
+	  int iStr = Integer.parseInt(str);
+	  return iStr;
+	  } catch (Exception e) {
+		  System.out.println("Nie mozna zamienic danego stringa na int" + e);
+	  }
+	  return -1;
   }
 }
 
