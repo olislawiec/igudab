@@ -14,7 +14,7 @@ public class Table {
 	private List<Integer> returnCards;
 	private int players;
 	private String Messange; //tego msg wywalac do sendAll(); dopisywac tutaj tylko publiczne wiadomosci
-	private int currentPlayer; //metoda getCurrentPlayer;
+	private int currentPlayer=1; //metoda getCurrentPlayer;
 	private int tura; // metode zwiekszajaca ture i metode zwracajaca wartosc tury
 	private int dealer; //losowanie dealera
 	
@@ -27,6 +27,7 @@ public class Table {
 		this.players=players;
 		returnCards=new ArrayList<Integer>();
 		playerStatus=new char[players+1];
+		dealer=1;
 		//returnCards.add((int) 1);
 	}
 	
@@ -54,7 +55,6 @@ public class Table {
 	public int getTura() {
 		return this.tura;
 	}
-	
 	public void incCurrentPlayer() {
 		if(currentPlayer==players) {
 			currentPlayer=1;
