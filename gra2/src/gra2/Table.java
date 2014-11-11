@@ -31,6 +31,17 @@ public class Table {
 	}
 	
 ///////////////////////////////////////////////////	
+	public void changeDealer() {
+		if(dealer==players) {
+			dealer=1;
+		}
+		else {
+			dealer++;
+		}
+	}
+	public int getDealer() {
+		return this.dealer;
+	}
 	
 	public void incTura() {
 		if(tura==4) {
