@@ -6,14 +6,17 @@ import java.util.List;
 
 
 public class Table {
-	private int[] playerHands;
+	private int[] playerHands; //wszystkie karty
 	private Bank bank;
 	private Deck deck;
 	private Rules rules;
-	private char[] playerStatus;
+	private char[] playerStatus; //jak ktos da fold to dopisac do jego 
 	private List<Integer> returnCards;
 	private int players;
-	private String Messange;
+	private String Messange; //tego msg wywalac do sendAll(); dopisywac tutaj tylko publiczne wiadomosci
+	private int currentPlayer; //metoda getCurrentPlayer;
+	private int tura; // metode zwiekszajaca ture i metode zwracajaca wartosc tury
+	private int dealer; //losowanie dealera
 	
 	Table(int players,int startMoney)
 	{
@@ -26,8 +29,36 @@ public class Table {
 		playerStatus=new char[players+1];
 		//returnCards.add((int) 1);
 	}
-	//obsluga decka
+	
 ///////////////////////////////////////////////////	
+	
+	public void incTura() {
+		if(tura==4) {
+			tura=0;
+		}
+		else {
+			tura++;
+		}
+	}
+	public int getTura() {
+		return this.tura;
+	}
+	
+	public void incCurrentPlayer() {
+		if(currentPlayer==players) {
+			currentPlayer=1;
+		}
+		else {
+			currentPlayer++;
+		}
+	}
+	public int getCurrentPlayer() {
+		return this.currentPlayer;
+	}
+	
+	
+///////////////////////////////////////////////////	
+	//obsluga decka
 	public void deal()//rozdanie
 	{
 		deck.shuffling();
@@ -116,6 +147,7 @@ public class Table {
 		case 'A':
 			Messange="Player:"+player+" - Alin";
 			bank.allIn(player);
+			playerStatus[player]='A';
 			break;
 		case 'C':
 			Messange="Player:"+player+" - Call";
@@ -124,6 +156,11 @@ public class Table {
 		case'R':
 			Messange="Player:"+player+" - Rise"+Integer.parseInt(action.substring(1));
 			bank.rise(player, Integer.parseInt(action.substring(1)));
+			break;
+		case'F':
+			Messange="Player:"+player+" - Fold";
+			playerStatus[player]='F';
+			break;
 		}
 	}
 	
