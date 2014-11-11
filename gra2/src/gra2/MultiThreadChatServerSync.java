@@ -135,7 +135,7 @@ class clientThread extends Thread {
     this.threads = threads;
     maxClientsCount = threads.length;
     this.table=table;
-    this.whichPlayer=whichPlayer;
+    this.whichPlayer=whichPlayer+1;
   }
 
   public void run() {
@@ -149,9 +149,18 @@ class clientThread extends Thread {
       is = new DataInputStream(clientSocket.getInputStream());
       os = new PrintStream(clientSocket.getOutputStream());
       String name;
+      String inMsg;
       boolean tillEnd=false;
       while (true) {
-       
+    	  while (true) {
+    	        os.println("Enter your name.");
+    	        name = is.readLine().trim();
+    	        if (name.indexOf('@') == -1) {
+    	          break;
+    	        } else {
+    	          os.println("The name should not contain '@' character.");
+    	        }
+    	      }
     	  while(!tillEnd){
     		  synchronized(this){
     		  if( table.getTura()==0 && table.getDealer()==whichPlayer ){
@@ -160,6 +169,15 @@ class clientThread extends Thread {
     		  	}
     		  sendPriv(this, table.getHand(whichPlayer));
     		  }
+    		 while(table.getTura()==1) {
+    			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T') {
+    				 inMsg=is.readLine();
+    				 if(inMsg.startsWith("D")) {
+    					 table.drow(whichPlayer,inMsg);
+    	    			  
+    				 }
+    			}
+    		 }
     		  
     	  }
       /*
