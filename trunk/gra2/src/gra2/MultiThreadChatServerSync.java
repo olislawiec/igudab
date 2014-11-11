@@ -11,15 +11,17 @@ import javax.swing.JOptionPane;
  * A chat server that delivers public and private messages.
  */
 public class MultiThreadChatServerSync {
+	public static int playersQuantity;
+	public static int players;
   // The server socket.
   private static ServerSocket serverSocket = null;
   // The client socket.
   private static Socket clientSocket = null;
+  private static Table tableG;
   // This chat server can accept up to maxClientsCount clients' connections.
-  private static int maxClientsCount = 6;
-  private static int startTokens;
+  private static final int maxClientsCount = 6;
   private static final clientThread[] threads = new clientThread[maxClientsCount];
-  static Table stol;
+
   public static void main(String args[]) {
 
     // The default port number.
@@ -30,12 +32,15 @@ public class MultiThreadChatServerSync {
     } else {
       portNumber = Integer.valueOf(args[0]).intValue();
     }
+    
+    
     String playerZ;
     playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
     try{
     	while(Integer.parseInt(playerZ)>6 || Integer.parseInt(playerZ)<2 )
     	{
     	playerZ=JOptionPane.showInputDialog("Przykro mi nie mozna uruchomic takiej rozgrywki!");
+    	
     	}
     }catch(Exception a1) {
     System.out.println(a1);
@@ -51,20 +56,13 @@ public class MultiThreadChatServerSync {
     // String adresP;
     // adresP = JOptionPane.showInputDialog("Podaj adres:");
     //	Server ob = new Server(portA);
-    pelne_dane = "Nickname: <"
-    			+ LoginName
-    			+ ">\nport:<"
-    			+ portP
-    			+ ">\nplayers:<"
-    			+ playerZ
-    			+ ">\ntokens:<"
-    			+ tokenVault
-    			+ ">";
-    System.out.println(pelne_dane);
+    pelne_dane = "Nickname: <" + LoginName +">\nport:<" + portP + ">" + ">\nplayers:<" + playerZ + ">" + ">\ntokens:<" + tokenVault + ">";
+    System.out.println( pelne_dane );
     JOptionPane.showMessageDialog(null, pelne_dane);
     portNumber = toInt(portP);
-    maxClientsCount = toInt(playerZ);
-    startTokens = toInt(tokenVault);
+    
+    playersQuantity = toInt(playerZ);
+    tableG=new Table(playersQuantity,toInt(tokenVault));
     /*
      * Open a server socket on the portNumber (default 8969). Note that we can
      * not choose a port less than 1023 if we are not privileged users (root).
@@ -74,11 +72,7 @@ public class MultiThreadChatServerSync {
     } catch (IOException e) {
       System.out.println(e);
     }
-    try {
-    	stol = new Table(maxClientsCount, startTokens);
-    } catch (Exception e) {
-    	System.exit(-2);
-    }
+
     /*
      * Create a client socket for each connection and pass it to a new client
      * thread.
@@ -89,7 +83,7 @@ public class MultiThreadChatServerSync {
         int i = 0;
         for (i = 0; i < maxClientsCount; i++) {
           if (threads[i] == null) {
-            (threads[i] = new clientThread(clientSocket, threads)).start();
+            (threads[i] = new clientThread(clientSocket, threads,tableG)).start();
             break;
           }
         }
@@ -134,10 +128,11 @@ class clientThread extends Thread {
   private final clientThread[] threads;
   private int maxClientsCount;
 
-  public clientThread(Socket clientSocket, clientThread[] threads) {
+  public clientThread(Socket clientSocket, clientThread[] threads, Table table) {
     this.clientSocket = clientSocket;
     this.threads = threads;
     maxClientsCount = threads.length;
+    Table stol=table;
   }
 
   public void run() {
@@ -151,6 +146,7 @@ class clientThread extends Thread {
       is = new DataInputStream(clientSocket.getInputStream());
       os = new PrintStream(clientSocket.getOutputStream());
       String name;
+      MultiThreadChatServerSync.players++;
       while (true) {
         os.println("Enter your name.");
         name = is.readLine().trim();
@@ -200,7 +196,7 @@ class clientThread extends Thread {
                      * Echo this message to let the client know the private
                      * message was sent.
                      */
-                    this.os.println(">" + name + "> " + words[1]);
+                    sendPriv (this,line);
                     break;
                   }
                 }
@@ -208,14 +204,8 @@ class clientThread extends Thread {
             }
           }
         } else {
+        	sendAll("dd");
           /* The message is public, broadcast it to all other clients. */
-          synchronized (this) {
-            for (int i = 0; i < maxClientsCount; i++) {
-              if (threads[i] != null && threads[i].clientName != null) {
-                threads[i].os.println("<" + name + "> " + line);
-              }
-            }
-          }
         }
       }
       synchronized (this) {
@@ -248,5 +238,17 @@ class clientThread extends Thread {
       clientSocket.close();
     } catch (IOException e) {
     }
+  }
+  public void sendAll (String messange)
+  {
+      for (int i = 0; i < maxClientsCount; i++) {
+          if (threads[i] != null && threads[i].clientName != null) {
+            threads[i].os.println(messange);
+          }
+        }
+  }
+  public void sendPriv (clientThread thread,String messange)
+  {
+	  thread.os.println(messange);
   }
 }

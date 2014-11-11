@@ -119,6 +119,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("JA_TESTER");
         	}
         });
+        contentPane.add(buttonname);
         JButton handButton;
         handButton = new JButton();
         handButton.setIcon(hand);
@@ -128,7 +129,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("HAND");
         	}
         });
-        contentPane.add(buttonname);
+        contentPane.add(handButton);
         JButton betButton = new JButton("Bet");
         betButton.setIcon(raise);
         contentPane.add(betButton);
