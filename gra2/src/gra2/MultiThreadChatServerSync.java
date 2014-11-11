@@ -16,8 +16,10 @@ public class MultiThreadChatServerSync {
   // The client socket.
   private static Socket clientSocket = null;
   // This chat server can accept up to maxClientsCount clients' connections.
-  private static final int maxClientsCount = 6;
+  private static int maxClientsCount = 6;
+  private static int startTokens;
   private static final clientThread[] threads = new clientThread[maxClientsCount];
+  static Table stol;
   public static void main(String args[]) {
 
     // The default port number.
@@ -49,20 +51,20 @@ public class MultiThreadChatServerSync {
     // String adresP;
     // adresP = JOptionPane.showInputDialog("Podaj adres:");
     //	Server ob = new Server(portA);
-    pelne_dane = "Nickname: <" 
-    			+ LoginName 
-    			+">\nport:<" 
-    			+ portP 
-    			+ ">\nplayers:<" 
-    			+ playerZ 
-    			+ ">\ntokens:<" 
-    			+ tokenVault 
+    pelne_dane = "Nickname: <"
+    			+ LoginName
+    			+ ">\nport:<"
+    			+ portP
+    			+ ">\nplayers:<"
+    			+ playerZ
+    			+ ">\ntokens:<"
+    			+ tokenVault
     			+ ">";
-    System.out.println( pelne_dane );
+    System.out.println(pelne_dane);
     JOptionPane.showMessageDialog(null, pelne_dane);
     portNumber = toInt(portP);
-    int playersQuantity = toInt(playerZ);
-
+    maxClientsCount = toInt(playerZ);
+    startTokens = toInt(tokenVault);
     /*
      * Open a server socket on the portNumber (default 8969). Note that we can
      * not choose a port less than 1023 if we are not privileged users (root).
@@ -72,7 +74,11 @@ public class MultiThreadChatServerSync {
     } catch (IOException e) {
       System.out.println(e);
     }
-
+    try {
+    	stol = new Table(maxClientsCount, startTokens);
+    } catch (Exception e) {
+    	System.exit(-2);
+    }
     /*
      * Create a client socket for each connection and pass it to a new client
      * thread.
