@@ -116,12 +116,19 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         buttonname.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
         		//System.out.println("button clicked.");
-        		ekranLabel.setText("chuj");
+        		ekranLabel.setText("JA_TESTER");
         	}
         });
-        
+        JButton handButton;
+        handButton = new JButton();
+        handButton.setIcon(hand);
+        handButton.addActionListener(new ActionListenerButton() {
+        	public void actionPerformed(ActionEvent e){
+        		//System.out.println("button clicked.");
+        		ekranLabel.setText("HAND");
+        	}
+        });
         contentPane.add(buttonname);
-        //DO KAZDEGO BUTTONA OD RAZU PRZYLOZYLEM ACTIONLISTENER ZEBYS MOGL WSADZIC W NIE AKCJE GRY
         JButton betButton = new JButton("Bet");
         betButton.setIcon(raise);
         contentPane.add(betButton);
@@ -129,7 +136,6 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	public void actionPerformed(ActionEvent e){
         		//System.out.println("Bet clicked.");
         		ekranLabel.setText("bet");
-        		
         	}
         });
         JButton checkButton = new JButton("Check");
@@ -209,15 +215,15 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
 		System.out.println(path);
-		if(imgURL!=null){ 
-		return new ImageIcon(imgURL);}
+		if (imgURL != null) {
+		return new ImageIcon(imgURL);
+		}
 		else {
 			System.out.println("Could not find image.");
 			return null;
 		}
 	}
-	
-	
+
 	private class MyPanel extends JPanel {
 
         private BufferedImage image;
@@ -334,8 +340,12 @@ public class MultiThreadChatClient extends Frame implements Runnable {
     try {
       while ((responseLine = is.readLine()) != null) {
         System.out.println(responseLine);
-        if (responseLine.indexOf("Q ") != -1)
+        if (responseLine.indexOf("Q ") != -1) {
           break;
+        }
+        if (responseLine.indexOf("Server too busy. Try later.") != (-2)) {
+        	closed = false;
+        }
       }
       closed = true;
     } catch (IOException e) {
