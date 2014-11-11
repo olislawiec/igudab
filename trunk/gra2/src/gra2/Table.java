@@ -27,6 +27,9 @@ public class Table {
 		this.players=players;
 		returnCards=new ArrayList<Integer>();
 		playerStatus=new char[players+1];
+		for(int i=0; i<playerStatus.length; i++) {
+			playerStatus[i]='T';
+		}
 		dealer=1;
 		//returnCards.add((int) 1);
 	}
@@ -51,6 +54,11 @@ public class Table {
 		else {
 			tura++;
 		}
+		for(int i=0; i<playerStatus.length; i++) {
+			if(playerStatus[i]=='N') {
+				playerStatus[i]='T';
+			}
+		}
 	}
 	public int getTura() {
 		return this.tura;
@@ -66,7 +74,9 @@ public class Table {
 	public int getCurrentPlayer() {
 		return this.currentPlayer;
 	}
-	
+	public char getPlayerStatus(int player) {
+		return this.playerStatus[player];
+	}
 	
 ///////////////////////////////////////////////////	
 	//obsluga decka
@@ -120,7 +130,7 @@ public class Table {
 			temp=""+order.charAt(i);
 			changeCard(player,Integer.parseInt(temp));
 		}
-		
+		playerStatus[player]='N';
 		return getHand(player);
 	}
 //////////////////////////////////////////////////////	
