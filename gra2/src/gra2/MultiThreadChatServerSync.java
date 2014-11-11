@@ -170,12 +170,21 @@ class clientThread extends Thread {
     		  sendPriv(this, table.getHand(whichPlayer));
     		  }
     		 while(table.getTura()==1) {
+    			synchronized(this){
     			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T') {
-    				 inMsg=is.readLine();
-    				 if(inMsg.startsWith("D")) {
-    					 table.drow(whichPlayer,inMsg);
-    	    			  
+    				 while(true) {
+    					 inMsg=is.readLine();
+    					 if(inMsg.startsWith("D")) {
+    					 sendPriv(this, table.drow(whichPlayer,inMsg));
+    					// table.incCurrentPlayer();
+    	    			  break;
+    					 }
     				 }
+    			 }
+    			 }
+    			
+    			if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F')) {
+    				
     			}
     		 }
     		  

@@ -77,7 +77,15 @@ public class Table {
 	public char getPlayerStatus(int player) {
 		return this.playerStatus[player];
 	}
-	
+	public String getPlayerBet(int player) {
+		return "P"+bank.getPlayerBet(player);
+	}
+	public String getMaxBet(int player) {
+		return "M"+bank.getMaxBet();
+	}
+	public String getPool() {
+		return "K"+bank.getPool();
+	}
 ///////////////////////////////////////////////////	
 	//obsluga decka
 	public void deal()//rozdanie
@@ -96,6 +104,10 @@ public class Table {
 		returnCards.add(playerHands[cardP]);
 		playerHands[cardP]=deck.drow();
 	}
+	/*
+	 * pobieranie maxBet
+	 * pobieranie playerBet
+	 */
 	
 	
 	private void rCardToDeck()//zwracanie kart do decku 
@@ -124,6 +136,11 @@ public class Table {
 	public String drow(int player,String order)
 	{
 		String temp="";
+		if(order.length()==1) {
+			playerStatus[player]='N';
+			return getHand(player);
+		}
+		
 		for(int i=1;i<order.length();i++)
 		{
 			if(order.charAt(i)==',')continue;

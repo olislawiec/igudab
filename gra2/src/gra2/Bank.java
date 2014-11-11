@@ -21,6 +21,16 @@ public class Bank {
 		
 	}
 	
+	public int getMaxBet() {
+		return maxBet;
+	}
+	public int getPool() {
+		return pool;
+	}
+	public int getPlayerBet(int player) {
+		return playerBet[player];
+	}
+	
 	public void allIn(int player)
 	{
 		pool+=accountValue[player];
