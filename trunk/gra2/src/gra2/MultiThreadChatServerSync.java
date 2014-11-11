@@ -83,7 +83,7 @@ public class MultiThreadChatServerSync {
         int i = 0;
         for (i = 0; i < maxClientsCount; i++) {
           if (threads[i] == null) {
-            (threads[i] = new clientThread(clientSocket, threads,tableG)).start();
+            (threads[i] = new clientThread(clientSocket, threads,tableG,i)).start();
             break;
           }
         }
@@ -127,12 +127,15 @@ class clientThread extends Thread {
   private Socket clientSocket = null;
   private final clientThread[] threads;
   private int maxClientsCount;
+  private int whichPlayer;
+  private Table table;
 
-  public clientThread(Socket clientSocket, clientThread[] threads, Table table) {
+  public clientThread(Socket clientSocket, clientThread[] threads, Table table, int whichPlayer) {
     this.clientSocket = clientSocket;
     this.threads = threads;
     maxClientsCount = threads.length;
-    Table stol=table;
+    this.table=table;
+    this.whichPlayer=whichPlayer;
   }
 
   public void run() {
@@ -146,79 +149,19 @@ class clientThread extends Thread {
       is = new DataInputStream(clientSocket.getInputStream());
       os = new PrintStream(clientSocket.getOutputStream());
       String name;
-      MultiThreadChatServerSync.players++;
+      boolean tillEnd=false;
       while (true) {
-        os.println("Enter your name.");
-        name = is.readLine().trim();
-        if (name.indexOf('@') == -1) {
-          break;
-        } else {
-          os.println("The name should not contain '@' character.");
-        }
-      }
-
-      /* Welcome the new the client. */
-      os.println("Welcome " + name
-          + " to our chat room.\nTo leave enter /quit in a new line.");
-      synchronized (this) {
-        for (int i = 0; i < maxClientsCount; i++) {
-          if (threads[i] != null && threads[i] == this) {
-            clientName = "@" + name;
-            break;
-          }
-        }
-        for (int i = 0; i < maxClientsCount; i++) {
-          if (threads[i] != null && threads[i] != this) {
-            threads[i].os.println("*** A new user " + name
-                + " entered the chat room !!! ***");
-          }
-        }
-      }
-      /* Start the conversation. */
-      while (true) {
-        String line = is.readLine();
-        if (line.startsWith("/quit")) {
-          break;
-        }
-        /* If the message is private sent it to the given client. */
-        if (line.startsWith("@")) {
-          String[] words = line.split("\\s", 2);
-          if (words.length > 1 && words[1] != null) {
-            words[1] = words[1].trim();
-            if (!words[1].isEmpty()) {
-              synchronized (this) {
-                for (int i = 0; i < maxClientsCount; i++) {
-                  if (threads[i] != null && threads[i] != this
-                      && threads[i].clientName != null
-                      && threads[i].clientName.equals(words[0])) {
-                    threads[i].os.println("<" + name + "> " + words[1]);
-                    /*
-                     * Echo this message to let the client know the private
-                     * message was sent.
-                     */
-                    sendPriv (this,line);
-                    break;
-                  }
-                }
-              }
-            }
-          }
-        } else {
-        	sendAll("dd");
-          /* The message is public, broadcast it to all other clients. */
-        }
-      }
-      synchronized (this) {
-        for (int i = 0; i < maxClientsCount; i++) {
-          if (threads[i] != null && threads[i] != this
-              && threads[i].clientName != null) {
-            threads[i].os.println("*** The user " + name
-                + " is leaving the chat room !!! ***");
-          }
-        }
-      }
-      os.println("Q " + name + "");
-
+       
+    	  while(!tillEnd){
+    		  synchronized(this){
+    		  if( table.getTura()==0 && table.getDealer()==whichPlayer ){
+    			  table.deal();
+    			  table.incTura();  
+    		  	}
+    		  sendPriv(this, table.getHand(whichPlayer));
+    		  }
+    		  
+    	  }
       /*
        * Clean up. Set the current thread variable to null so that a new client
        * could be accepted by the server.
@@ -236,7 +179,8 @@ class clientThread extends Thread {
       is.close();
       os.close();
       clientSocket.close();
-    } catch (IOException e) {
+      }
+     } catch (IOException e) {
     }
   }
   public void sendAll (String messange)
