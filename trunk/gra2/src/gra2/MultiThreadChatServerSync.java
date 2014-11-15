@@ -49,14 +49,14 @@ public class MultiThreadChatServerSync {
     String portP;
     portP = JOptionPane.showInputDialog("Podaj port:");
     String pelne_dane;
-    String LoginName;
-    LoginName = JOptionPane.showInputDialog("Podaj nick:");
+   // String LoginName;
+   // LoginName = JOptionPane.showInputDialog("Podaj nick:");
     String tokenVault;
     tokenVault = JOptionPane.showInputDialog("Podaj ilosc zetonow w tej rozgrywce:");
     // String adresP;
     // adresP = JOptionPane.showInputDialog("Podaj adres:");
     //	Server ob = new Server(portA);
-    pelne_dane = "Nickname: <" + LoginName +">\nport:<" + portP + ">" + ">\nplayers:<" + playerZ + ">" + ">\ntokens:<" + tokenVault + ">";
+    pelne_dane = /*"Nickname: <" + LoginName +*/"\nport:<" + portP + ">" + ">\nplayers:<" + playerZ + ">" + ">\ntokens:<" + tokenVault + ">";
     System.out.println( pelne_dane );
     JOptionPane.showMessageDialog(null, pelne_dane);
     portNumber = toInt(portP);
@@ -182,10 +182,15 @@ class clientThread extends Thread {
     				 }
     			 }
     			 }
-    			
+    			/*
     			if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F')) {
-    				
-    			}
+    				while(true) {
+    					inMsg=is.readLine();
+    					if(inMsg.startsWith("B")) {
+    						
+    					}
+    				}
+    			}*/
     		 }
     		  
     	  }

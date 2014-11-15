@@ -9,8 +9,11 @@ import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,7 +26,7 @@ import java.net.UnknownHostException;
 public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private MyPanel contentPane;
-	Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
+	//Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
 	JTextArea ekranLabel, ekranLabel2;
 
 	public class ContentPane extends JPanel {
@@ -211,7 +214,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
-	
+	/*public void labelSetText(String responseLineGetter) {
+		((JTextComponent) contentPane.ekranLabel).setText(responseLineGetter);
+	}*/
 	
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
@@ -227,7 +232,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private class MyPanel extends JPanel {
 
-        private BufferedImage image;
+        public Object ekranLabel;
+		private BufferedImage image;
         //JPanel myPanel;
         public MyPanel() {
             try {
@@ -340,7 +346,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
     String responseLine;
     try {
       while ((responseLine = is.readLine()) != null) {
-        System.out.println(responseLine);
+        System.out.println(responseLine+" lol");
+       //STAD TEKST LECI PROSTO DO METODY WPROWADZAJACEJ GO DO ekranLabel
+       //labelSetText(responseLine);
+        
         if (responseLine.indexOf("Q ") != -1) {
           break;
         }
