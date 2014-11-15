@@ -43,11 +43,64 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	card2,
 	card3,
 	card4;
+			ImageIcon karta0 = createImageIcon("/image/0.png");
+			ImageIcon karta1 = createImageIcon("/image/1.png");
+			ImageIcon karta2 = createImageIcon("/image/2.png");
+			ImageIcon karta3 = createImageIcon("/image/3.png");
+			ImageIcon karta4 = createImageIcon("/image/4.png");
+			ImageIcon karta5 = createImageIcon("/image/5.png");
+			ImageIcon karta6 = createImageIcon("/image/6.png");
+			ImageIcon karta7 = createImageIcon("/image/7.png");
+			ImageIcon karta8 = createImageIcon("/image/8.png");
+			ImageIcon karta9 = createImageIcon("/image/9.png");
+			ImageIcon karta10 = createImageIcon("/image/10.png");
+			ImageIcon karta11 = createImageIcon("/image/11.png");
+			ImageIcon karta12 = createImageIcon("/image/12.png");
+			ImageIcon karta13 = createImageIcon("/image/13.png");
+			ImageIcon karta14 = createImageIcon("/image/14.png");
+			ImageIcon karta15 = createImageIcon("/image/15.png");
+			ImageIcon karta16 = createImageIcon("/image/16.png");
+			ImageIcon karta17 = createImageIcon("/image/17.png");
+			ImageIcon karta18 = createImageIcon("/image/18.png");
+			ImageIcon karta19 = createImageIcon("/image/19.png");
+			ImageIcon karta20 = createImageIcon("/image/20.png");
+			ImageIcon karta21 = createImageIcon("/image/21.png");
+			ImageIcon karta22 = createImageIcon("/image/22.png");
+			ImageIcon karta23 = createImageIcon("/image/23.png");
+			ImageIcon karta24 = createImageIcon("/image/24.png");
+			ImageIcon karta25 = createImageIcon("/image/25.png");
+			ImageIcon karta26 = createImageIcon("/image/26.png");
+			ImageIcon karta27 = createImageIcon("/image/27.png");
+			ImageIcon karta28 = createImageIcon("/image/28.png");
+			ImageIcon karta29 = createImageIcon("/image/29.png");
+			ImageIcon karta30 = createImageIcon("/image/30.png");
+			ImageIcon karta31 = createImageIcon("/image/31.png");
+			ImageIcon karta32 = createImageIcon("/image/32.png");
+			ImageIcon karta33 = createImageIcon("/image/33.png");
+			ImageIcon karta34 = createImageIcon("/image/34.png");
+			ImageIcon karta35 = createImageIcon("/image/35.png");
+			ImageIcon karta36 = createImageIcon("/image/36.png");
+			ImageIcon karta37 = createImageIcon("/image/37.png");
+			ImageIcon karta38 = createImageIcon("/image/38.png");
+			ImageIcon karta39 = createImageIcon("/image/39.png");
+			ImageIcon karta40 = createImageIcon("/image/40.png");
+			ImageIcon karta41 = createImageIcon("/image/41.png");
+			ImageIcon karta42 = createImageIcon("/image/42.png");
+			ImageIcon karta43 = createImageIcon("/image/43.png");
+			ImageIcon karta44 = createImageIcon("/image/44.png");
+			ImageIcon karta45 = createImageIcon("/image/45.png");
+			ImageIcon karta46 = createImageIcon("/image/46.png");
+			ImageIcon karta47 = createImageIcon("/image/47.png");
+			ImageIcon karta48 = createImageIcon("/image/48.png");
+			ImageIcon karta49 = createImageIcon("/image/49.png");
+			ImageIcon karta50 = createImageIcon("/image/50.png");
+			ImageIcon karta51 = createImageIcon("/image/51.png");
    
 
-	public class ContentPane extends JPanel {
+	public static class ContentPane extends JPanel {
 
-	    public ContentPane() {
+	    
+		public ContentPane() {
 
 	        setOpaque(false);
 
@@ -83,8 +136,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         setBackground(new Color(0, 255, 0, 0));
         
         
-        
-        
+       
         ImageIcon test 		= 	createImageIcon("/image/test.gif");
         ImageIcon las 		= 	createImageIcon("/image/las.jpeg");
         ImageIcon karty 	= 	createImageIcon("/image/karty.gif");
@@ -96,6 +148,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         ImageIcon check 	= 	createImageIcon("/image/check.gif");
         ImageIcon p1		= 	createImageIcon("/image/p1.gif");
         ImageIcon p10 		= 	createImageIcon("/image/p10.gif");
+        
 
         frame.setContentPane(new ContentPane());
         frame.getContentPane().setBackground(Color.BLACK);
@@ -143,10 +196,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(buttonname);
         
         handButton = new JButton();
-        handButton.setIcon(hand);
+        handButton.setIcon(karta0);
         handButton.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
-        		//System.out.println("button clicked.");
+        		//System.out.println("handbutton clicked.");
         		ekranLabel.setText("HAND");
         	}
         });
@@ -279,7 +332,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
-		System.out.println(path);
+		//System.out.println(path);
 		if (imgURL != null) {
 		return new ImageIcon(imgURL);
 		}
@@ -396,13 +449,41 @@ public class MultiThreadChatClient extends Frame implements Runnable {
   public void ekranLabelSetter(String respoLine) {
 	  MultiThreadChatClient.ekranLabel.setText(respoLine);
   }
-  public void ekranCardsDealer(String respo[]) {
+  public void ekranButtonCardDisplayer() {
+	  card1.setIcon(null);
+	  card2.setIcon(null);
+	  card3.setIcon(null);
+	  card4.setIcon(null);
+	  
+  }
+  public int[] splittedToInt(String[] splitted) {
+	int[] splittedInt = null;
+	splittedInt[0]=Integer.parseInt(splitted[0]);
+	splittedInt[1]=Integer.parseInt(splitted[1]);
+	splittedInt[2]=Integer.parseInt(splitted[2]);
+	splittedInt[3]=Integer.parseInt(splitted[3]);
+	return splittedInt;
+  }
+  public void ekranCardsDealer(String[] respo) {
+	  int[] hajduk=splittedToInt(respo);
 	  if (respo.length < 5 && respo.length > 3) {
 		  card1.setText(respo[0]);
 		  card2.setText(respo[1]);
 		  card3.setText(respo[2]);
 		  card4.setText(respo[3]);
+		 // card1.setIcon();
+		  
 	  }
+  }
+  public String lineWithoutLetter(String res) {
+	  String responseLineWithoutLetter = "";
+	  responseLineWithoutLetter = res.substring(1);
+	  return responseLineWithoutLetter;
+  }
+  public String[] splited(String splitMe) {
+	  String[] respo;
+	  respo = splitMe.split(",");
+	  return respo;
   }
   @SuppressWarnings("deprecation")
 public void run() {
@@ -411,16 +492,14 @@ public void run() {
      * server. Once we received that then we want to break.
      */
     String responseLine = "";
-    String responseLineWithoutLetter = "";
-    String[] respo;
+    
+    
     try {
       while ((responseLine = is.readLine()) != null) {
         System.out.println(responseLine);
         if (responseLine.startsWith("H")) {
-        responseLineWithoutLetter = responseLine.substring(1);
-        respo = responseLineWithoutLetter.split(",");
-        ekranCardsDealer(respo);
-        System.out.println(responseLineWithoutLetter);
+        ekranCardsDealer(splited(lineWithoutLetter(responseLine))); // ciekawe co na to nasz wykladowca :D
+        //System.out.println(responseLineWithoutLetter);
         //ekranLabelSetter(responseLineWithoutLetter);
         }
         if (responseLine.indexOf("Q ") != -1) {
