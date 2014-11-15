@@ -43,83 +43,24 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	card2,
 	card3,
 	card4;
-			ImageIcon karta0 = createImageIcon("/image/0.png");
-			ImageIcon karta1 = createImageIcon("/image/1.png");
-			ImageIcon karta2 = createImageIcon("/image/2.png");
-			ImageIcon karta3 = createImageIcon("/image/3.png");
-			ImageIcon karta4 = createImageIcon("/image/4.png");
-			ImageIcon karta5 = createImageIcon("/image/5.png");
-			ImageIcon karta6 = createImageIcon("/image/6.png");
-			ImageIcon karta7 = createImageIcon("/image/7.png");
-			ImageIcon karta8 = createImageIcon("/image/8.png");
-			ImageIcon karta9 = createImageIcon("/image/9.png");
-			ImageIcon karta10 = createImageIcon("/image/10.png");
-			ImageIcon karta11 = createImageIcon("/image/11.png");
-			ImageIcon karta12 = createImageIcon("/image/12.png");
-			ImageIcon karta13 = createImageIcon("/image/13.png");
-			ImageIcon karta14 = createImageIcon("/image/14.png");
-			ImageIcon karta15 = createImageIcon("/image/15.png");
-			ImageIcon karta16 = createImageIcon("/image/16.png");
-			ImageIcon karta17 = createImageIcon("/image/17.png");
-			ImageIcon karta18 = createImageIcon("/image/18.png");
-			ImageIcon karta19 = createImageIcon("/image/19.png");
-			ImageIcon karta20 = createImageIcon("/image/20.png");
-			ImageIcon karta21 = createImageIcon("/image/21.png");
-			ImageIcon karta22 = createImageIcon("/image/22.png");
-			ImageIcon karta23 = createImageIcon("/image/23.png");
-			ImageIcon karta24 = createImageIcon("/image/24.png");
-			ImageIcon karta25 = createImageIcon("/image/25.png");
-			ImageIcon karta26 = createImageIcon("/image/26.png");
-			ImageIcon karta27 = createImageIcon("/image/27.png");
-			ImageIcon karta28 = createImageIcon("/image/28.png");
-			ImageIcon karta29 = createImageIcon("/image/29.png");
-			ImageIcon karta30 = createImageIcon("/image/30.png");
-			ImageIcon karta31 = createImageIcon("/image/31.png");
-			ImageIcon karta32 = createImageIcon("/image/32.png");
-			ImageIcon karta33 = createImageIcon("/image/33.png");
-			ImageIcon karta34 = createImageIcon("/image/34.png");
-			ImageIcon karta35 = createImageIcon("/image/35.png");
-			ImageIcon karta36 = createImageIcon("/image/36.png");
-			ImageIcon karta37 = createImageIcon("/image/37.png");
-			ImageIcon karta38 = createImageIcon("/image/38.png");
-			ImageIcon karta39 = createImageIcon("/image/39.png");
-			ImageIcon karta40 = createImageIcon("/image/40.png");
-			ImageIcon karta41 = createImageIcon("/image/41.png");
-			ImageIcon karta42 = createImageIcon("/image/42.png");
-			ImageIcon karta43 = createImageIcon("/image/43.png");
-			ImageIcon karta44 = createImageIcon("/image/44.png");
-			ImageIcon karta45 = createImageIcon("/image/45.png");
-			ImageIcon karta46 = createImageIcon("/image/46.png");
-			ImageIcon karta47 = createImageIcon("/image/47.png");
-			ImageIcon karta48 = createImageIcon("/image/48.png");
-			ImageIcon karta49 = createImageIcon("/image/49.png");
-			ImageIcon karta50 = createImageIcon("/image/50.png");
-			ImageIcon karta51 = createImageIcon("/image/51.png");
-   
+
 
 	public static class ContentPane extends JPanel {
 
-	    
 		public ContentPane() {
-
 	        setOpaque(false);
-
 	    }
 
 	    @Override
 	    protected void paintComponent(Graphics g) {
-
 	        // Allow super to paint
 	        super.paintComponent(g);
-
 	        // Apply our own painting effect
 	        Graphics2D g2d = (Graphics2D) g.create();
 	        // 50% transparent Alpha
 	        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-
 	        g2d.setColor(getBackground());
 	        g2d.fill(getBounds());
-
 	        g2d.dispose();
 
 	    }
@@ -134,9 +75,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         setSize(dim);
         setUndecorated(true);
         setBackground(new Color(0, 255, 0, 0));
-        
-        
-       
+
         ImageIcon test 		= 	createImageIcon("/image/test.gif");
         ImageIcon las 		= 	createImageIcon("/image/las.jpeg");
         ImageIcon karty 	= 	createImageIcon("/image/karty.gif");
@@ -148,8 +87,63 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         ImageIcon check 	= 	createImageIcon("/image/check.gif");
         ImageIcon p1		= 	createImageIcon("/image/p1.gif");
         ImageIcon p10 		= 	createImageIcon("/image/p10.gif");
-        
-
+         final ImageIcon[] kartyIco =null;
+         /*for(int i=0; i<=51; i++) {
+        	 System.out.println("kartyIco["+i+"] = createImageIcon(\"/image/"+i+".png\")");
+         }*/
+	   		/*	kartyIco[0] = createImageIcon("/image/0.png");
+			   kartyIco[1] = createImageIcon("/image/1.png");
+			   kartyIco[2] = createImageIcon("/image/2.png");
+			   kartyIco[3] = createImageIcon("/image/3.png");
+			   kartyIco[4] = createImageIcon("/image/4.png");
+			   kartyIco[5] = createImageIcon("/image/5.png");
+			   kartyIco[6] = createImageIcon("/image/6.png");
+			   kartyIco[7] = createImageIcon("/image/7.png");
+			   kartyIco[8] = createImageIcon("/image/8.png");
+			   kartyIco[9] = createImageIcon("/image/9.png");
+			   kartyIco[10] = createImageIcon("/image/10.png");
+			   kartyIco[11] = createImageIcon("/image/11.png");
+			   kartyIco[12] = createImageIcon("/image/12.png");
+			   kartyIco[13] = createImageIcon("/image/13.png");
+			   kartyIco[14] = createImageIcon("/image/14.png");
+			   kartyIco[15] = createImageIcon("/image/15.png");
+			   kartyIco[16] = createImageIcon("/image/16.png");
+			   kartyIco[17] = createImageIcon("/image/17.png");
+			   kartyIco[18] = createImageIcon("/image/18.png");
+			   kartyIco[19] = createImageIcon("/image/19.png");
+			   kartyIco[20] = createImageIcon("/image/20.png");
+			   kartyIco[21] = createImageIcon("/image/21.png");
+			   kartyIco[22] = createImageIcon("/image/22.png");
+			   kartyIco[23] = createImageIcon("/image/23.png");
+			   kartyIco[24] = createImageIcon("/image/24.png");
+			   kartyIco[25] = createImageIcon("/image/25.png");
+			   kartyIco[26] = createImageIcon("/image/26.png");
+			   kartyIco[27] = createImageIcon("/image/27.png");
+			   kartyIco[28] = createImageIcon("/image/28.png");
+			   kartyIco[29] = createImageIcon("/image/29.png");
+			   kartyIco[30] = createImageIcon("/image/30.png");
+			   kartyIco[31] = createImageIcon("/image/31.png");
+			   kartyIco[32] = createImageIcon("/image/32.png");
+			   kartyIco[33] = createImageIcon("/image/33.png");
+			   kartyIco[34] = createImageIcon("/image/34.png");
+			   kartyIco[35] = createImageIcon("/image/35.png");
+			   kartyIco[36] = createImageIcon("/image/36.png");
+			   kartyIco[37] = createImageIcon("/image/37.png");
+			   kartyIco[38] = createImageIcon("/image/38.png");
+			   kartyIco[39] = createImageIcon("/image/39.png");
+			   kartyIco[40] = createImageIcon("/image/40.png");
+			   kartyIco[41] = createImageIcon("/image/41.png");
+			   kartyIco[42] = createImageIcon("/image/42.png");
+			   kartyIco[43] = createImageIcon("/image/43.png");
+			   kartyIco[44] = createImageIcon("/image/44.png");
+			   kartyIco[45] = createImageIcon("/image/45.png");
+			   kartyIco[46] = createImageIcon("/image/46.png");
+			   kartyIco[47] = createImageIcon("/image/47.png");
+			   kartyIco[48] = createImageIcon("/image/48.png");
+			   kartyIco[49] = createImageIcon("/image/49.png");
+			   kartyIco[50] = createImageIcon("/image/50.png");
+			   kartyIco[51] = createImageIcon("/image/51.png");
+*/
         frame.setContentPane(new ContentPane());
         frame.getContentPane().setBackground(Color.BLACK);
         setLayout(new BorderLayout());
@@ -161,19 +155,17 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         setLayout(new BorderLayout());
         add(contentPane);
 
-        JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+      /*  JPanel pnlButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlButtons.setOpaque(false);
         pnlButtons.add(new JButton("<<"));
         pnlButtons.add(new JButton("<"));
         pnlButtons.add(new JButton(">"));
         pnlButtons.add(new JButton(">>"));
-
         frame.getContentPane().add(pnlButtons, BorderLayout.SOUTH);
-
         setVisible(true);
-
-        ekranLabel=new JTextArea(5, 5);
-        ekranLabel2=new JTextArea(1,7);
+*/
+        ekranLabel=new JTextArea(1, 7);
+        ekranLabel2=new JTextArea(1,9);
         ekranLabel.setBounds(3, 3, 300, 200);
         Font font = new Font("Verdana", Font.BOLD, 19);
         Font font2 = new Font("Serif", Font.ITALIC, 24);
@@ -181,10 +173,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         ekranLabel.setForeground(Color.BLACK);
         ekranLabel2.setFont(font2);
         ekranLabel.setForeground(Color.DARK_GRAY);
-        
-        
+
         frame.getContentPane().setLayout(new GridLayout(2, 6));
-        
+
         buttonname = new JButton();
         buttonname.setIcon(test);
         buttonname.addActionListener(new ActionListenerButton() {
@@ -194,9 +185,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(buttonname);
-        
+
         handButton = new JButton();
-        handButton.setIcon(karta0);
+        handButton.setIcon(hand);
         handButton.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
         		//System.out.println("handbutton clicked.");
@@ -204,15 +195,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(handButton);
-        betButton = new JButton("Bet");
-        betButton.setIcon(raise);
-        contentPane.add(betButton);
-        betButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e){
-        		//System.out.println("Bet clicked.");
-        		ekranLabel.setText("bet");
-        	}
-        });
+
         checkButton = new JButton("Check");
         checkButton.setIcon(check);
         contentPane.add(checkButton);
@@ -241,7 +224,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(ekranLabel2);
-        
+
         plus1Button = new JButton("$ +1");
         plus1Button.setIcon(p1);
         contentPane.add(plus1Button);
@@ -276,18 +259,30 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("-10");
         	}
         });
-        
+        betButton = new JButton("Bet");
+        betButton.setIcon(raise);
+        contentPane.add(betButton);
+        betButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		//System.out.println("Bet clicked.");
+        		ekranLabel.setText("bet");
+        	}
+        });
         card1 = new JButton("card1");
         //card1.setIcon(raise);
         contentPane.add(card1);
         card1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
+        		int i = 0;
+        		for( i=0; i<=51; i++) {
+        			//card1.setIcon();
+        		}
         		//System.out.println("Bet clicked.");
         		ekranLabel.setText("card1 chosen");
         	}
         });
         contentPane.add(card1);
-        
+
         card2 = new JButton("card2");
         //card2.setIcon(raise);
         contentPane.add(card2);
@@ -298,7 +293,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(card2);
-       
+
         card3 = new JButton("card3");
         //card3.setIcon(raise);
         contentPane.add(card3);
@@ -309,7 +304,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(card3);
-       
+
         card4 = new JButton("card4");
         //card4.setIcon(raise);
         contentPane.add(card4);
@@ -321,18 +316,17 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         });
         contentPane.add(card4);
         contentPane.add(ekranLabel);
-        
-        
+
         frame.setContentPane(contentPane);
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
 
-	
-	private ImageIcon createImageIcon(String path) {
+
+	private static ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
-		//System.out.println(path);
+		System.out.println(path);
 		if (imgURL != null) {
 		return new ImageIcon(imgURL);
 		}
@@ -353,11 +347,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
-            
-        }
 
-        
-        
+        }
 
         @Override
         public Dimension getPreferredSize() {
@@ -370,19 +361,73 @@ public class MultiThreadChatClient extends Frame implements Runnable {
             g.drawImage(image, 0, 0, this);
         }
     }
-	
+
   // The client socket
   private static Socket 			clientSocket 	= null;
   // The output stream
   private static PrintStream		os 				= null;
   // The input stream
   private static DataInputStream 	is 				= null;
-
   private static BufferedReader 	inputLine 		= null;
-  
   private static boolean 			closed 			= false;
   public static void main(String[] args) {
-
+	   final ImageIcon[] kartyIco =null;
+       /*for(int i=0; i<=51; i++) {
+      	 System.out.println("kartyIco["+i+"] = createImageIcon(\"/image/"+i+".png\")");
+       }*/
+	   		/*kartyIco[0] = createImageIcon("/image/0.png");
+			   kartyIco[1] = createImageIcon("/image/1.png");
+			   kartyIco[2] = createImageIcon("/image/2.png");
+			   kartyIco[3] = createImageIcon("/image/3.png");
+			   kartyIco[4] = createImageIcon("/image/4.png");
+			   kartyIco[5] = createImageIcon("/image/5.png");
+			   kartyIco[6] = createImageIcon("/image/6.png");
+			   kartyIco[7] = createImageIcon("/image/7.png");
+			   kartyIco[8] = createImageIcon("/image/8.png");
+			   kartyIco[9] = createImageIcon("/image/9.png");
+			   kartyIco[10] = createImageIcon("/image/10.png");
+			   kartyIco[11] = createImageIcon("/image/11.png");
+			   kartyIco[12] = createImageIcon("/image/12.png");
+			   kartyIco[13] = createImageIcon("/image/13.png");
+			   kartyIco[14] = createImageIcon("/image/14.png");
+			   kartyIco[15] = createImageIcon("/image/15.png");
+			   kartyIco[16] = createImageIcon("/image/16.png");
+			   kartyIco[17] = createImageIcon("/image/17.png");
+			   kartyIco[18] = createImageIcon("/image/18.png");
+			   kartyIco[19] = createImageIcon("/image/19.png");
+			   kartyIco[20] = createImageIcon("/image/20.png");
+			   kartyIco[21] = createImageIcon("/image/21.png");
+			   kartyIco[22] = createImageIcon("/image/22.png");
+			   kartyIco[23] = createImageIcon("/image/23.png");
+			   kartyIco[24] = createImageIcon("/image/24.png");
+			   kartyIco[25] = createImageIcon("/image/25.png");
+			   kartyIco[26] = createImageIcon("/image/26.png");
+			   kartyIco[27] = createImageIcon("/image/27.png");
+			   kartyIco[28] = createImageIcon("/image/28.png");
+			   kartyIco[29] = createImageIcon("/image/29.png");
+			   kartyIco[30] = createImageIcon("/image/30.png");
+			   kartyIco[31] = createImageIcon("/image/31.png");
+			   kartyIco[32] = createImageIcon("/image/32.png");
+			   kartyIco[33] = createImageIcon("/image/33.png");
+			   kartyIco[34] = createImageIcon("/image/34.png");
+			   kartyIco[35] = createImageIcon("/image/35.png");
+			   kartyIco[36] = createImageIcon("/image/36.png");
+			   kartyIco[37] = createImageIcon("/image/37.png");
+			   kartyIco[38] = createImageIcon("/image/38.png");
+			   kartyIco[39] = createImageIcon("/image/39.png");
+			   kartyIco[40] = createImageIcon("/image/40.png");
+			   kartyIco[41] = createImageIcon("/image/41.png");
+			   kartyIco[42] = createImageIcon("/image/42.png");
+			   kartyIco[43] = createImageIcon("/image/43.png");
+			   kartyIco[44] = createImageIcon("/image/44.png");
+			   kartyIco[45] = createImageIcon("/image/45.png");
+			   kartyIco[46] = createImageIcon("/image/46.png");
+			   kartyIco[47] = createImageIcon("/image/47.png");
+			   kartyIco[48] = createImageIcon("/image/48.png");
+			   kartyIco[49] = createImageIcon("/image/49.png");
+			   kartyIco[50] = createImageIcon("/image/50.png");
+			   kartyIco[51] = createImageIcon("/image/51.png");
+			   */
     // The default port.
     int portNumber = 8969;
     // The default host.
@@ -396,11 +441,11 @@ public class MultiThreadChatClient extends Frame implements Runnable {
       host = args[0];
       portNumber = Integer.valueOf(args[1]).intValue();
     }
-    
+
     try {
 		new MultiThreadChatClient().displayGUI();
 	} catch (Exception e) {
-		
+
 		e.printStackTrace();
 		System.exit(-1);
 	}
@@ -449,36 +494,61 @@ public class MultiThreadChatClient extends Frame implements Runnable {
   public void ekranLabelSetter(String respoLine) {
 	  MultiThreadChatClient.ekranLabel.setText(respoLine);
   }
-  public void ekranButtonCardDisplayer() {
+  public void ekranButtonCardDisplayer(int[] splittedInt) {
 	  card1.setIcon(null);
 	  card2.setIcon(null);
 	  card3.setIcon(null);
 	  card4.setIcon(null);
-	  
   }
   public int[] splittedToInt(String[] splitted) {
 	int[] splittedInt = null;
+	try {
 	splittedInt[0]=Integer.parseInt(splitted[0]);
 	splittedInt[1]=Integer.parseInt(splitted[1]);
 	splittedInt[2]=Integer.parseInt(splitted[2]);
 	splittedInt[3]=Integer.parseInt(splitted[3]);
 	return splittedInt;
+	} catch(Exception e) {
+		System.out.println("splittedToInt(String[] splitted): "+e);
+	}
+	return splittedInt;
+  }
+  public String toStr(int x) {
+	  return Integer.toString(x);
   }
   public void ekranCardsDealer(String[] respo) {
-	  int[] hajduk=splittedToInt(respo);
 	  if (respo.length < 5 && respo.length > 3) {
-		  card1.setText(respo[0]);
-		  card2.setText(respo[1]);
-		  card3.setText(respo[2]);
-		  card4.setText(respo[3]);
-		 // card1.setIcon();
-		  
+		 // int[] respoINT = splittedToInt(respo);
+		  /*int a,b,c,d;
+		  //for(int i = 0; i<=3; i++)
+		  int test = Integer.parseInt(respo[0]);
+			  a=test%13;
+			  test = Integer.parseInt(respo[1]);
+			  b=test%13;
+			  test = Integer.parseInt(respo[2]);
+			  c=test%13;
+			  test = Integer.parseInt(respo[3]);
+			  d=test%13;
+			  card1.setText(toStr(a));
+			  card2.setText(toStr(b));
+			  card3.setText(toStr(c));
+			  card4.setText(toStr(d)); */
+			card1.setText(respo[0]);
+			card2.setText(respo[1]);
+			card3.setText(respo[2]);
+			card4.setText(respo[3]);
+			//card1.setIcon();
 	  }
   }
   public String lineWithoutLetter(String res) {
 	  String responseLineWithoutLetter = "";
 	  responseLineWithoutLetter = res.substring(1);
 	  return responseLineWithoutLetter;
+  }
+  public String withoutRegx(String splitMe) {
+	  String[] regX;
+	  regX = splitMe.split(";");
+	  return regX[0];
   }
   public String[] splited(String splitMe) {
 	  String[] respo;
@@ -492,13 +562,12 @@ public void run() {
      * server. Once we received that then we want to break.
      */
     String responseLine = "";
-    
-    
+
     try {
       while ((responseLine = is.readLine()) != null) {
         System.out.println(responseLine);
-        if (responseLine.startsWith("H")) {
-        ekranCardsDealer(splited(lineWithoutLetter(responseLine))); // ciekawe co na to nasz wykladowca :D
+        if (responseLine.startsWith("H") && responseLine.length()>4) {
+        ekranCardsDealer(splited(withoutRegx(lineWithoutLetter(responseLine)))); // ciekawe co na to nasz wykladowca :D
         //System.out.println(responseLineWithoutLetter);
         //ekranLabelSetter(responseLineWithoutLetter);
         }
