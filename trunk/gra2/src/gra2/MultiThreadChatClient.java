@@ -27,7 +27,23 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private MyPanel contentPane;
 	//Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
-	JTextArea ekranLabel, ekranLabel2;
+	public static JTextArea ekranLabel;
+	public static JTextArea ekranLabel2;
+	public static JButton buttonname,
+    handButton,
+    betButton,
+    checkButton,
+    raiseButton,
+    foldButton,
+    plus1Button,
+    plus10Button,
+    minus1Button,
+    minus10Button,
+	card1,
+	card2,
+	card3,
+	card4;
+   
 
 	public class ContentPane extends JPanel {
 
@@ -65,6 +81,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         setSize(dim);
         setUndecorated(true);
         setBackground(new Color(0, 255, 0, 0));
+        
+        
         
         
         ImageIcon test 		= 	createImageIcon("/image/test.gif");
@@ -113,7 +131,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         
         
         frame.getContentPane().setLayout(new GridLayout(2, 6));
-        JButton buttonname;
+        
         buttonname = new JButton();
         buttonname.setIcon(test);
         buttonname.addActionListener(new ActionListenerButton() {
@@ -123,7 +141,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(buttonname);
-        JButton handButton;
+        
         handButton = new JButton();
         handButton.setIcon(hand);
         handButton.addActionListener(new ActionListenerButton() {
@@ -133,7 +151,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         contentPane.add(handButton);
-        JButton betButton = new JButton("Bet");
+        betButton = new JButton("Bet");
         betButton.setIcon(raise);
         contentPane.add(betButton);
         betButton.addActionListener(new ActionListener() {
@@ -142,7 +160,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("bet");
         	}
         });
-        JButton checkButton = new JButton("Check");
+        checkButton = new JButton("Check");
         checkButton.setIcon(check);
         contentPane.add(checkButton);
         checkButton.addActionListener(new ActionListener() {
@@ -151,7 +169,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("check");
         	}
         });
-        JButton raiseButton = new JButton("Raise");
+        raiseButton = new JButton("Raise");
         raiseButton.setIcon(raise);
         contentPane.add(raiseButton);
         raiseButton.addActionListener(new ActionListener() {
@@ -160,7 +178,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("raise");
         	}
         });
-        JButton foldButton = new JButton("Fold");
+        foldButton = new JButton("Fold");
         foldButton.setIcon(fold);
         contentPane.add(foldButton);
         foldButton.addActionListener(new ActionListener() {
@@ -171,7 +189,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         });
         contentPane.add(ekranLabel2);
         
-        JButton plus1Button = new JButton("$ +1");
+        plus1Button = new JButton("$ +1");
         plus1Button.setIcon(p1);
         contentPane.add(plus1Button);
         plus1Button.addActionListener(new ActionListener() {
@@ -180,7 +198,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("+1");
         	}
         });
-        JButton minus1Button = new JButton("$ -1");
+        minus1Button = new JButton("$ -1");
         contentPane.add(minus1Button);
         minus1Button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
@@ -188,7 +206,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("-1");
         	}
         });
-        JButton plus10Button = new JButton("$ +10");
+        plus10Button = new JButton("$ +10");
         plus10Button.setIcon(p10);
         contentPane.add(plus10Button);
         plus10Button.addActionListener(new ActionListener() {
@@ -197,7 +215,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		ekranLabel.setText("+10");
         	}
         });
-        JButton minus10Button = new JButton("$ -10");
+        minus10Button = new JButton("$ -10");
         contentPane.add(minus10Button);
         minus10Button.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
@@ -206,6 +224,49 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	}
         });
         
+        card1 = new JButton("card1");
+        //card1.setIcon(raise);
+        contentPane.add(card1);
+        card1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		//System.out.println("Bet clicked.");
+        		ekranLabel.setText("card1 chosen");
+        	}
+        });
+        contentPane.add(card1);
+        
+        card2 = new JButton("card2");
+        //card2.setIcon(raise);
+        contentPane.add(card2);
+        card2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		//System.out.println("Bet clicked.");
+        		ekranLabel.setText("card2 chosen");
+        	}
+        });
+        contentPane.add(card2);
+       
+        card3 = new JButton("card3");
+        //card3.setIcon(raise);
+        contentPane.add(card3);
+        card3.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		//System.out.println("Bet clicked.");
+        		ekranLabel.setText("card3 chosen");
+        	}
+        });
+        contentPane.add(card3);
+       
+        card4 = new JButton("card4");
+        //card4.setIcon(raise);
+        contentPane.add(card4);
+        card4.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e){
+        		//System.out.println("Bet clicked.");
+        		ekranLabel.setText("card4 chosen");
+        	}
+        });
+        contentPane.add(card4);
         contentPane.add(ekranLabel);
         
         
@@ -214,9 +275,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
-	/*public void labelSetText(String responseLineGetter) {
-		((JTextComponent) contentPane.ekranLabel).setText(responseLineGetter);
-	}*/
+
 	
 	private ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
@@ -232,7 +291,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private class MyPanel extends JPanel {
 
-        public Object ekranLabel;
+       // public JTextArea ekranLabel;
 		private BufferedImage image;
         //JPanel myPanel;
         public MyPanel() {
@@ -334,22 +393,36 @@ public class MultiThreadChatClient extends Frame implements Runnable {
   /*
    * Create a thread to read from the server.
    */
-  public void run() {
+  public void ekranLabelSetter(String respoLine) {
+	  MultiThreadChatClient.ekranLabel.setText(respoLine);
+  }
+  public void ekranCardsDealer(String respo[]) {
+	  if (respo.length < 5 && respo.length > 3) {
+		  card1.setText(respo[0]);
+		  card2.setText(respo[1]);
+		  card3.setText(respo[2]);
+		  card4.setText(respo[3]);
+	  }
+  }
+  @SuppressWarnings("deprecation")
+public void run() {
     /*
      * Keep on reading from the socket till we receive "Bye" from the
      * server. Once we received that then we want to break.
      */
-	  
-	  //TU WSTAWIC DO JTEXTAREA/JTEXTFIELD 
-	  //t1.append();
-	  //
-    String responseLine;
+    String responseLine = "";
+    String responseLineWithoutLetter = "";
+    String[] respo;
     try {
       while ((responseLine = is.readLine()) != null) {
-        System.out.println(responseLine+" lol");
-       //STAD TEKST LECI PROSTO DO METODY WPROWADZAJACEJ GO DO ekranLabel
-       //labelSetText(responseLine);
-        
+        System.out.println(responseLine);
+        if (responseLine.startsWith("H")) {
+        responseLineWithoutLetter = responseLine.substring(1);
+        respo = responseLineWithoutLetter.split(",");
+        ekranCardsDealer(respo);
+        System.out.println(responseLineWithoutLetter);
+        //ekranLabelSetter(responseLineWithoutLetter);
+        }
         if (responseLine.indexOf("Q ") != -1) {
           break;
         }
