@@ -179,7 +179,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		});
 		contentPane.add(resetButton);
 
-		drowButton = new JButton("Drow");
+		drowButton = new JButton();
 		drowButton.setIcon(drow);
 		drowButton.addActionListener(new ActionListenerButton() {
 			public void actionPerformed(ActionEvent e) {
@@ -238,7 +238,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		});
 		contentPane.add(ekranKasa);
 
-		plus1Button = new JButton("$ +1");
+		plus1Button = new JButton();
 		plus1Button.setIcon(p1);
 		contentPane.add(plus1Button);
 		plus1Button.addActionListener(new ActionListener() {
@@ -248,7 +248,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
-		minus1Button = new JButton("$ -1");
+		minus1Button = new JButton();
 		minus1Button.setIcon(m1);
 		contentPane.add(minus1Button);
 		minus1Button.addActionListener(new ActionListener() {
@@ -258,7 +258,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
-		plus10Button = new JButton("$ +10");
+		plus10Button = new JButton();
 		plus10Button.setIcon(p10);
 		contentPane.add(plus10Button);
 		plus10Button.addActionListener(new ActionListener() {
@@ -268,7 +268,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
-		minus10Button = new JButton("$ -10");
+		minus10Button = new JButton();
 		minus10Button.setIcon(m10);
 		contentPane.add(minus10Button);
 		minus10Button.addActionListener(new ActionListener() {
@@ -278,7 +278,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
-		betButton = new JButton("Bet");
+		betButton = new JButton();
 		betButton.setIcon(bet);
 		contentPane.add(betButton);
 		betButton.addActionListener(new ActionListener() {
