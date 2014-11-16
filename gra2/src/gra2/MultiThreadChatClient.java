@@ -249,6 +249,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			}
 		});
 		minus1Button = new JButton("$ -1");
+		minus1Button.setIcon(m1);
 		contentPane.add(minus1Button);
 		minus1Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -268,6 +269,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			}
 		});
 		minus10Button = new JButton("$ -10");
+		minus10Button.setIcon(m10);
 		contentPane.add(minus10Button);
 		minus10Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
