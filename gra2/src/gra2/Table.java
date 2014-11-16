@@ -20,6 +20,9 @@ public class Table {
 	private boolean firstBet=false;
 	private int checkCount=0;
 	private int lastRise=0;
+	private int smallBind;
+	private boolean sB=false;
+	private boolean bB=false;
 	
 	Table(int players,int startMoney)
 	{
@@ -33,6 +36,7 @@ public class Table {
 		for(int i=0; i<playerStatus.length; i++) {
 			playerStatus[i]='T';
 		}
+		smallBind=startMoney/10;
 		dealer=1;
 		//returnCards.add((int) 1);
 	}
@@ -46,6 +50,26 @@ public class Table {
 			dealer++;
 		}
 	}
+	public boolean getsB()
+	{
+		return sB;
+	}
+	
+	public boolean getbB()
+	{
+		return bB;
+	}
+	
+	public void changesB()
+	{
+		sB=true;
+	}
+	
+	public void changeB()
+	{
+		bB=true;
+	}
+	
 	public int getDealer() {
 		return this.dealer;
 	}
@@ -70,7 +94,7 @@ public class Table {
 	}
 	
 	public void incTura() {
-		if(tura==4) {
+		if(tura==5) {
 			tura=0;
 			firstBet=false;
 			lastRise=0;
@@ -240,6 +264,35 @@ public class Table {
 			break;
 			
 		}
+	}
+	public void endRound()
+	{
+		deck=new Deck();
+		returnCards.clear();
+		for(int i=0; i<playerStatus.length; i++) 
+		{
+			playerStatus[i]='T';
+		}
+		currentPlayer=1;
+		firstBet=false;
+		checkCount=0;
+		lastRise=0;
+		sB=false;
+		bB=false;
+		tura=0;
+		playerHands=new int[(players*4)+1];
+		
+	}
+	public void paySmall(int player)
+	{
+		if(bank.accountValue[player]>smallBind)bet(player,"A");
+		else bank.bet(player, smallBind);
+	}
+	
+	public void payBig(int player)
+	{
+		if(bank.accountValue[player]>smallBind*2)bet(player,"A");
+		else bank.bet(player, smallBind*2);
 	}
 	
 	public String getAccountValue(int player)
