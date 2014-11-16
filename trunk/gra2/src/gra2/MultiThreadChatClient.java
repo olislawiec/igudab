@@ -22,41 +22,54 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.UnknownHostException;
 
+/**
+ *
+ *
+ */
 public class MultiThreadChatClient extends Frame implements Runnable {
 
-	private MyPanel contentPane;
+	private MyPanel contentPane; // /GUI panel container
 	// Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P,
 	// btn10M, btnB, btnG ;
-	public static JTextArea ekranLabel;
-	public static JTextArea ekranLabel2;
-	public static JLabel ekranKasa;
-	public static JLabel ekranPula;
-	public static String texter = "";
-	public static int intTexter = 0;
+	public static JTextArea ekranLabel; // /screen for displaying players moves
+	public static JTextArea ekranLabel2; // /screen for displaying players moves
+	public static JLabel ekranKasa; // /screen for displaying amount of cash for
+									// this.player
+	public static JLabel ekranPula; // /not imple yet
+	public static String texter = ""; // /field to sending msgs
+	public static int intTexter = 0; // /sum for texter param
 	public static JButton buttonname, handButton, betButton, checkButton,
 			allInButton, callButton, raiseButton, foldButton, drowButton,
 			plus1Button, plus10Button, resetButton, minus1Button,
-			minus10Button, card1, card2, card3, card4;
+			minus10Button, card1, card2, card3, card4;// /buttons in GUI
+	public static String[] kolory = new String[4];
+	public static String[] karty = new String[13];
 	// The client socket
-	private static Socket clientSocket = null;
+	private static Socket clientSocket = null; // /client's socket
 	// The output stream
-	private static PrintStream os = null;
+	private static PrintStream os = null;// /output stream
 	// The input stream
-	private static DataInputStream is = null;
-	private static BufferedReader inputLine = null;
-	private static boolean closed = false;
+	private static DataInputStream is = null;// /input stream
+	private static BufferedReader inputLine = null;// /inputline from
+													// bufferedreader
+	private static boolean closed = false;// /bool for closing thread
 
 	public static class ContentPane extends JPanel {
 
 		/**
-		 *
-		 */
+         *
+         */
 		private static final long serialVersionUID = 1L;
 
 		public ContentPane() {
 			setOpaque(false);
 		}
 
+		/**
+		 * 
+		 * @param g
+		 *            graphic object for painting component
+		 */
 		@Override
 		protected void paintComponent(Graphics g) {
 			// Allow super to paint
@@ -74,6 +87,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 	}
 
+	/**
+	 * DisplayGUI() is method for displaying and setting gui in MyPanel(); with
+	 * icons and buttons
+	 */
 	private void displayGUI() {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		JFrame frame = new JFrame("Badugi POKERLIKE");
@@ -349,6 +366,13 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * 
+	 * @param entry
+	 *            entrance for calculus
+	 * @return result of calculus
+	 * @throws ScriptException
+	 */
 	public static String calc(String entry) throws ScriptException {
 		ScriptEngineManager mgr = new ScriptEngineManager();
 		ScriptEngine engine = mgr.getEngineByName("JavaScript");
@@ -359,13 +383,19 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		return entry;
 	}
 
+	/**
+	 * 
+	 * @param msgFromClientToServer
+	 *            message from client to server when prompted
+	 * @return message of null ? depends on round
+	 */
 	public static BufferedReader send(String msgFromClientToServer) {
 
 		try {
 			StringReader sr = new StringReader(msgFromClientToServer);
 			BufferedReader br = new BufferedReader(sr);
 			os.println(br.readLine());
-			//System.out.println(br.readLine() + "_syso5_sender");
+			System.out.println(br.readLine() + "_syso5_sender");
 			return br;
 		} catch (Exception e) {
 			System.out.println("send(String msgFromClientToServer): " + e);
@@ -374,9 +404,15 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		return null;
 	}
 
-	private static ImageIcon createImageIcon(String path) {
+	/**
+	 * 
+	 * @param path
+	 *            pathline to the icon in: jpg,png,gif
+	 * @return ImageIcon
+	 */
+	static ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
-		//System.out.println(path);
+		// System.out.println(path);
 		if (imgURL != null) {
 			return new ImageIcon(imgURL);
 		} else {
@@ -401,12 +437,21 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 		}
 
+		/**
+		 * 
+		 * @return dimension of component
+		 */
 		@Override
 		public Dimension getPreferredSize() {
 			return image == null ? new Dimension(400, 300) : new Dimension(
 					image.getWidth(), image.getHeight());
 		}
 
+		/**
+		 * 
+		 * @param g
+		 *            graphics object to paint with Image
+		 */
 		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
@@ -414,6 +459,11 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param args
+	 *            entrance param to start Client
+	 */
 	public static void main(String[] args) {
 
 		// The default port.
@@ -452,9 +502,27 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			clientSocket = new Socket(host, portNumber);
 			inputLine = new BufferedReader(new InputStreamReader(System.in));
 			os = new PrintStream(clientSocket.getOutputStream()); // to:
-																	// klient->serwer
+			// klient->serwer
 			is = new DataInputStream(clientSocket.getInputStream());// to:
-																	// serwer->klient
+			kolory[0] = "Pik";
+			kolory[1] = "Karo";
+			kolory[2] = "Kier";
+			kolory[3] = "Trefl";
+			karty[0] = "As";
+			karty[1] = "2";
+			karty[2] = "3";
+			karty[3] = "4";
+			karty[4] = "5";
+			karty[5] = "6";
+			karty[6] = "7";
+			karty[7] = "8";
+			karty[8] = "9";
+			karty[9] = "10";
+			karty[10] = "J";
+			karty[11] = "D";
+			karty[12] = "K";
+
+			// serwer->klient
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + host);
 		} catch (IOException e) {
@@ -493,10 +561,21 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	/*
 	 * Create a thread to read from the server.
 	 */
+	/**
+	 * 
+	 * @param respoLine
+	 *            param to set text on ekranLabel
+	 */
 	public void ekranLabelSetter(String respoLine) {
 		MultiThreadChatClient.ekranLabel.setText(respoLine);
 	}
 
+	/**
+	 * 
+	 * @param splittedInt
+	 *            param for splitting to set the cards and their icons not impe
+	 *            yet
+	 */
 	public void ekranButtonCardDisplayer(int[] splittedInt) {
 		card1.setIcon(null);
 		card2.setIcon(null);
@@ -504,6 +583,12 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		card4.setIcon(null);
 	}
 
+	/**
+	 * 
+	 * @param splitted
+	 *            param to get splitted into Integer
+	 * @return
+	 */
 	public int[] splittedToInt(String[] splitted) {
 		int[] splittedInt = null;
 		try {
@@ -518,29 +603,61 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		return splittedInt;
 	}
 
+	/**
+	 * 
+	 * @param x
+	 *            integer becoming
+	 * @return String made from x
+	 */
 	public static String toStr(int x) {
 		return Integer.toString(x);
 	}
 
+	/**
+	 * 
+	 * @param xs
+	 *            String becoming
+	 * @return Integer made of xs
+	 */
 	public static int toInt(String xs) {
 		return Integer.parseInt(xs);
 	}
 
+	/**
+	 * 
+	 * @param respo
+	 *            to split and set cards into buttons
+	 */
 	public void ekranCardsDealer(String[] respo) {
 		if (respo.length < 5 && respo.length > 3) {
-			card1.setText(respo[0]);
-			card2.setText(respo[1]);
-			card3.setText(respo[2]);
-			card4.setText(respo[3]);
+			card1.setText(kolory[toInt(respo[0]) % 13]);
+			card1.setText(card1.getText() + (karty[toInt(respo[0]) / 13]));
+			card2.setText(kolory[toInt(respo[1]) % 13]);
+			card2.setText(card2.getText() + (karty[toInt(respo[1]) / 13]));
+			card3.setText(kolory[toInt(respo[2]) % 13]);
+			card3.setText(card3.getText() + (karty[toInt(respo[2]) / 13]));
+			card4.setText(kolory[toInt(respo[3]) % 13]);
+			card4.setText(card4.getText() + (karty[toInt(respo[3]) / 13]));
 		}
 	}
 
+	/**
+	 * 
+	 * @param res
+	 *            string to substring it wihout first letter of B/D/H
+	 * @return same line without first char
+	 */
 	public String lineWithoutLetter(String res) {
 		String responseLineWithoutLetter = "";
 		responseLineWithoutLetter = res.substring(1);
 		return responseLineWithoutLetter;
 	}
 
+	/**
+	 * 
+	 * @param splitMe
+	 * @return splitMe without regex
+	 */
 	public String withoutRegx(String splitMe) {
 		String[] regX;
 		regX = splitMe.split(";");
@@ -553,6 +670,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		return respo;
 	}
 
+	/**
+	 * General method for corespondence with server
+	 */
 	@SuppressWarnings("deprecation")
 	public void run() {
 		/*
@@ -563,10 +683,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 		try {
 			while ((responseLine = is.readLine()) != null) {
-				//System.out.println(responseLine + "_syso3");
+				System.out.println(responseLine + "_syso3");
 				if (responseLine.startsWith("H") && responseLine.length() > 4) {
 					ekranCardsDealer(splited(withoutRegx(lineWithoutLetter(responseLine))));
-					//System.out.println(responseLine + "_syso2");
+					System.out.println(responseLine + "_syso2");
 					// ekranLabelSetter(responseLineWithoutLetter);
 				}
 				if (responseLine.indexOf("Q ") != -1) {
@@ -578,6 +698,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 				if (responseLine.startsWith("BA")) {
 					System.out.println("_syso4_widacBA?");
 				}
+				if (responseLine.startsWith("V")) {
+					ekranKasa.setText(responseLine.substring(1));
+				}
 			}
 			setClosed(true);
 		} catch (IOException e) {
@@ -586,7 +709,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	}
 
 	/**
-	 * @return the closed
+	 * @return the closed true = working, false =not working
 	 */
 	public static boolean isClosed() {
 		return closed;

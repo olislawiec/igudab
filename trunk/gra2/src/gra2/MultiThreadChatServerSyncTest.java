@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 /**
- * @author Arkadiusz
+ * 
  * 
  */
 public class MultiThreadChatServerSyncTest {
