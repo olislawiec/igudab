@@ -9,9 +9,11 @@ import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -121,7 +123,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         pnlButtons.add(new JButton(">>"));
         frame.getContentPane().add(pnlButtons, BorderLayout.SOUTH);
         setVisible(true);
-*/
+*/		
+        JTextArea instrukcja = new JTextArea();
+        instrukcja.setText("Najpierw wybierasz Akcje np.\n Drow, zeby dopisac do ekranLabel swoj ruch.\n potem wybierasz karty jakie chcesz wyslac\n i klikasz Wyslij, zeby poszlo.");
+        
         ekranLabel=new JTextArea(1, 7);
         ekranLabel2=new JTextArea(1,9);
         ekranLabel.setBounds(3, 3, 300, 200);
@@ -134,7 +139,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
         frame.getContentPane().setLayout(new GridLayout(2, 6));
 
-        buttonname = new JButton();
+        buttonname = new JButton("Wyslij");
         buttonname.setIcon(test);
         buttonname.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
@@ -145,15 +150,15 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         });
         contentPane.add(buttonname);
 
-        drowButton = new JButton();
-        drowButton.setIcon(test);
+        drowButton = new JButton("Drow");
+        drowButton.setIcon(null);
         drowButton.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
         		ekranLabel.setText("D");
         		//ekranLabel.setText("wymieniam Karty");
         	}
         });
-        contentPane.add(drowButton);
+        
         handButton = new JButton();
         handButton.setIcon(hand);
         handButton.addActionListener(new ActionListenerButton() {
@@ -238,6 +243,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         		
         	}
         });
+        contentPane.add(drowButton);
         card1 = new JButton("card1");
         //card1.setIcon(raise);
         contentPane.add(card1);
@@ -286,6 +292,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         });
         contentPane.add(card4);
         contentPane.add(ekranLabel);
+        contentPane.add(instrukcja);
 
         frame.setContentPane(contentPane);
         frame.pack();
