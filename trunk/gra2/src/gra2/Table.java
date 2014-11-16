@@ -21,6 +21,7 @@ public class Table {
 	private int checkCount=0;
 	private int lastRise=0;
 	private int smallBind;
+	private int playerL;
 	private boolean sB=false;
 	private boolean bB=false;
 	
@@ -38,6 +39,7 @@ public class Table {
 		}
 		smallBind=startMoney/10;
 		dealer=1;
+		playerL=players;
 		//returnCards.add((int) 1);
 	}
 	
@@ -54,7 +56,10 @@ public class Table {
 	{
 		return sB;
 	}
-	
+	public int getPlayerL()
+	{
+		return playerL;
+	}
 	public boolean getbB()
 	{
 		return bB;
@@ -239,6 +244,7 @@ public class Table {
 			bank.allIn(player);
 			playerStatus[player]='A';
 			incCurrentPlayer();
+			playerL--;
 			break;
 		case 'C':
 			Messange="Player:"+player+" - Call";
@@ -255,6 +261,7 @@ public class Table {
 		case'F':
 			Messange="Player:"+player+" - Fold";
 			playerStatus[player]='F';
+			playerL--;
 			incCurrentPlayer();
 			break;
 		case 'S':
@@ -280,7 +287,9 @@ public class Table {
 		sB=false;
 		bB=false;
 		tura=0;
+		playerL=players;
 		playerHands=new int[(players*4)+1];
+		deal();
 		
 	}
 	public void paySmall(int player)
@@ -297,7 +306,7 @@ public class Table {
 	
 	public String getAccountValue(int player)
 	{
-		return "B"+Integer.toString(bank.PlayerBilance(player));
+		return "V"+Integer.toString(bank.PlayerBilance(player));
 	}
 	
 	public String getMessage()

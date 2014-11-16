@@ -365,7 +365,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			StringReader sr = new StringReader(msgFromClientToServer);
 			BufferedReader br = new BufferedReader(sr);
 			os.println(br.readLine());
-			System.out.println(br.readLine() + "_syso5_sender");
+			//System.out.println(br.readLine() + "_syso5_sender");
 			return br;
 		} catch (Exception e) {
 			System.out.println("send(String msgFromClientToServer): " + e);
@@ -376,7 +376,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 	private static ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
-		System.out.println(path);
+		//System.out.println(path);
 		if (imgURL != null) {
 			return new ImageIcon(imgURL);
 		} else {
@@ -563,10 +563,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 
 		try {
 			while ((responseLine = is.readLine()) != null) {
-				System.out.println(responseLine + "_syso3");
+				//System.out.println(responseLine + "_syso3");
 				if (responseLine.startsWith("H") && responseLine.length() > 4) {
 					ekranCardsDealer(splited(withoutRegx(lineWithoutLetter(responseLine))));
-					System.out.println(responseLine + "_syso2");
+					//System.out.println(responseLine + "_syso2");
 					// ekranLabelSetter(responseLineWithoutLetter);
 				}
 				if (responseLine.indexOf("Q ") != -1) {
