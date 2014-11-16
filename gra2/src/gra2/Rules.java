@@ -8,7 +8,10 @@ public class Rules {
 	private int cards=0;
 	private int winner;
 	private int temp;
-	
+	/**
+         * konstruktor klasy
+         * @param players liczba graczy
+         */
 	Rules(int players)
 	{
 		playerRate=new int[players+1];
@@ -21,7 +24,9 @@ public class Rules {
 		this.players=players;
 
 	}
-
+        /**
+        *metoda sortuje karty od najmniejszej do najwiekszej  
+        */
 	private void sort()
 	{
 
@@ -48,7 +53,9 @@ public class Rules {
 	        }
 		}
 	}
-	
+	/**
+         * metoda szuka powtorek kart w rece gracza
+         */
 	private void handsRate()
 	{
 		int temp=0;
@@ -76,7 +83,10 @@ public class Rules {
 			}
 		}
 	}
-	
+	/**
+         * metoda liczy ilosc kolorow w rece gracza
+         * @param player tablica z kartami graczy
+         */
 	private void cMatch(int[] player)
 	{
 		int temp;
@@ -108,7 +118,10 @@ public class Rules {
 		if(temp!=1)winner=0;
 		else winner=player[0];
 	}
-	
+	/**
+         * metoda szuka zwyciscy
+         * @param player tablica z statusem graczy
+         */
 	private void LFWinner(int[] player)
 	{
 		int v =4;
@@ -163,7 +176,9 @@ public class Rules {
 		}
 		this.temp=temp;
 	}
-	
+	/**
+         * metoda porownuje wyniki
+         */
 	private void comp()
 	{
 		sort();
@@ -203,7 +218,11 @@ public class Rules {
 		if (this.temp!=1)cMatch(player);
 		else winner=player[0];
 	}
-	
+	/**
+         * metoda zwraca numer gracza ktory wygral
+         * @param hands tablica z statusem graczy
+         * @return numer gracza ktory wygral
+         */
 	public int win(int[] hands)
 	{
 		this.hands = hands.clone();

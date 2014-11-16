@@ -2,10 +2,19 @@ package gra2;
 
 import static org.junit.Assert.*;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+/**
+ * 
+ * @author Arkadiusz&Andrzej
+ */
 public class MultiThreadChatClientTest {
 
 	@BeforeClass
@@ -24,123 +33,59 @@ public class MultiThreadChatClientTest {
 	}
 
 	@Test
-	public void testParamString() {
-		fail("Not yet implemented");
+	public void testSetIconImage() {
+		ImageIcon test = MultiThreadChatClient
+				.createImageIcon("/image/test.gif");
+		ImageIcon las = MultiThreadChatClient
+				.createImageIcon("/image/las.jpeg");
+		assertNotSame(test, las);
+	}
+
+	@Test
+	public void testFrame() {
+		JFrame frame = new JFrame("Badugi POKERLIKE");
+		assertNotNull(frame);
+	}
+
+	@Test
+	public void testGetTitle() {
+		JFrame frame = new JFrame("Badugi POKERLIKE");
+		assertNotNull(frame.getTitle());
+	}
+
+	@Test
+	public void testSetTitle() {
+		JFrame frame = new JFrame("Badugi POKERLIKE");
+		frame.setTitle("Tester");
+		assertNotNull("Title: Tester", (frame.getTitle()));
+	}
+
+	@Test
+	public void testIsResizable() {
+		JFrame frame = new JFrame("Badugi POKERLIKE");
+		assertTrue("Resizable!", frame.isResizable());
+	}
+
+	@Test
+	public void testSetVisible() {
+		JFrame frame = new JFrame("Badugi POKERLIKE");
+		frame.setVisible(true);
+		frame.setVisible(false);
+	}
+
+	@Test
+	public void testGetBackground() {
+		JFrame frame = new JFrame("Badugi POKERLIKE");
+		frame.getBackground();
+	}
+
+	@Test
+	public void testSetSizeDimension() {
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		assertNotNull(dim);
 	}
 
 	/*
-	 * @Test public void testSetIconImage() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testSetOpacity() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testSetShape() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testFrame() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testFrameGraphicsConfiguration() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testFrameString() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testFrameStringGraphicsConfiguration() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testGetTitle() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testSetTitle() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testGetIconImage() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testGetMenuBar() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testSetMenuBar() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testIsResizable() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testSetResizable() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testSetState() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testSetExtendedState() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
-	 * @Test public void testGetState() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testGetExtendedState() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
-	 * @Test public void testSetMaximizedBounds() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
-	 * @Test public void testGetMaximizedBounds() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
-	 * @Test public void testSetUndecorated() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testIsUndecorated() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testSetCursorInt() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testGetCursorType() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testGetFrames() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testGetContainer() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testSetGraphicsConfiguration() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testGetToolkit() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testIsRecursivelyVisible() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testIsShowing() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testSetVisible() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testShow() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testClearMostRecentFocusOwnerOnHide() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testHide() { fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testGetBackground() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testGetLocale() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testSetLocationIntInt() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
-	 * @Test public void testSetLocationPoint() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
-	 * @Test public void testSetSizeIntInt() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testSetSizeDimension() { fail("Not yet implemented");
-	 * // TODO }
-	 * 
 	 * @Test public void testSetBoundsIntIntIntInt() {
 	 * fail("Not yet implemented"); // TODO }
 	 * 

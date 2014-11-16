@@ -5,24 +5,32 @@ import java.io.PrintStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.ServerSocket;
-
 import javax.swing.JOptionPane;
 
 /*
  * A chat server that delivers public and private messages.
  */
 public class MultiThreadChatServerSync {
-	public static int playersQuantity;
-	public static int players;
-	// The server socket.
-	private static ServerSocket serverSocket = null;
-	// The client socket.
-	private static Socket clientSocket = null;
-	private static Table tableG;
-	// This chat server can accept up to maxClientsCount clients' connections.
-	private static final int maxClientsCount = 6;
-	private static final clientThread[] threads = new clientThread[maxClientsCount];
 
+    public static int playersQuantity;///amount of players on server
+    public static int players; ///players on server
+    // The server socket.
+    private static ServerSocket serverSocket = null; ///socket number
+    // The client socket.
+    private static Socket clientSocket = null; /// client socket for game
+    private static Table tableG; ///object table for this game
+    // This chat server can accept up to maxClientsCount clients' connections.
+    private static final int maxClientsCount = 6; ///maxymalna ilosc graczy
+    private static final clientThread[] threads = new clientThread[maxClientsCount];
+/**
+ * 
+ * @param args parametr wejsciowy serwera
+ * @param portP parametr wejsciowy dla portu
+ * @param pelne_dane pelne dane polaczenia serwera
+ * @param playerZ ilosc graczy w stringu
+ * @param tokenVault ilosc piniedzy na stole do gry dla kazdego gracza
+ * 
+ */
 	public static void main(String args[]) {
 
 		// The default port number.
@@ -114,7 +122,11 @@ public class MultiThreadChatServerSync {
 			}
 		}
 	}
-
+/**
+ * 
+ * @param str param do parsowania na int
+ * @return zwraca int ze stringa
+ */
 	static int toInt(String str) { // PARSES STRING TO INT
 		try {
 			int iStr = Integer.parseInt(str);
@@ -137,15 +149,21 @@ public class MultiThreadChatServerSync {
  */
 class clientThread extends Thread {
 
-	private String clientName = null;
-	private DataInputStream is = null;
-	private PrintStream os = null;
-	private Socket clientSocket = null;
-	private final clientThread[] threads;
-	private int maxClientsCount;
-	private int whichPlayer;
-	private Table table;
-
+	private String clientName = null;/// nazwa klienta
+	private DataInputStream is = null; ///wejscie streamu
+	private PrintStream os = null; /// wyjscie streamu
+	private Socket clientSocket = null; ///socket gracza
+	private final clientThread[] threads; ///tablica watkow do obslugi graczy
+	private int maxClientsCount; ///max ilosc graczy
+	private int whichPlayer; ///param podajacy ktory gracz teraz ma token tury
+	private Table table; ///stol gry
+/**
+ * 
+ * @param clientSocket soket gracza
+ * @param threads watek gracza
+ * @param table stol dla tej gry
+ * @param whichPlayer ktory gracz ma token tury
+ */
 	public clientThread(Socket clientSocket, clientThread[] threads,
 			Table table, int whichPlayer) {
 		this.clientSocket = clientSocket;
@@ -154,7 +172,9 @@ class clientThread extends Thread {
 		this.table = table;
 		this.whichPlayer = whichPlayer + 1;
 	}
-
+/**
+ * 
+ */
 	public void run() {
 		int maxClientsCount = this.maxClientsCount;
 		clientThread[] threads = this.threads;
@@ -188,7 +208,7 @@ class clientThread extends Thread {
 						}
 						sendPriv(this, table.getHand(whichPlayer));
 					}
-					while (table.getTura() == 1) {
+					while (table.getTura() == 1 && table.getPlayerL() > 1) {
 						/*
 						 * if(table.getDealer()==whichPlayer &&
 						 * table.getsB()==false) { table.paySmall(whichPlayer);
@@ -197,23 +217,7 @@ class clientThread extends Thread {
 						 * table.getbB()==false) { table.payBig(whichPlayer);
 						 * table.incCurrentPlayer(); table.changeB(); }
 						 */
-						synchronized (this) {
 
-							if (table.getCurrentPlayer() == whichPlayer
-									&& table.getPlayerStatus(whichPlayer) == 'T'
-									&& Integer.parseInt(table.getAccountValue(
-											whichPlayer).substring(1)) != 0) {
-								while (true) {
-									inMsg = is.readLine();
-									if (inMsg.startsWith("D")) {
-										sendPriv(this,
-												table.drow(whichPlayer, inMsg));
-										// table.incCurrentPlayer();
-										break;
-									}
-								}
-							}
-						}
 						synchronized (this) {
 							if (table.getCurrentPlayer() == whichPlayer
 									&& table.getLastRise() == whichPlayer) {
@@ -229,7 +233,8 @@ class clientThread extends Thread {
 									&& Integer.parseInt(table.getAccountValue(
 											whichPlayer).substring(1)) != 0) {
 
-								while (table.getTura() == 1) {
+								while (table.getTura() == 1
+										&& table.getPlayerL() > 1) {
 									inMsg = is.readLine();
 
 									if (table.getCurrentPlayer() == whichPlayer
@@ -257,10 +262,14 @@ class clientThread extends Thread {
 										sendAll(toClient);
 										System.out.println(table.getLastRise());
 										sendPriv(this, table.getMessage());
+										sendPriv(
+												this,
+												table.getAccountValue(whichPlayer));
 										break;
 									}
-									if (inMsg.startsWith("L"))
-										break;
+									if (table.getPlayerStatus(whichPlayer) == 'A'
+											|| table.getPlayerStatus(whichPlayer) == 'F')
+										table.incCurrentPlayer();
 									// if(inMsg.equals(table.getMessage()));
 								}
 							} else {
@@ -273,7 +282,7 @@ class clientThread extends Thread {
 					}
 					// //////////////////////////////////////////////////////
 
-					while (table.getTura() == 2) {
+					while (table.getTura() == 2 && table.getPlayerL() > 1) {
 						synchronized (this) {
 
 							if (table.getCurrentPlayer() == whichPlayer
@@ -306,7 +315,8 @@ class clientThread extends Thread {
 									&& Integer.parseInt(table.getAccountValue(
 											whichPlayer).substring(1)) != 0) {
 
-								while (table.getTura() == 2) {
+								while (table.getTura() == 2
+										&& table.getPlayerL() > 1) {
 									inMsg = is.readLine();
 
 									if (table.getCurrentPlayer() == whichPlayer
@@ -334,10 +344,14 @@ class clientThread extends Thread {
 										sendAll(toClient);
 										System.out.println(table.getLastRise());
 										sendPriv(this, table.getMessage());
+										sendPriv(
+												this,
+												table.getAccountValue(whichPlayer));
 										break;
 									}
-									if (inMsg.startsWith("L"))
-										break;
+									if (table.getPlayerStatus(whichPlayer) == 'A'
+											|| table.getPlayerStatus(whichPlayer) == 'F')
+										table.incCurrentPlayer();
 									// if(inMsg.equals(table.getMessage()));
 								}
 							} else {
@@ -349,7 +363,7 @@ class clientThread extends Thread {
 					}
 					// //////////////////////////////////
 
-					while (table.getTura() == 3) {
+					while (table.getTura() == 3 && table.getPlayerL() > 1) {
 						synchronized (this) {
 
 							if (table.getCurrentPlayer() == whichPlayer
@@ -382,7 +396,8 @@ class clientThread extends Thread {
 									&& Integer.parseInt(table.getAccountValue(
 											whichPlayer).substring(1)) != 0) {
 
-								while (table.getTura() == 3) {
+								while (table.getTura() == 3
+										&& table.getPlayerL() > 1) {
 									inMsg = is.readLine();
 
 									if (table.getCurrentPlayer() == whichPlayer
@@ -410,10 +425,14 @@ class clientThread extends Thread {
 										sendAll(toClient);
 										System.out.println(table.getLastRise());
 										sendPriv(this, table.getMessage());
+										sendPriv(
+												this,
+												table.getAccountValue(whichPlayer));
 										break;
 									}
-									if (inMsg.startsWith("L"))
-										break;
+									if (table.getPlayerStatus(whichPlayer) == 'A'
+											|| table.getPlayerStatus(whichPlayer) == 'F')
+										table.incCurrentPlayer();
 									// if(inMsg.equals(table.getMessage()));
 								}
 							} else {
@@ -425,7 +444,7 @@ class clientThread extends Thread {
 					}
 					// ///////////////////////////////
 
-					while (table.getTura() == 4) {
+					while (table.getTura() == 4 && table.getPlayerL() > 1) {
 						synchronized (this) {
 
 							if (table.getCurrentPlayer() == whichPlayer
@@ -458,7 +477,8 @@ class clientThread extends Thread {
 									&& Integer.parseInt(table.getAccountValue(
 											whichPlayer).substring(1)) != 0) {
 
-								while (table.getTura() == 4) {
+								while (table.getTura() == 4
+										&& table.getPlayerL() > 1) {
 									inMsg = is.readLine();
 
 									if (table.getCurrentPlayer() == whichPlayer
@@ -486,10 +506,14 @@ class clientThread extends Thread {
 										sendAll(toClient);
 										System.out.println(table.getLastRise());
 										sendPriv(this, table.getMessage());
+										sendPriv(
+												this,
+												table.getAccountValue(whichPlayer));
 										break;
 									}
-									if (inMsg.startsWith("L"))
-										break;
+									if (table.getPlayerStatus(whichPlayer) == 'A'
+											|| table.getPlayerStatus(whichPlayer) == 'F')
+										table.incCurrentPlayer();
 									// if(inMsg.equals(table.getMessage()));
 								}
 							} else {
@@ -500,7 +524,7 @@ class clientThread extends Thread {
 						sendAll(table.getMessage());
 					}
 
-					while (table.getTura() == 5) {
+					while (table.getTura() == 5 || table.getPlayerL() <= 1) {
 						if (table.getDealer() == whichPlayer) {
 							String winer = table.Winner();
 							table.changeDealer();
@@ -533,7 +557,10 @@ class clientThread extends Thread {
 		} catch (IOException e) {
 		}
 	}
-
+/**
+ * 
+ * @param messange wiadomosc rozsylana do wszystkich graczy 
+ */
 	public void sendAll(String messange) {
 		for (int i = 0; i < maxClientsCount; i++) {
 			if (threads[i] != null && threads[i].clientName != null) {
@@ -541,7 +568,11 @@ class clientThread extends Thread {
 			}
 		}
 	}
-
+/**
+ * 
+ * @param thread watek do ktorego ma byc wyslana wiadomosc
+ * @param messange tresc wiadomosci w stringu
+ */
 	public void sendPriv(clientThread thread, String messange) {
 		thread.os.println(messange);
 	}
