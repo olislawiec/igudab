@@ -148,85 +148,113 @@ class clientThread extends Thread {
 	}
 
 	public void run() {
-		int maxClientsCount = this.maxClientsCount;
-		clientThread[] threads = this.threads;
+	
+    int maxClientsCount = this.maxClientsCount;
+    clientThread[] threads = this.threads;
 
-		try {
-			/*
-			 * Create input and output streams for this client.
-			 */
-			is = new DataInputStream(clientSocket.getInputStream());
-			os = new PrintStream(clientSocket.getOutputStream());
-			String name;
-			String inMsg;
-			boolean tillEnd = false;
-			while (true) {
-				while (true) {
-					os.println("Enter your name.");
-					name = is.readLine().trim();
-					if (name.indexOf('@') == -1) {
-						break;
-					} else {
-						os.println("The name should not contain '@' character.");
-					}
-				}
-				while (!tillEnd) {
-					synchronized (this) {
-						if (table.getTura() == 0
-								&& table.getDealer() == whichPlayer) {
-							table.deal();
-							table.incTura();
-						}
-						sendPriv(this, table.getHand(whichPlayer));
-					}
-					while (table.getTura() == 1) {
-						synchronized (this) {
-							if (table.getCurrentPlayer() == whichPlayer
-									&& table.getPlayerStatus(whichPlayer) == 'T') {
-								while (true) {
-									inMsg = is.readLine();
-									if (inMsg.startsWith("D")) {
-										sendPriv(this,
-												table.drow(whichPlayer, inMsg));
-										// table.incCurrentPlayer();
-										break;
-									}
-								}
-							}
-						}
-						/*
-						 * if(table.getCurrentPlayer()==whichPlayer
-						 * &&(table.getPlayerStatus(whichPlayer)!='A' ||
-						 * table.getPlayerStatus(whichPlayer)!='F')) {
-						 * while(true) { inMsg=is.readLine();
-						 * if(inMsg.startsWith("B")) {
-						 * 
-						 * } } }
-						 */
-					}
-
-				}
-				/*
-				 * Clean up. Set the current thread variable to null so that a
-				 * new client could be accepted by the server.
-				 */
-				synchronized (this) {
-					for (int i = 0; i < maxClientsCount; i++) {
-						if (threads[i] == this) {
-							threads[i] = null;
-						}
-					}
-				}
-				/*
-				 * Close the output stream, close the input stream, close the
-				 * socket.
-				 */
-				is.close();
-				os.close();
-				clientSocket.close();
-			}
-		} catch (IOException e) {
-		}
+    try {
+      /*
+       * Create input and output streams for this client.
+       */
+      is = new DataInputStream(clientSocket.getInputStream());
+      os = new PrintStream(clientSocket.getOutputStream());
+      String name;
+      String toClient;
+      String inMsg;
+      boolean tillEnd=false;
+      while (true) {
+    	  while (true) {
+    	        os.println("Enter your name.");
+    	        name = is.readLine().trim();
+    	        if (name.indexOf('@') == -1) {
+    	          break;
+    	        } else {
+    	          os.println("The name should not contain '@' character.");
+    	        }
+    	      }
+    	  while(!tillEnd){
+    		  synchronized(this){
+    		  if( table.getTura()==0 && table.getDealer()==whichPlayer ){
+    			  table.deal();
+    			  table.incTura();  
+    		  	}
+    		  sendPriv(this, table.getHand(whichPlayer));
+    		  }
+    		 while(table.getTura()==1) 
+    		 {
+    			synchronized(this)
+    			{
+    			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T') 
+    			 {
+    				 while(true) 
+    				 {
+    					 inMsg=is.readLine();
+    					 if(inMsg.startsWith("D")) 
+    					 {
+    						 sendPriv(this, table.drow(whichPlayer,inMsg));
+    						 // table.incCurrentPlayer();
+    						 break;
+    					 }
+    				 }
+    			 }
+    			}
+    			synchronized(this){
+    				if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F')) {
+    					while(table.getTura()==1) {
+    						inMsg=is.readLine();
+    	    				if(table.getCurrentPlayer()==whichPlayer && table.getLastRise()==whichPlayer)
+    	    				{
+    	    					table.incTura();
+    	    					inMsg="koniec tury"+table.getTura();
+    	    					sendAll(inMsg);
+    	    					System.out.println("endtur");
+    	    				}
+    						if(table.getCurrentPlayer()==whichPlayer &&((inMsg.startsWith("S") && table.getFirstBet()==false) && table.getCheckCount()<table.getplayers())) 
+    						{
+    							table.bet(whichPlayer, inMsg);
+    							toClient=table.getMessage();
+    							sendAll(toClient);
+    							System.out.println(table.getCheckCount()+"-"+table.getplayers());
+    							sendPriv(this,table.getMessage());
+    							
+    						}
+    						else if(table.getCurrentPlayer()==whichPlayer && inMsg.startsWith("B") && inMsg.startsWith("BS")!=true) 
+    						{
+    							if(inMsg.length()>=2)table.bet(whichPlayer,inMsg.substring(1));
+    							toClient=table.getMessage();
+    							sendAll(toClient);
+    							System.out.println(table.getLastRise());
+    							sendPriv(this,table.getMessage());
+    						}
+    	    				if(inMsg.equals(table.getMessage()));
+    					}
+    				}
+    			}
+    			sendAll(table.getMessage());
+    			
+    		 }
+    		  System.out.println("koniec tury");
+    	  }
+      /*
+       * Clean up. Set the current thread variable to null so that a new client
+       * could be accepted by the server.
+       */
+      synchronized (this) {
+        for (int i = 0; i < maxClientsCount; i++) {
+          if (threads[i] == this) {
+            threads[i] = null;
+          }
+        }
+      }
+      /*
+       * Close the output stream, close the input stream, close the socket.
+       */
+      is.close();
+      os.close();
+      clientSocket.close();
+      }
+     } catch (IOException e) {
+    }
 	}
 
 	public void sendAll(String messange) {

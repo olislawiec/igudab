@@ -14,7 +14,7 @@ public class Bank {
 		playerBet=new int[players+1];
 		accountValue=new int[players+1];
 		
-		for(int i=1;i<players;i++)
+		for(int i=1;i<=players;i++)
 		{
 			accountValue[i]=startMoney;
 		}
@@ -51,7 +51,8 @@ public class Bank {
 	
 	public void rise(int player,int value)
 	{
-		if(playerBet[player]!=maxBet)call(player);
+		if(playerBet[player]<maxBet)call(player);
+		if((playerBet[player]+value)>accountValue[player])System.out.print("wyjatek");
 		playerBet[player]+=value;
 		accountValue[player]=accountValue[player]-value;
 		maxBet+=value;

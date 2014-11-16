@@ -39,7 +39,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	public static String texter="";
 	public static int intTexter=0;
 	public static JButton buttonname, handButton, betButton, checkButton,allInButton,
-			raiseButton, foldButton, drowButton, plus1Button, plus10Button,
+			raiseButton, foldButton, drowButton, plus1Button, plus10Button,resetButton,
 			minus1Button, minus10Button, card1, card2, card3, card4;
 	// The client socket
 	private static Socket clientSocket = null;
@@ -100,7 +100,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		ImageIcon p1 = createImageIcon("/image/p1.gif");
 		ImageIcon p10 = createImageIcon("/image/p10.gif");
 		ImageIcon allin = createImageIcon("/image/allin.png");
-
+		ImageIcon reset = createImageIcon("/image/reset.png");
+		
 		frame.setContentPane(new ContentPane());
 		frame.getContentPane().setBackground(Color.BLACK);
 		setLayout(new BorderLayout());
@@ -125,8 +126,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		
 		ekranKasa = new JLabel("Stan konta",test,0);
 		ekranKasa.setForeground(Color.white);
-		ekranLabel = new JTextArea(1, 7);
-		ekranLabel2 = new JTextArea(1, 9);
+		ekranLabel = new JTextArea(1, 3);
+		ekranLabel2 = new JTextArea(1, 1);
 		ekranLabel.setBounds(3, 3, 300, 200);
 		Font font = new Font("Verdana", Font.BOLD, 19);
 		Font font2 = new Font("Serif", Font.ITALIC, 24);
@@ -149,6 +150,17 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			}
 		});
 		contentPane.add(buttonname);
+		resetButton = new JButton();
+		resetButton.setIcon(reset);
+		resetButton.addActionListener(new ActionListenerButton() {
+			public void actionPerformed(ActionEvent e) {
+				texter="";
+				intTexter=0;
+				ekranLabel.setText("");
+				ekranLabel2.setText("");
+			}
+		});
+		contentPane.add(resetButton);
 
 		drowButton = new JButton("Drow");
 		drowButton.setIcon(null);
@@ -311,7 +323,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		contentPane.add(ekranLabel);
 		contentPane.add(ekranLabel2);
 		contentPane.add(instrukcja);
-
+		setLayout(new BorderLayout());
 		frame.setContentPane(contentPane);
 		frame.pack();
 		frame.setLocationByPlatform(true);
