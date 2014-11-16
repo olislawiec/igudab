@@ -9,12 +9,13 @@ import org.junit.Test;
 
 /**
  * @author Arkadiusz
- *
+ * 
  */
 public class MultiThreadChatServerSyncTest {
 
 	/**
-	 * Test method for {@link gra2.MultiThreadChatServerSync#main(java.lang.String[])}.
+	 * Test method for
+	 * {@link gra2.MultiThreadChatServerSync#main(java.lang.String[])}.
 	 */
 	@Test
 	public final void testMain() {
