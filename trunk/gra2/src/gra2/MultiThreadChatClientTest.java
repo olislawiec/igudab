@@ -12,18 +12,24 @@ public class MultiThreadChatClientTest {
 	public static void testMain() {
 		MultiThreadChatClient.main(new String[] { "localhost", "8969" });
 	}
+
 	@AfterClass
 	public static void isClosed() {
 		assertTrue(MultiThreadChatClient.isClosed());
 	}
+
 	@Test
 	public void testRun() {
-		
+
 	}
-	  
-	  @Test public void testParamString() { fail("Not yet implemented");  }
-	  
-	 /* @Test public void testGetAccessibleContext() {
+
+	@Test
+	public void testParamString() {
+		fail("Not yet implemented");
+	}
+
+	/*
+	 * @Test public void testGetAccessibleContext() {
 	 * fail("Not yet implemented"); // TODO }
 	 * 
 	 * @Test public void testPostProcessKeyEvent() {
