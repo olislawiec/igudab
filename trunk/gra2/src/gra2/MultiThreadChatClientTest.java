@@ -20,26 +20,10 @@ public class MultiThreadChatClientTest {
 	public void testRun() {
 		
 	}
-	/*
-	 * @Test public void testConstructComponentName() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testSetBackground() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testAddNotify() { fail("Not yet implemented"); // TODO
-	 * }
-	 * 
-	 * @Test public void testRemoveNotify() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testRemoveMenuComponent() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testParamString() { fail("Not yet implemented"); //
-	 * TODO }
-	 * 
-	 * @Test public void testGetAccessibleContext() {
+	  
+	  @Test public void testParamString() { fail("Not yet implemented");  }
+	  
+	 /* @Test public void testGetAccessibleContext() {
 	 * fail("Not yet implemented"); // TODO }
 	 * 
 	 * @Test public void testPostProcessKeyEvent() {

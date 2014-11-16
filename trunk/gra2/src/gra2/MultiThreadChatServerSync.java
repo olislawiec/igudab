@@ -1,5 +1,4 @@
 package gra2;
-
 import java.io.DataInputStream;
 import java.io.PrintStream;
 import java.io.IOException;
@@ -14,16 +13,16 @@ import javax.swing.JOptionPane;
 public class MultiThreadChatServerSync {
 	public static int playersQuantity;
 	public static int players;
-	// The server socket.
-	private static ServerSocket serverSocket = null;
-	// The client socket.
-	private static Socket clientSocket = null;
-	private static Table tableG;
-	// This chat server can accept up to maxClientsCount clients' connections.
-	private static final int maxClientsCount = 6;
-	private static final clientThread[] threads = new clientThread[maxClientsCount];
+  // The server socket.
+  private static ServerSocket serverSocket = null;
+  // The client socket.
+  private static Socket clientSocket = null;
+  private static Table tableG;
+  // This chat server can accept up to maxClientsCount clients' connections.
+  private static final int maxClientsCount = 6;
+  private static final clientThread[] threads = new clientThread[maxClientsCount];
 
-	public static void main(String args[]) {
+  public static void main(String args[]) {
 
 		// The default port number.
 		int portNumber = 8969;
@@ -34,8 +33,12 @@ public class MultiThreadChatServerSync {
 		} else {
 			portNumber = Integer.valueOf(args[0]).intValue();
 		}
-
+		String portP;
+		String pelne_dane;
 		String playerZ;
+		String tokenVault;
+		if(args.length<1) {
+		
 		playerZ = JOptionPane.showInputDialog("Podaj ilosc graczy:");
 		try {
 			while (Integer.parseInt(playerZ) > 6
@@ -48,12 +51,12 @@ public class MultiThreadChatServerSync {
 			System.out.println(a1);
 			System.exit(-1);
 		}
-		String portP;
+		
 		portP = JOptionPane.showInputDialog("Podaj port:");
-		String pelne_dane;
+		
 		// String LoginName;
 		// LoginName = JOptionPane.showInputDialog("Podaj nick:");
-		String tokenVault;
+		
 		tokenVault = JOptionPane
 				.showInputDialog("Podaj ilosc zetonow w tej rozgrywce:");
 		// String adresP;
@@ -67,7 +70,11 @@ public class MultiThreadChatServerSync {
 		portNumber = toInt(portP);
 
 		playersQuantity = toInt(playerZ);
-		tableG = new Table(playersQuantity, toInt(tokenVault));
+		tableG = new Table(playersQuantity, toInt(tokenVault));}
+		else {
+			portNumber=8969;
+			tableG=new Table(2,100);
+		}
 		/*
 		 * Open a server socket on the portNumber (default 8969). Note that we
 		 * can not choose a port less than 1023 if we are not privileged users
@@ -106,16 +113,16 @@ public class MultiThreadChatServerSync {
 			}
 		}
 	}
-
-	static int toInt(String str) { // PARSES STRING TO INT
-		try {
-			int iStr = Integer.parseInt(str);
-			return iStr;
-		} catch (Exception e) {
-			System.out.println("Nie mozna zamienic danego stringa na int" + e);
-		}
-		return -1;
-	}
+  
+  static int toInt(String str) { //PARSES STRING TO INT
+	  try {
+	  int iStr = Integer.parseInt(str);
+	  return iStr;
+	  } catch (Exception e) {
+		  System.out.println("Nie mozna zamienic danego stringa na int" + e);
+	  }
+	  return -1;
+  }
 }
 
 /*
@@ -129,26 +136,24 @@ public class MultiThreadChatServerSync {
  */
 class clientThread extends Thread {
 
-	private String clientName = null;
-	private DataInputStream is = null;
-	private PrintStream os = null;
-	private Socket clientSocket = null;
-	private final clientThread[] threads;
-	private int maxClientsCount;
-	private int whichPlayer;
-	private Table table;
+  private String clientName = null;
+  private DataInputStream is = null;
+  private PrintStream os = null;
+  private Socket clientSocket = null;
+  private final clientThread[] threads;
+  private int maxClientsCount;
+  private int whichPlayer;
+  private Table table;
 
-	public clientThread(Socket clientSocket, clientThread[] threads,
-			Table table, int whichPlayer) {
-		this.clientSocket = clientSocket;
-		this.threads = threads;
-		maxClientsCount = threads.length;
-		this.table = table;
-		this.whichPlayer = whichPlayer + 1;
-	}
+  public clientThread(Socket clientSocket, clientThread[] threads, Table table, int whichPlayer) {
+    this.clientSocket = clientSocket;
+    this.threads = threads;
+    maxClientsCount = threads.length;
+    this.table=table;
+    this.whichPlayer=whichPlayer+1;
+  }
 
-	public void run() {
-	
+  public void run() {
     int maxClientsCount = this.maxClientsCount;
     clientThread[] threads = this.threads;
 
@@ -182,9 +187,23 @@ class clientThread extends Thread {
     		  }
     		 while(table.getTura()==1) 
     		 {
-    			synchronized(this)
-    			{
-    			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T') 
+    			 /*
+				 if(table.getDealer()==whichPlayer && table.getsB()==false)
+					{
+						table.paySmall(whichPlayer);
+						table.incCurrentPlayer();
+						table.changesB();
+					}
+					if((table.getDealer()+1)==whichPlayer && table.getbB()==false)
+					{
+						table.payBig(whichPlayer);
+						table.incCurrentPlayer();
+						table.changeB();
+					}*/
+     			synchronized(this)
+     			{
+
+    			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T' && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) 
     			 {
     				 while(true) 
     				 {
@@ -199,16 +218,19 @@ class clientThread extends Thread {
     			 }
     			}
     			synchronized(this){
-    				if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F')) {
+    				if(table.getCurrentPlayer()==whichPlayer && table.getLastRise()==whichPlayer)
+    				{
+    					table.incTura();
+    					inMsg="koniec tury"+table.getTura();
+    					sendAll(inMsg);
+	    					System.out.println("endtur" +table.getTura());
+    					break;
+    				}
+    				if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F') && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) {
+	    				
     					while(table.getTura()==1) {
     						inMsg=is.readLine();
-    	    				if(table.getCurrentPlayer()==whichPlayer && table.getLastRise()==whichPlayer)
-    	    				{
-    	    					table.incTura();
-    	    					inMsg="koniec tury"+table.getTura();
-    	    					sendAll(inMsg);
-    	    					System.out.println("endtur");
-    	    				}
+
     						if(table.getCurrentPlayer()==whichPlayer &&((inMsg.startsWith("S") && table.getFirstBet()==false) && table.getCheckCount()<table.getplayers())) 
     						{
     							table.bet(whichPlayer, inMsg);
@@ -216,6 +238,7 @@ class clientThread extends Thread {
     							sendAll(toClient);
     							System.out.println(table.getCheckCount()+"-"+table.getplayers());
     							sendPriv(this,table.getMessage());
+    							break;
     							
     						}
     						else if(table.getCurrentPlayer()==whichPlayer && inMsg.startsWith("B") && inMsg.startsWith("BS")!=true) 
@@ -225,15 +248,228 @@ class clientThread extends Thread {
     							sendAll(toClient);
     							System.out.println(table.getLastRise());
     							sendPriv(this,table.getMessage());
+    							break;
     						}
-    	    				if(inMsg.equals(table.getMessage()));
+    						if(inMsg.startsWith("L"))break;
+    	    				//if(inMsg.equals(table.getMessage()));
     					}
+    				}
+    				else 
+    				{
+    					if(table.getCurrentPlayer()==whichPlayer)table.incCurrentPlayer();
     				}
     			}
     			sendAll(table.getMessage());
     			
     		 }
-    		  System.out.println("koniec tury");
+////////////////////////////////////////////////////////
+    		 
+    		 while(table.getTura()==2) 
+    		 {
+    			 synchronized(this)
+      			{
+
+     			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T' && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) 
+     			 {
+     				 while(true) 
+     				 {
+     					 inMsg=is.readLine();
+     					 if(inMsg.startsWith("D")) 
+     					 {
+     						 sendPriv(this, table.drow(whichPlayer,inMsg));
+     						 // table.incCurrentPlayer();
+     						 break;
+     					 }
+     				 }
+     			 }
+     			}
+     			synchronized(this){
+     				if(table.getCurrentPlayer()==whichPlayer && table.getLastRise()==whichPlayer)
+     				{
+     					table.incTura();
+     					inMsg="koniec tury"+table.getTura();
+     					sendAll(inMsg);
+ 	    					System.out.println("endtur" +table.getTura());
+     					break;
+     				}
+     				if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F') && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) {
+ 	    				
+     					while(table.getTura()==2) {
+     						inMsg=is.readLine();
+
+     						if(table.getCurrentPlayer()==whichPlayer &&((inMsg.startsWith("S") && table.getFirstBet()==false) && table.getCheckCount()<table.getplayers())) 
+     						{
+     							table.bet(whichPlayer, inMsg);
+     							toClient=table.getMessage();
+     							sendAll(toClient);
+     							System.out.println(table.getCheckCount()+"-"+table.getplayers());
+     							sendPriv(this,table.getMessage());
+     							break;
+     							
+     						}
+     						else if(table.getCurrentPlayer()==whichPlayer && inMsg.startsWith("B") && inMsg.startsWith("BS")!=true) 
+     						{
+     							if(inMsg.length()>=2)table.bet(whichPlayer,inMsg.substring(1));
+     							toClient=table.getMessage();
+     							sendAll(toClient);
+     							System.out.println(table.getLastRise());
+     							sendPriv(this,table.getMessage());
+     							break;
+     						}
+     						if(inMsg.startsWith("L"))break;
+     	    				//if(inMsg.equals(table.getMessage()));
+     					}
+     				}
+     				else 
+     				{
+     					if(table.getCurrentPlayer()==whichPlayer)table.incCurrentPlayer();
+     				}
+     			}
+     			sendAll(table.getMessage());
+    		 }
+    		 ////////////////////////////////////
+    		 
+    		 while(table.getTura()==3) 
+    		 {
+    			 synchronized(this)
+      			{
+
+     			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T' && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) 
+     			 {
+     				 while(true) 
+     				 {
+     					 inMsg=is.readLine();
+     					 if(inMsg.startsWith("D")) 
+     					 {
+     						 sendPriv(this, table.drow(whichPlayer,inMsg));
+     						 // table.incCurrentPlayer();
+     						 break;
+     					 }
+     				 }
+     			 }
+     			}
+     			synchronized(this){
+     				if(table.getCurrentPlayer()==whichPlayer && table.getLastRise()==whichPlayer)
+     				{
+     					table.incTura();
+     					inMsg="koniec tury"+table.getTura();
+     					sendAll(inMsg);
+ 	    					System.out.println("endtur" +table.getTura());
+     					break;
+     				}
+     				if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F') && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) {
+ 	    				
+     					while(table.getTura()==3) {
+     						inMsg=is.readLine();
+
+     						if(table.getCurrentPlayer()==whichPlayer &&((inMsg.startsWith("S") && table.getFirstBet()==false) && table.getCheckCount()<table.getplayers())) 
+     						{
+     							table.bet(whichPlayer, inMsg);
+     							toClient=table.getMessage();
+     							sendAll(toClient);
+     							System.out.println(table.getCheckCount()+"-"+table.getplayers());
+     							sendPriv(this,table.getMessage());
+     							break;
+     							
+     						}
+     						else if(table.getCurrentPlayer()==whichPlayer && inMsg.startsWith("B") && inMsg.startsWith("BS")!=true) 
+     						{
+     							if(inMsg.length()>=2)table.bet(whichPlayer,inMsg.substring(1));
+     							toClient=table.getMessage();
+     							sendAll(toClient);
+     							System.out.println(table.getLastRise());
+     							sendPriv(this,table.getMessage());
+     							break;
+     						}
+     						if(inMsg.startsWith("L"))break;
+     	    				//if(inMsg.equals(table.getMessage()));
+     					}
+     				}
+     				else 
+     				{
+     					if(table.getCurrentPlayer()==whichPlayer)table.incCurrentPlayer();
+     				}
+     			}
+     			sendAll(table.getMessage());
+    		 }
+    		 /////////////////////////////////
+    		 
+    		 while(table.getTura()==4) 
+    		 {
+    			 synchronized(this)
+      			{
+
+     			 if(table.getCurrentPlayer()==whichPlayer && table.getPlayerStatus(whichPlayer) == 'T' && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) 
+     			 {
+     				 while(true) 
+     				 {
+     					 inMsg=is.readLine();
+     					 if(inMsg.startsWith("D")) 
+     					 {
+     						 sendPriv(this, table.drow(whichPlayer,inMsg));
+     						 // table.incCurrentPlayer();
+     						 break;
+     					 }
+     				 }
+     			 }
+     			}
+     			synchronized(this){
+     				if(table.getCurrentPlayer()==whichPlayer && table.getLastRise()==whichPlayer)
+     				{
+     					table.incTura();
+     					inMsg="koniec tury"+table.getTura();
+     					sendAll(inMsg);
+ 	    					System.out.println("endtur" +table.getTura());
+     					break;
+     				}
+     				if(table.getCurrentPlayer()==whichPlayer &&(table.getPlayerStatus(whichPlayer)!='A' || table.getPlayerStatus(whichPlayer)!='F') && Integer.parseInt(table.getAccountValue(whichPlayer).substring(1))!=0) {
+ 	    				
+     					while(table.getTura()==4) {
+     						inMsg=is.readLine();
+
+     						if(table.getCurrentPlayer()==whichPlayer &&((inMsg.startsWith("S") && table.getFirstBet()==false) && table.getCheckCount()<table.getplayers())) 
+     						{
+     							table.bet(whichPlayer, inMsg);
+     							toClient=table.getMessage();
+     							sendAll(toClient);
+     							System.out.println(table.getCheckCount()+"-"+table.getplayers());
+     							sendPriv(this,table.getMessage());
+     							break;
+     							
+     						}
+     						else if(table.getCurrentPlayer()==whichPlayer && inMsg.startsWith("B") && inMsg.startsWith("BS")!=true) 
+     						{
+     							if(inMsg.length()>=2)table.bet(whichPlayer,inMsg.substring(1));
+     							toClient=table.getMessage();
+     							sendAll(toClient);
+     							System.out.println(table.getLastRise());
+     							sendPriv(this,table.getMessage());
+     							break;
+     						}
+     						if(inMsg.startsWith("L"))break;
+     	    				//if(inMsg.equals(table.getMessage()));
+     					}
+     				}
+     				else 
+     				{
+     					if(table.getCurrentPlayer()==whichPlayer)table.incCurrentPlayer();
+     				}
+     			}
+     			sendAll(table.getMessage());
+    		 }
+    		 
+    		 while(table.getTura()==5)
+    		 {
+    			 if(table.getDealer()==whichPlayer)
+    			 {
+    				 String winer=table.Winner();
+    				 table.changeDealer();
+    				 sendPriv(this, winer);
+    				 table.endRound();
+    				 table.incTura();
+    			 }
+    		 }
+    		 /////////////////////////////////////////////
     	  }
       /*
        * Clean up. Set the current thread variable to null so that a new client
@@ -255,17 +491,17 @@ class clientThread extends Thread {
       }
      } catch (IOException e) {
     }
-	}
-
-	public void sendAll(String messange) {
-		for (int i = 0; i < maxClientsCount; i++) {
-			if (threads[i] != null && threads[i].clientName != null) {
-				threads[i].os.println(messange);
-			}
-		}
-	}
-
-	public void sendPriv(clientThread thread, String messange) {
-		thread.os.println(messange);
-	}
+  }
+  public void sendAll (String messange)
+  {
+      for (int i = 0; i < maxClientsCount; i++) {
+          if (threads[i] != null && threads[i].clientName != null) {
+        	  threads[i].os.println(messange);
+          }
+        }
+  }
+  public void sendPriv (clientThread thread,String messange)
+  {
+	  thread.os.println(messange);
+  }
 }

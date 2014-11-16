@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
@@ -17,16 +16,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import javax.swing.JLabel;
-
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.UnknownHostException;
-//import java.io.IOException;
-//import java.io.DataOutputStream;
-//import java.io.DataInputStream;
-//import java.net.Socket;
 
 public class MultiThreadChatClient extends Frame implements Runnable {
 
@@ -36,11 +30,13 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	public static JTextArea ekranLabel;
 	public static JTextArea ekranLabel2;
 	public static JLabel ekranKasa;
-	public static String texter="";
-	public static int intTexter=0;
-	public static JButton buttonname, handButton, betButton, checkButton,allInButton,
-			raiseButton, foldButton, drowButton, plus1Button, plus10Button,resetButton,
-			minus1Button, minus10Button, card1, card2, card3, card4;
+	public static JLabel ekranPula;
+	public static String texter = "";
+	public static int intTexter = 0;
+	public static JButton buttonname, handButton, betButton, checkButton,
+			allInButton, callButton, raiseButton, foldButton, drowButton,
+			plus1Button, plus10Button, resetButton, minus1Button,
+			minus10Button, card1, card2, card3, card4;
 	// The client socket
 	private static Socket clientSocket = null;
 	// The output stream
@@ -97,11 +93,15 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		ImageIcon fold = createImageIcon("/image/fold.gif");
 		ImageIcon raise = createImageIcon("/image/raise.gif");
 		ImageIcon check = createImageIcon("/image/check.png");
-		ImageIcon p1 = createImageIcon("/image/p1.gif");
-		ImageIcon p10 = createImageIcon("/image/p10.gif");
+		ImageIcon p1 = createImageIcon("/image/p1.png");
+		ImageIcon p10 = createImageIcon("/image/p10.png");
+		ImageIcon m10 = createImageIcon("/image/m10.png");
+		ImageIcon m1 = createImageIcon("/image/m1.png");
 		ImageIcon allin = createImageIcon("/image/allin.png");
 		ImageIcon reset = createImageIcon("/image/reset.png");
-		
+		ImageIcon call = createImageIcon("/image/call.png");
+		ImageIcon drow = createImageIcon("/image/drow.png");
+		ImageIcon bet = createImageIcon("/image/bet.png");
 		frame.setContentPane(new ContentPane());
 		frame.getContentPane().setBackground(Color.BLACK);
 		setLayout(new BorderLayout());
@@ -123,8 +123,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		JTextArea instrukcja = new JTextArea();
 		instrukcja
 				.setText("Najpierw wybierasz Akcje np.\n Drow, zeby dopisac do ekranLabel swoj ruch.\n potem wybierasz karty jakie chcesz wyslac\n i klikasz Wyslij, zeby poszlo.");
-		
-		ekranKasa = new JLabel("Stan konta",test,0);
+
+		ekranPula = new JLabel("Pula");
+		ekranPula.setForeground(Color.YELLOW);
+		ekranKasa = new JLabel("Stan konta", test, 0);
 		ekranKasa.setForeground(Color.white);
 		ekranLabel = new JTextArea(1, 3);
 		ekranLabel2 = new JTextArea(1, 1);
@@ -144,18 +146,33 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		buttonname.addActionListener(new ActionListenerButton() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("button clicked.");
-				send(ekranLabel.getText()+ekranLabel2.getText());
+				send(ekranLabel.getText() + ekranLabel2.getText());
 				ekranLabel.setText("");
 				ekranLabel2.setText("");
 			}
 		});
 		contentPane.add(buttonname);
+
+		callButton = new JButton("Call");
+		callButton.setIcon(call);
+		callButton.addActionListener(new ActionListenerButton() {
+			public void actionPerformed(ActionEvent e) {
+				// System.out.println("button clicked.");
+
+				ekranLabel.setText("");
+				ekranLabel2.setText("");
+				texter = "BC";
+				ekranLabel.setText(texter);
+			}
+		});
+		contentPane.add(callButton);
+
 		resetButton = new JButton();
 		resetButton.setIcon(reset);
 		resetButton.addActionListener(new ActionListenerButton() {
 			public void actionPerformed(ActionEvent e) {
-				texter="";
-				intTexter=0;
+				texter = "";
+				intTexter = 0;
 				ekranLabel.setText("");
 				ekranLabel2.setText("");
 			}
@@ -163,7 +180,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		contentPane.add(resetButton);
 
 		drowButton = new JButton("Drow");
-		drowButton.setIcon(null);
+		drowButton.setIcon(drow);
 		drowButton.addActionListener(new ActionListenerButton() {
 			public void actionPerformed(ActionEvent e) {
 				ekranLabel.setText("D");
@@ -180,8 +197,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			}
 		});
 		contentPane.add(handButton);
-		
-		
+
 		allInButton = new JButton("All-In");
 		allInButton.setIcon(allin);
 		allInButton.addActionListener(new ActionListenerButton() {
@@ -191,7 +207,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			}
 		});
 		contentPane.add(allInButton);
-		
+
 		checkButton = new JButton();
 		checkButton.setIcon(check);
 		contentPane.add(checkButton);
@@ -207,7 +223,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		raiseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Raise clicked.");
-				texter="BR";
+				texter = "BR";
 				ekranLabel.append(texter);
 			}
 		});
@@ -228,7 +244,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		plus1Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("+1 clicked.");
-				intTexter=intTexter+1;
+				intTexter = intTexter + 1;
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
@@ -237,7 +253,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		minus1Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("-1 clicked.");
-				intTexter=intTexter-1;
+				intTexter = intTexter - 1;
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
@@ -247,7 +263,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		plus10Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("+10 clicked.");
-				intTexter=intTexter+10;
+				intTexter = intTexter + 10;
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
@@ -256,17 +272,17 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		minus10Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("-10 clicked.");
-				intTexter=intTexter-10;
+				intTexter = intTexter - 10;
 				ekranLabel2.setText(toStr(intTexter));
 			}
 		});
 		betButton = new JButton("Bet");
-		betButton.setIcon(null);
+		betButton.setIcon(bet);
 		contentPane.add(betButton);
 		betButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				intTexter=0;
-				//texter="B";
+				intTexter = 0;
+				// texter="B";
 				System.out.println("Bet clicked.");
 				ekranLabel.setText("B");
 
@@ -323,6 +339,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		contentPane.add(ekranLabel);
 		contentPane.add(ekranLabel2);
 		contentPane.add(instrukcja);
+		contentPane.add(ekranPula);
 		setLayout(new BorderLayout());
 		frame.setContentPane(contentPane);
 		frame.pack();
@@ -330,15 +347,16 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 		frame.setVisible(true);
 	}
 
-	public static String calc (String entry) throws ScriptException {
-		 ScriptEngineManager mgr = new ScriptEngineManager();
-		    ScriptEngine engine = mgr.getEngineByName("JavaScript");
-		    
-		    String foo = entry;
-		    entry = (String) engine.eval(foo);
-		
-		return entry; 
+	public static String calc(String entry) throws ScriptException {
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		ScriptEngine engine = mgr.getEngineByName("JavaScript");
+
+		String foo = entry;
+		entry = (String) engine.eval(foo);
+
+		return entry;
 	}
+
 	public static BufferedReader send(String msgFromClientToServer) {
 
 		try {
@@ -573,7 +591,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	}
 
 	/**
-	 * @param closed the closed to set
+	 * @param closed
+	 *            the closed to set
 	 */
 	public static void setClosed(boolean closed) {
 		MultiThreadChatClient.closed = closed;

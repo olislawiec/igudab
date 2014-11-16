@@ -45,6 +45,7 @@ public class Bank {
 		else
 		{
 			accountValue[player]=accountValue[player]-bet;
+			playerBet[player]+=bet;
 			pool+=bet;
 		}
 	}
@@ -64,7 +65,12 @@ public class Bank {
 		accountValue[player]+=pool;
 		endRund();
 	}
-	
+	public void bet(int player,int bet)
+	{
+		accountValue[player]=accountValue[player]-bet;
+		playerBet[player]+=bet;
+		pool+=bet;
+	}
 	public void draw()
 	{
 		for(int i=1;i<accountValue.length;i++)
