@@ -9,14 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.UnknownHostException;
 //import java.io.IOException;
 //import java.io.DataOutputStream;
@@ -29,7 +28,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	//Button btnSend, btnClose, btn1, btn2, btn3, btn4, btnP, btnM, btn10P, btn10M, btnB, btnG ;
 	public static JTextArea ekranLabel;
 	public static JTextArea ekranLabel2;
-	public static String wybor, wyslij;
+	public static String s;
 	public static JButton buttonname,
     handButton,
     betButton,
@@ -45,9 +44,22 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	card2,
 	card3,
 	card4;
+	// The client socket
+	  private static Socket 			clientSocket 	= null;
+	  // The output stream
+	  private static PrintStream		os 				= null;
+	  // The input stream
+	  private static DataInputStream 	is 				= null;
+	  private static BufferedReader 	inputLine 		= null;
+	  private static boolean 			closed 			= false;
 
 
 	public static class ContentPane extends JPanel {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
 
 		public ContentPane() {
 	        setOpaque(false);
@@ -127,6 +139,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         buttonname.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
         		//System.out.println("button clicked.");
+        		send("D1,2,3,4");
         		ekranLabel.setText("JA_TESTER");
         	}
         });
@@ -136,9 +149,6 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         drowButton.setIcon(test);
         drowButton.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
-        		wyslij="D";
-        		wyslij=wyslij+wybor+"";
-        		os.println(wyslij);
         		
         		ekranLabel.setText("wymien Karty");
         	}
@@ -222,12 +232,10 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(betButton);
         betButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		wyslij="B";
-        		wyslij=wyslij+wybor;
-        		os.println(wyslij.trim());
+        		
         		System.out.println("Bet clicked.");
         		ekranLabel.setText("bet");
-        		wyslij="";
+        		
         	}
         });
         card1 = new JButton("card1");
@@ -235,7 +243,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card1);
         card1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		wybor=wybor+"1";
+        		s=s+"1";
         		//System.out.println("Bet clicked.");
         		ekranLabel.setText("card1 chosen");
         	}
@@ -247,7 +255,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card2);
         card2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		wybor=wybor+"2";
+        		s=s+"2";
         		//System.out.println("Bet clicked.");
         		ekranLabel.setText("card2 chosen");
         	}
@@ -259,7 +267,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card3);
         card3.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		wybor=wybor+"3";
+        		s=s+"3";
         		//System.out.println("Bet clicked.");
         		ekranLabel.setText("card3 chosen");
         	}
@@ -271,7 +279,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card4);
         card4.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		wybor=wybor+"4";
+        		s=s+"4";
         		//System.out.println("Bet clicked.");
         		ekranLabel.setText("card4 chosen");
         	}
@@ -285,7 +293,20 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         frame.setVisible(true);
     }
 
-
+	public BufferedReader send (String msgFromClientToServer) {
+		
+		try {
+			StringReader sr=new StringReader(msgFromClientToServer);
+			BufferedReader br=new BufferedReader(sr);
+			os.println(br.readLine());
+			System.out.println(br.readLine()+"_syso5_sender");
+			return br;
+		} catch (Exception e) {
+			System.out.println("send(String msgFromClientToServer): "+ e);
+			e.printStackTrace();
+		}
+		return inputLine;
+	}
 	private static ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
 		System.out.println(path);
@@ -324,14 +345,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         }
     }
 
-  // The client socket
-  private static Socket 			clientSocket 	= null;
-  // The output stream
-  private static PrintStream		os 				= null;
-  // The input stream
-  private static DataInputStream 	is 				= null;
-  private static BufferedReader 	inputLine 		= null;
-  private static boolean 			closed 			= false;
+  
   public static void main(String[] args) {
 	 
     // The default port.
@@ -381,7 +395,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         new Thread(new MultiThreadChatClient()).start();
         while (!closed) {
           os.println(inputLine.readLine().trim());
-         // os.println(wyslij.trim());
+          //System.out.println(inputLine.readLine().trim()+"_syso1");
         }
         /*
          * Close the output stream, close the input stream, close the socket.
@@ -472,10 +486,10 @@ public void run() {
 
     try {
       while ((responseLine = is.readLine()) != null) {
-        System.out.println(responseLine);
+        System.out.println(responseLine+"_syso3");
         if (responseLine.startsWith("H") && responseLine.length()>4) {
         ekranCardsDealer(splited(withoutRegx(lineWithoutLetter(responseLine)))); // ciekawe co na to nasz wykladowca 
-        
+        System.out.println(responseLine+"_syso2");
         //ekranLabelSetter(responseLineWithoutLetter);
         }
         if (responseLine.indexOf("Q ") != -1) {
@@ -483,6 +497,9 @@ public void run() {
         }
         if (responseLine.indexOf("Server too busy. Try later.") != (-2)) {
         	closed = false;
+        }
+        if (responseLine.startsWith("BA")) {
+        	System.out.println("_syso4_widacBA?");
         }
       }
       closed = true;
