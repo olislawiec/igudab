@@ -134,6 +134,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         Font font2 = new Font("Serif", Font.ITALIC, 24);
         ekranLabel.setFont(font);
         ekranLabel.setForeground(Color.BLACK);
+        ekranLabel.setText("Tutaj wpisz nickname,\n a potem Wyslij.");
         ekranLabel2.setFont(font2);
         ekranLabel.setForeground(Color.DARK_GRAY);
 
@@ -145,7 +146,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         	public void actionPerformed(ActionEvent e){
         		//System.out.println("button clicked.");
         		send(ekranLabel.getText());
-        		ekranLabel.setText("wyminilem KARTY");
+        		ekranLabel.setText("");
         	}
         });
         contentPane.add(buttonname);
