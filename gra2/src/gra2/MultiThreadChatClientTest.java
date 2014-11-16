@@ -20,7 +20,7 @@ public class MultiThreadChatClientTest {
 
 	@Test
 	public void testRun() {
-
+		
 	}
 
 	@Test
@@ -29,12 +29,6 @@ public class MultiThreadChatClientTest {
 	}
 
 	/*
-	 * @Test public void testGetAccessibleContext() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
-	 * @Test public void testPostProcessKeyEvent() {
-	 * fail("Not yet implemented"); // TODO }
-	 * 
 	 * @Test public void testSetIconImage() { fail("Not yet implemented"); //
 	 * TODO }
 	 * 
