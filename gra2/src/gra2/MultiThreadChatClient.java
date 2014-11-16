@@ -139,8 +139,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         buttonname.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
         		//System.out.println("button clicked.");
-        		send("D1,2,3,4");
-        		ekranLabel.setText("JA_TESTER");
+        		send(ekranLabel.getText());
+        		ekranLabel.setText("wyminilem KARTY");
         	}
         });
         contentPane.add(buttonname);
@@ -149,8 +149,8 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         drowButton.setIcon(test);
         drowButton.addActionListener(new ActionListenerButton() {
         	public void actionPerformed(ActionEvent e){
-        		
-        		ekranLabel.setText("wymien Karty");
+        		ekranLabel.setText("D");
+        		//ekranLabel.setText("wymieniam Karty");
         	}
         });
         contentPane.add(drowButton);
@@ -243,9 +243,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card1);
         card1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		s=s+"1";
+        		ekranLabel.append("1,");
         		//System.out.println("Bet clicked.");
-        		ekranLabel.setText("card1 chosen");
+        		//ekranLabel.setText("card1 chosen");
         	}
         });
         contentPane.add(card1);
@@ -255,9 +255,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card2);
         card2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		s=s+"2";
+        		ekranLabel.append("2,");
         		//System.out.println("Bet clicked.");
-        		ekranLabel.setText("card2 chosen");
+        		//ekranLabel.setText("card2 chosen");
         	}
         });
         contentPane.add(card2);
@@ -267,9 +267,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card3);
         card3.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		s=s+"3";
+        		ekranLabel.append("3,");
         		//System.out.println("Bet clicked.");
-        		ekranLabel.setText("card3 chosen");
+        		//ekranLabel.setText("card3 chosen");
         	}
         });
         contentPane.add(card3);
@@ -279,9 +279,9 @@ public class MultiThreadChatClient extends Frame implements Runnable {
         contentPane.add(card4);
         card4.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e){
-        		s=s+"4";
+        		ekranLabel.append("4,");
         		//System.out.println("Bet clicked.");
-        		ekranLabel.setText("card4 chosen");
+        		//ekranLabel.setText("card4 chosen");
         	}
         });
         contentPane.add(card4);
@@ -305,7 +305,7 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 			System.out.println("send(String msgFromClientToServer): "+ e);
 			e.printStackTrace();
 		}
-		return inputLine;
+		return null;
 	}
 	private static ImageIcon createImageIcon(String path) {
 		java.net.URL imgURL = ClientG.class.getResource(path);
