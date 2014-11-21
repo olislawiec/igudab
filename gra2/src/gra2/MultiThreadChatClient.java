@@ -629,15 +629,15 @@ public class MultiThreadChatClient extends Frame implements Runnable {
 	 *            to split and set cards into buttons
 	 */
 	public void ekranCardsDealer(String[] respo) {
-		if (respo.length < 5 && respo.length > 3) {
-			card1.setText(kolory[toInt(respo[0]) % 13]);
-			card1.setText(card1.getText() + (karty[toInt(respo[0]) / 13]));
-			card2.setText(kolory[toInt(respo[1]) % 13]);
-			card2.setText(card2.getText() + (karty[toInt(respo[1]) / 13]));
-			card3.setText(kolory[toInt(respo[2]) % 13]);
-			card3.setText(card3.getText() + (karty[toInt(respo[2]) / 13]));
-			card4.setText(kolory[toInt(respo[3]) % 13]);
-			card4.setText(card4.getText() + (karty[toInt(respo[3]) / 13]));
+		if (respo.length < 5 && respo.length > 3) { //zmiana znaków i commit za Pana aprobat¹
+			card1.setText(kolory[toInt(respo[0]) / 13]);
+			card1.setText(card1.getText() + (karty[toInt(respo[0]) % 13]));
+			card2.setText(kolory[toInt(respo[1]) / 13]);
+			card2.setText(card2.getText() + (karty[toInt(respo[1]) % 13]));
+			card3.setText(kolory[toInt(respo[2]) / 13]);
+			card3.setText(card3.getText() + (karty[toInt(respo[2]) % 13]));
+			card4.setText(kolory[toInt(respo[3]) / 13]);
+			card4.setText(card4.getText() + (karty[toInt(respo[3]) % 13]));
 		}
 	}
 
